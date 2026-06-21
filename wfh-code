@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WFH CODE</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #0e1116;
+  color: #d1d7e0;
+  line-height: 1.75;
+  font-size: 17px;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+header {
+  padding: 60px 20px;
+  text-align: center;
+  background: #111827;
+  border-bottom: 1px solid #1f2937;
+}
+
+h1 {
+  font-size: 34px;
+  color: #e6eaf0;
+  margin: 0;
+}
+
+header p {
+  opacity: 0.7;
+  margin-top: 10px;
+}
+
+.container {
+  max-width: 780px;
+  margin: auto;
+  padding: 26px;
+}
+
+.card {
+  background: #121826;
+  border: 1px solid #1f2937;
+  padding: 20px;
+  margin: 18px 0;
+  border-radius: 12px;
+}
+
+h2 {
+  color: #a5b4fc;
+}
+
+p {
+  color: #cbd5e1;
+}
+
+ul {
+  padding-left: 22px;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #1f2937;
+  margin: 30px 0;
+}
+
+.back {
+  display: block;
+  margin-top: 40px;
+  color: #a5b4fc;
+  text-decoration: none;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
+.corner-title {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  font-size: 12px;
+  color: #93a4ff;
+  background: rgba(17, 24, 39, 0.85);
+  padding: 6px 10px;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="corner-title">
+  WFH CODE
+</div>
+
+<header>
+  <h1>WFH CODE</h1>
+  <p>BPO Remote Discipline Guide</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+<p>
+Working from home in BPO sounds like freedom until you realize freedom still has KPIs and someone, somewhere, is timing your bathroom breaks in spirit.
+</p>
+
+<p>
+Here’s what actually matters, beyond the usual "get a headset and a quiet room" advice everyone recycles like it’s sacred knowledge.
+</p>
+</div>
+
+<h2>1. Micro-distraction stacking</h2>
+
+<div class="card">
+<p>Your real enemy is not the big distraction. It is the hundreds of tiny ones.</p>
+
+<ul>
+<li>10 seconds checking your phone</li>
+<li>20 seconds switching tabs</li>
+<li>5 seconds thinking about something unrelated</li>
+<li>Repeating this all day</li>
+</ul>
+
+<p>
+Individually harmless. Collectively fatal.
+</p>
+
+<p>
+WFH success is largely determined by how few mental context switches you make per hour.
+</p>
+</div>
+
+<h2>2. Invisible accountability</h2>
+
+<div class="card">
+<p>
+Motivation apps and productivity tricks are often overrated.
+</p>
+
+<ul>
+<li>Keep work visible on your screen</li>
+<li>Remove unnecessary tabs</li>
+<li>Start working immediately after login</li>
+</ul>
+
+<p>
+The goal is reducing decisions, not strengthening willpower.
+</p>
+</div>
+
+<h2>3. Your chair affects performance</h2>
+
+<div class="card">
+<ul>
+<li>Subtle fatigue</li>
+<li>Slower reactions</li>
+<li>More judgment errors</li>
+<li>More procrastinated fixes</li>
+</ul>
+
+<p>
+WFH performance often starts declining in the body before it becomes visible in work quality.
+</p>
+</div>
+
+<h2>4. Transition friction</h2>
+
+<div class="card">
+<p>
+Every interruption creates a restart cost.
+</p>
+
+<ul>
+<li>Lunch breaks</li>
+<li>Phone checks</li>
+<li>Short walks away from work</li>
+</ul>
+
+<p>
+The skill is not working fast. The skill is returning to focus quickly.
+</p>
+</div>
+
+<h2>5. Your headset is a performance tool</h2>
+
+<div class="card">
+<ul>
+<li>Audio clarity affects confidence</li>
+<li>Delay creates conversational stress</li>
+<li>Poor microphones increase repetition</li>
+</ul>
+
+<p>
+In voice accounts, bad audio equipment can quietly create performance problems.
+</p>
+</div>
+
+<h2>6. Queue fear control</h2>
+
+<div class="card">
+<p>
+Many non-voice workers slow down because they fear mistakes, not because tasks are difficult.
+</p>
+
+<p>
+Over-checking often damages productivity more than occasional errors.
+</p>
+</div>
+
+<h2>7. Auto-skipping in back office work</h2>
+
+<div class="card">
+<ul>
+<li>Skipping verification steps</li>
+<li>Assuming correctness</li>
+<li>Rushing confirmations</li>
+</ul>
+
+<p>
+Repetition creates confidence. Too much confidence creates mistakes.
+</p>
+</div>
+
+<h2>8. The invisible fatigue curve</h2>
+
+<div class="card">
+<ul>
+<li>Slightly slower</li>
+<li>Slightly less careful</li>
+<li>Slightly more forgetful</li>
+</ul>
+
+<p>
+Small declines compound into major accuracy problems.
+</p>
+</div>
+
+<h2>9. Breaks are reset protocols</h2>
+
+<div class="card">
+<p>
+Treat breaks as system resets, not distraction sessions.
+</p>
+
+<p>
+The quality of your return matters more than the length of your break.
+</p>
+</div>
+
+<h2>10. Context switching without emotional residue</h2>
+
+<div class="card">
+<p>
+This is the advanced skill.
+</p>
+
+<ul>
+<li>Handle the issue</li>
+<li>Document it</li>
+<li>Move on immediately</li>
+<li>Carry no emotional baggage forward</li>
+</ul>
+
+<p>
+Most burnout starts when frustration is allowed to travel from task to task.
+</p>
+</div>
+
+<hr>
+
+<div class="card">
+
+<h2>Final Truth</h2>
+
+<p>
+WFH success in BPO is not about comfort.
+</p>
+
+<p>
+It is about controlling:
+</p>
+
+<ul>
+<li>Distraction leakage</li>
+<li>Mental resets</li>
+<li>Repetition fatigue</li>
+<li>Emotional carryover</li>
+</ul>
+
+<p>
+People think working from home gives freedom.
+</p>
+
+<p>
+It actually gives exposure.
+</p>
+
+<p>
+You see exactly how disciplined your attention really is.
+</p>
+
+</div>
+
+<a class="back" href="index.html">← Back to NightGrindHQ</a>
+
+</div>
+
+</body>
+</html>
