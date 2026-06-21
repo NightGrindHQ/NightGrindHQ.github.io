@@ -1,53 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NightGrindHQ</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0f0f14;
-      color: #e6e6e6;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NightGrindHQ</title>
 
-    header {
-      padding: 60px 20px;
-      text-align: center;
-      background: #151521;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #0e1116;
+  color: #d1d7e0;
+  line-height: 1.75;
+  font-size: 17px;
+}
 
-    h1 { margin: 0; font-size: 42px; }
-    p { opacity: 0.8; }
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
+/* HEADER */
+header {
+  padding: 70px 20px;
+  text-align: center;
+  background: #111827;
+  border-bottom: 1px solid #1f2937;
+}
 
-    .card {
-      background: #1a1a26;
-      padding: 20px;
-      margin: 20px 0;
-      border-radius: 10px;
-    }
+h1 {
+  font-size: 40px;
+  margin: 0;
+  color: #e6eaf0;
+}
 
-    a {
-      color: #9aa4ff;
-      text-decoration: none;
-    }
+header p {
+  opacity: 0.7;
+  margin-top: 10px;
+}
 
-    .player {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #222;
-      padding: 10px 15px;
-      border-radius: 30px;
-    }
-  </style>
+/* LAYOUT */
+.container {
+  max-width: 780px;
+  margin: auto;
+  padding: 26px;
+}
+
+/* CARDS */
+.card {
+  background: #121826;
+  border: 1px solid #1f2937;
+  padding: 20px;
+  margin: 18px 0;
+  border-radius: 12px;
+}
+
+/* HEADINGS */
+h2 {
+  color: #a5b4fc;
+}
+
+/* TEXT */
+p {
+  color: #cbd5e1;
+}
+
+/* HQ BUTTON STYLE */
+.big-button {
+  display: block;
+  padding: 14px 16px;
+  margin-top: 12px;
+
+  background: linear-gradient(180deg, #0f172a, #0b0f14);
+  border: 1px solid #243244;
+
+  border-radius: 10px;
+
+  color: #b6c2ff;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+
+  position: relative;
+
+  transition: 0.2s ease;
+}
+
+/* subtle HQ stripe */
+.big-button::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: #5b6cff;
+  opacity: 0.8;
+  border-radius: 10px 0 0 10px;
+}
+
+.big-button:hover {
+  background: #101a2c;
+  border-color: #334155;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(91, 108, 255, 0.12);
+  color: #d6dcff;
+}
+
+/* LINKS */
+a {
+  color: #a5b4fc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+</style>
+
 </head>
 
 <body>
@@ -60,24 +130,24 @@
 <div class="container">
 
   <div class="card">
-    <h2>Resume Tools</h2>
-    <p>Simple resume templates for BPO and remote work jobs.</p>
+    <h2>HQ Articles</h2>
+
+    <a class="big-button" href="bpo-basics-hq.html">
+      📘 BPO Applicant Basics from The HQ
+    </a>
+
   </div>
 
   <div class="card">
-    <h2>Career Guides</h2>
-    <p>Interview tips, resume strategies, and job hacks for beginners.</p>
+    <h2>Focus System</h2>
+    <p>Dark productivity system for night shift workers and remote professionals.</p>
   </div>
 
   <div class="card">
-    <h2>Focus Session</h2>
-    <p>First track coming soon. Night shift productivity music.</p>
+    <h2>Future Module</h2>
+    <p>Resume tools + productivity music will be added here.</p>
   </div>
 
-</div>
-
-<div class="player">
-  🎵 Vol. 1 (coming soon)
 </div>
 
 </body>
