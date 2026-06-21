@@ -46,7 +46,7 @@ header p {
   padding: 26px;
 }
 
-/* CARDS */
+/* CARD */
 .card {
   background: #121826;
   border: 1px solid #1f2937;
@@ -65,7 +65,7 @@ p {
   color: #cbd5e1;
 }
 
-/* HQ BUTTON STYLE */
+/* HQ BUTTON */
 .big-button {
   display: block;
   padding: 14px 16px;
@@ -82,11 +82,10 @@ p {
   letter-spacing: 0.3px;
 
   position: relative;
-
   transition: 0.2s ease;
 }
 
-/* subtle HQ stripe */
+/* HQ stripe */
 .big-button::before {
   content: "";
   position: absolute;
@@ -95,7 +94,7 @@ p {
   width: 3px;
   height: 100%;
   background: #5b6cff;
-  opacity: 0.8;
+  opacity: 0.85;
   border-radius: 10px 0 0 10px;
 }
 
@@ -105,16 +104,6 @@ p {
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(91, 108, 255, 0.12);
   color: #d6dcff;
-}
-
-/* LINKS */
-a {
-  color: #a5b4fc;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 </style>
 
@@ -129,6 +118,7 @@ a:hover {
 
 <div class="container">
 
+  <!-- ARTICLES -->
   <div class="card">
     <h2>HQ Articles</h2>
 
@@ -136,8 +126,17 @@ a:hover {
       📘 BPO Applicant Basics from The HQ
     </a>
 
+    <a class="big-button" href="voice-nonvoice-strat.html">
+      🧠 Voice / Non-Voice Applicant Strat
+    </a>
+
+    <a class="big-button" href="wfh-code.html">
+      🏠 WFH CODE (BPO Remote Discipline Guide)
+    </a>
+
   </div>
 
+  <!-- FUTURE SECTIONS -->
   <div class="card">
     <h2>Focus System</h2>
     <p>Dark productivity system for night shift workers and remote professionals.</p>
@@ -145,7 +144,7 @@ a:hover {
 
   <div class="card">
     <h2>Future Module</h2>
-    <p>Resume tools + productivity music will be added here.</p>
+    <p>Resume tools + productivity music system will be added here.</p>
   </div>
 
 </div>
