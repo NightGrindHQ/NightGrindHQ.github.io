@@ -106,7 +106,6 @@ h1{
         inset 0 0 30px rgba(0,0,0,.4);
 }
 
-/* top scan line accent */
 .clock-box::before{
     content:"";
     position:absolute;
@@ -117,7 +116,6 @@ h1{
     background:linear-gradient(90deg,transparent,#00ff8c44,transparent);
 }
 
-/* subtle grid background */
 .clock-box::after{
     content:"";
     position:absolute;
@@ -172,7 +170,6 @@ h1{
     z-index:1;
 }
 
-/* blinking colon */
 .colon{
     display:inline-block;
     animation:blink 1s step-start infinite;
@@ -389,6 +386,13 @@ Matanggap. Mag-perform. Manatiling Focused.
 <div class="clock-date" id="date-mx">---</div>
 </div>
 
+<div class="clock-box">
+<div class="clock-flag">🇺🇸</div>
+<div class="clock-label">EST</div>
+<div class="clock-time" id="clock-est">--<span class="colon">:</span>--<span class="colon">:</span>--</div>
+<div class="clock-date" id="date-est">---</div>
+</div>
+
 </div>
 
 </header>
@@ -482,9 +486,10 @@ function handleLanguageChange(select) {
 function updateClocks() {
 
     const zones = [
-        { id: 'clock-ph', dateId: 'date-ph', tz: 'Asia/Manila' },
-        { id: 'clock-in', dateId: 'date-in', tz: 'Asia/Kolkata' },
-        { id: 'clock-mx', dateId: 'date-mx', tz: 'America/Mexico_City' }
+        { id: 'clock-ph',  dateId: 'date-ph',  tz: 'Asia/Manila' },
+        { id: 'clock-in',  dateId: 'date-in',  tz: 'Asia/Kolkata' },
+        { id: 'clock-mx',  dateId: 'date-mx',  tz: 'America/Mexico_City' },
+        { id: 'clock-est', dateId: 'date-est', tz: 'America/New_York' }
     ];
 
     zones.forEach(function(zone) {
