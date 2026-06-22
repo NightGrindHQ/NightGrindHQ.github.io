@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NightGrindHQ | Taglish</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#0e1116;
+    color:#d1d7e0;
+    line-height:1.75;
+    font-size:17px;
+
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
+/* HEADER */
+
+header{
+    position:relative;
+    text-align:center;
+    background:linear-gradient(180deg,#101722,#0e1116);
+    border-bottom:1px solid #1f2937;
+    padding:60px 20px 40px;
+}
+
+h1{
+    margin:0;
+    font-size:44px;
+    color:#eef2ff;
+    letter-spacing:1px;
+}
+
+.tagline{
+    margin-top:10px;
+    color:#94a3b8;
+    font-size:16px;
+}
+
+/* LANGUAGE SELECTOR */
+
+.language-box{
+    position:absolute;
+    top:18px;
+    right:18px;
+    z-index:100;
+}
+
+.language-select{
+    background:#0f172a;
+    color:#cbd5e1;
+    border:1px solid #243244;
+    border-radius:8px;
+    padding:8px 12px;
+    font-size:14px;
+    outline:none;
+    cursor:pointer;
+}
+
+.language-select:hover{
+    border-color:#5b6cff;
+}
+
+/* HERO IMAGE */
+
+.hero{
+    position:relative;
+    height:420px;
+    overflow:hidden;
+    border-bottom:1px solid #1f2937;
+}
+
+.hero img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    filter:grayscale(100%);
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(
+        rgba(14,17,22,.35),
+        rgba(14,17,22,.82)
+    );
+}
+
+.hero-text{
+    position:absolute;
+    bottom:35px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:2;
+    text-align:center;
+    width:90%;
+}
+
+.hero-text h2{
+    margin:0;
+    color:#e5e7eb;
+    font-size:28px;
+}
+
+.hero-text p{
+    margin-top:10px;
+    color:#cbd5e1;
+}
+
+/* LAYOUT */
+
+.container{
+    max-width:850px;
+    margin:auto;
+    padding:25px;
+}
+
+/* CARDS */
+
+.card{
+    background:#121826;
+    border:1px solid #1f2937;
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:22px;
+}
+
+.card h2{
+    margin-top:0;
+    color:#b6c2ff;
+}
+
+/* DROPDOWN */
+
+details{
+    margin-top:15px;
+}
+
+summary{
+    cursor:pointer;
+    list-style:none;
+    padding:15px;
+    border-radius:10px;
+    background:linear-gradient(180deg,#0f172a,#0b0f14);
+    border:1px solid #243244;
+    color:#b6c2ff;
+    font-weight:600;
+}
+
+summary:hover{
+    background:#101a2c;
+}
+
+summary::-webkit-details-marker{
+    display:none;
+}
+
+/* HQ BUTTONS */
+
+.big-button{
+    display:block;
+    padding:15px;
+    margin-top:12px;
+
+    background:linear-gradient(180deg,#0f172a,#0b0f14);
+    border:1px solid #243244;
+
+    border-radius:10px;
+    color:#d6dcff;
+    text-decoration:none;
+    font-weight:600;
+
+    position:relative;
+    transition:.2s;
+}
+
+.big-button::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:3px;
+    height:100%;
+    background:#5b6cff;
+    border-radius:10px 0 0 10px;
+}
+
+.big-button:hover{
+    transform:translateY(-1px);
+    box-shadow:0 6px 18px rgba(91,108,255,.12);
+    background:#101a2c;
+}
+
+/* TEXT */
+
+p{
+    color:#cbd5e1;
+}
+
+.quote{
+    font-style:italic;
+    color:#94a3b8;
+    text-align:center;
+    margin-top:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="language-box">
+
+<select class="language-select">
+
+<option>
+🌐 English
+</option>
+
+<option selected>
+🇵🇭 Taglish
+</option>
+
+<option>
+🇮🇳 Hindi
+</option>
+
+<option>
+🇪🇸 Español
+</option>
+
+</select>
+
+</div>
+
+<h1>NightGrindHQ</h1>
+
+<div class="tagline">
+Matanggap. Mag-perform. Manatiling Focused.
+</div>
+
+</header>
+
+<section class="hero">
+
+<img src="IMG_1642.png" alt="NightGrindHQ">
+
+<div class="hero-text">
+
+<h2>Night Shift Insights</h2>
+
+<p>
+Practical guides para sa mga BPO applicant,
+remote workers, at professionals na gustong
+mag-level up habang tahimik ang gabi.
+</p>
+
+</div>
+
+</section>
+
+<div class="container">
+
+<div class="card">
+
+<h2>HQ Guides</h2>
+
+<p class="quote">
+Hindi sapat ang motivation.<br>
+Mas mahalaga ang consistency.<br>
+Magbasa ng isang guide ngayon.
+</p>
+
+<details>
+
+<summary>
+Buksan ang HQ Knowledge Base
+</summary>
+
+<a class="big-button" href="bpo-basics-hq.html">
+📘 BPO Applicant Basics mula sa HQ
+</a>
+
+<a class="big-button" href="voice-nonvoice-strat.html">
+🧠 Voice / Non-Voice Applicant Strategy
+</a>
+
+<a class="big-button" href="wfh-code.html">
+🏠 WFH CODE (Remote Work Discipline Guide)
+</a>
+
+</details>
+
+</div>
+
+<div class="card">
+
+<h2>Focus System</h2>
+
+<p>
+Productivity beats, focus sessions,
+at night-shift tools para sa mga taong
+kailangang mag-perform kahit tulog na ang karamihan.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>Future Module</h2>
+
+<p>
+Resume Builder, HQ Resources,
+at Remote Work Toolkit.
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+document.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+});
+
+</script>
+
+</body>
+</html>
