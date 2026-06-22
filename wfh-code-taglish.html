@@ -15,6 +15,8 @@ body{
     font-size:17px;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
 *{
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
@@ -67,7 +69,73 @@ li{
     margin-bottom:8px;
 }
 
-/* HOME BUTTON */
+/* TOP HACKER HOME BUTTON */
+
+.hacker-button{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+    padding:12px 20px;
+    text-decoration:none;
+    font-family:'Share Tech Mono', monospace;
+    font-size:13px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:#00ff8c;
+    background:#080d14;
+    border:1px solid #1a2744;
+    border-radius:10px;
+    position:relative;
+    overflow:hidden;
+    transition:.2s;
+    box-shadow:
+        0 0 0 1px #0d1b2a,
+        0 0 14px rgba(0,255,140,.05),
+        inset 0 0 20px rgba(0,0,0,.4);
+}
+
+.hacker-button::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:1px;
+    background:linear-gradient(90deg,transparent,#00ff8c55,transparent);
+}
+
+.hacker-button::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(0,255,140,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,140,.03) 1px, transparent 1px);
+    background-size:10px 10px;
+    pointer-events:none;
+}
+
+.hacker-button:hover{
+    color:#00ff8c;
+    background:#0a1220;
+    box-shadow:
+        0 0 0 1px #1a2744,
+        0 0 24px rgba(0,255,140,.12),
+        inset 0 0 20px rgba(0,0,0,.4);
+    transform:translateY(-1px);
+}
+
+.hacker-button .blink{
+    animation:blink 1s step-start infinite;
+}
+
+@keyframes blink{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0; }
+}
+
+/* BOTTOM HOME BUTTON */
 
 .home-button{
     display:inline-flex;
@@ -153,6 +221,10 @@ li{
 </header>
 
 <div class="container">
+
+<a href="index-taglish.html" class="hacker-button">
+    <span class="blink">▮</span> NIGHTGRINDHQ <span style="opacity:.4">//</span> BUMALIK SA HQ
+</a>
 
 <div class="card">
 <p>
@@ -303,7 +375,7 @@ na "kumuha ng magandang headset" at "maghanap ng tahimik na lugar."
 </div>
 
 <a href="index-taglish.html" class="home-button">
-<span class="home-icon">⌂</span> Bumalik sa NightGrindHQ
+    <span class="home-icon">⌂</span> Back to Headquarters
 </a>
 
 </div>
