@@ -226,25 +226,25 @@ p{
 
     <div class="language-box">
 
-        <select class="language-select">
+        <select class="language-select" id="languageSelect">
 
-            <option selected>
-                🌐 English
-            </option>
+    <option value="index.html" selected>
+        🌐 English
+    </option>
 
-            <option>
-                🇵🇭 Taglish
-            </option>
+    <option value="index-taglish.html">
+        🇵🇭 Taglish
+    </option>
 
-            <option>
-                🇮🇳 Hindi
-            </option>
+    <option value="#">
+        🇮🇳 Hindi
+    </option>
 
-            <option>
-                🇪🇸 Español
-            </option>
+    <option value="#">
+        🇪🇸 Español
+    </option>
 
-        </select>
+</select>
 
     </div>
 
@@ -329,9 +329,21 @@ p{
 </div>
 
 <script>
+
 document.addEventListener('contextmenu', function(e){
     e.preventDefault();
 });
+
+document.getElementById("languageSelect").addEventListener("change", function(){
+
+    const selectedPage = this.value;
+
+    if(selectedPage !== "#"){
+        window.location.href = selectedPage;
+    }
+
+});
+
 </script>
 
 </body>
