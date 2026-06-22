@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WFH CODE | NightGrindHQ</title>
+<title>WFH CODE | NightGrindHQ | Taglish</title>
 
 <style>
 body{
@@ -14,6 +14,8 @@ body{
     line-height:1.8;
     font-size:17px;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
 *{
     -webkit-font-smoothing:antialiased;
@@ -44,19 +46,6 @@ h1{
     padding:30px 24px;
 }
 
-.corner-tag{
-    position:fixed;
-    top:16px;
-    left:16px;
-    background:#121826;
-    border:1px solid #243244;
-    color:#a5b4fc;
-    padding:8px 12px;
-    border-radius:8px;
-    font-size:12px;
-    letter-spacing:.5px;
-}
-
 .card{
     background:#121826;
     border:1px solid #1f2937;
@@ -80,287 +69,325 @@ li{
     margin-bottom:8px;
 }
 
-.back-button{
-    display:inline-block;
+/* TOP HACKER HOME BUTTON */
+
+.hacker-button{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+    padding:12px 20px;
+    text-decoration:none;
+    font-family:'Share Tech Mono', monospace;
+    font-size:13px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:#00ff8c;
+    background:#080d14;
+    border:1px solid #1a2744;
+    border-radius:10px;
+    position:relative;
+    overflow:hidden;
+    transition:.2s;
+    box-shadow:
+        0 0 0 1px #0d1b2a,
+        0 0 14px rgba(0,255,140,.05),
+        inset 0 0 20px rgba(0,0,0,.4);
+}
+
+.hacker-button::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:1px;
+    background:linear-gradient(90deg,transparent,#00ff8c55,transparent);
+}
+
+.hacker-button::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(0,255,140,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,140,.03) 1px, transparent 1px);
+    background-size:10px 10px;
+    pointer-events:none;
+}
+
+.hacker-button:hover{
+    color:#00ff8c;
+    background:#0a1220;
+    box-shadow:
+        0 0 0 1px #1a2744,
+        0 0 24px rgba(0,255,140,.12),
+        inset 0 0 20px rgba(0,0,0,.4);
+    transform:translateY(-1px);
+}
+
+.hacker-button .blink{
+    animation:blink 1s step-start infinite;
+}
+
+@keyframes blink{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0; }
+}
+
+/* BOTTOM HOME BUTTON */
+
+.home-button{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
     margin-top:20px;
-    padding:12px 18px;
+    margin-bottom:40px;
+    padding:14px 22px;
     text-decoration:none;
     color:#b6c2ff;
     border:1px solid #243244;
-    border-radius:10px;
-    background:#0f172a;
+    border-radius:12px;
+    background:linear-gradient(180deg,#0f172a,#0b0f14);
+    font-weight:600;
+    font-size:15px;
+    position:relative;
+    transition:.2s;
+    overflow:hidden;
 }
 
-.back-button:hover{
+.home-button::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:3px;
+    height:100%;
+    background:#5b6cff;
+    border-radius:12px 0 0 12px;
+}
+
+.home-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(91,108,255,.15);
     background:#101a2c;
+    color:#d6dcff;
+}
+
+.home-icon{
+    font-size:18px;
+}
+
+/* LANGUAGE SELECTOR */
+
+.language-box{
+    position:fixed;
+    top:16px;
+    right:16px;
+    z-index:100;
+}
+
+.language-select{
+    background:#0f172a;
+    color:#cbd5e1;
+    border:1px solid #243244;
+    border-radius:8px;
+    padding:8px 12px;
+    font-size:14px;
+    outline:none;
+    cursor:pointer;
+}
+
+.language-select:hover{
+    border-color:#5b6cff;
 }
 </style>
 </head>
 
 <body>
 
-<div class="corner-tag">WFH CODE</div>
+<div class="language-box">
+    <select class="language-select" id="languageSelect">
+        <option value="wfh-code.html">🌐 English</option>
+        <option value="wfh-code-taglish.html" selected>🇵🇭 Taglish</option>
+        <option value="#">🇮🇳 Hindi</option>
+        <option value="#">🇪🇸 Español</option>
+    </select>
+</div>
 
 <header>
     <h1>WFH CODE</h1>
-    <p class="subtitle">Remote Discipline Guide for BPO Professionals</p>
+    <p class="subtitle">Remote Discipline Guide para sa mga BPO Professionals</p>
 </header>
 
 <div class="container">
 
+<a href="index-taglish.html" class="hacker-button">
+    <span class="blink">▮</span> NIGHTGRINDHQ <span style="opacity:.4">//</span> BUMALIK SA HQ
+</a>
+
 <div class="card">
-
 <p>
-Working from home in BPO sounds like freedom until you realize freedom still has KPIs and someone, somewhere, is timing your bathroom breaks in spirit.
+Ang work-from-home parang freedom sa umpisa.
 </p>
-
 <p>
-Here's what actually matters, beyond the usual "get a headset and a quiet room" advice everyone recycles like it's sacred knowledge.
+Hanggang sa ma-realize mo na may targets pa rin, may deadlines pa rin,
+at may trabaho pa ring kailangang matapos nang maayos.
 </p>
-
+<p>
+Narito ang mga bagay na talagang mahalaga, lampas sa paulit-ulit na advice
+na "kumuha ng magandang headset" at "maghanap ng tahimik na lugar."
+</p>
 </div>
 
-<h2 class="section-title">1. Your real enemy is micro-distraction stacking</h2>
+<h2 class="section-title">1. Ang tunay mong kalaban ay maliliit na distractions</h2>
 
 <div class="card">
-
-<p>People blame Facebook, games, or noise.</p>
-
-<p>Wrong target.</p>
-
-<p>What actually kills performance:</p>
-
+<p>Maraming tao ang sinisisi ang Facebook, mobile games, o ingay.</p>
+<p>Pero kadalasan, hindi iyon ang problema.</p>
+<p>Mas madalas na nangyayari ito:</p>
 <ul>
-<li>10 seconds checking phone</li>
-<li>20 seconds switching tabs</li>
-<li>5 seconds thinking about something else</li>
-<li>Repeating this hundreds of times per day</li>
+<li>Mabilis na pag-check ng phone</li>
+<li>Paglipat-lipat ng tabs</li>
+<li>Pag-iisip ng ibang bagay habang nagtatrabaho</li>
 </ul>
-
-<p>
-Individually harmless. Collectively fatal.
-</p>
-
-<p>
-WFH success is basically how few times you switch mental states per hour.
-</p>
-
+<p>Mukhang maliit lang kapag isa-isa.</p>
+<p>Pero kapag paulit-ulit buong araw, malaki ang epekto nito sa focus.</p>
 </div>
 
-<h2 class="section-title">2. Invisible accountability beats self-discipline tricks</h2>
+<h2 class="section-title">2. Mas mahalaga ang sistema kaysa motivation</h2>
 
 <div class="card">
-
-<p>
-Motivation apps? Planners? Pomodoro timers?
-</p>
-
-<p>
-Cute.
-</p>
-
+<p>Motivation apps?</p>
+<p>Productivity videos?</p>
+<p>Fancy planners?</p>
+<p>Nakakatulong minsan.</p>
+<p>Pero mas epektibo ang:</p>
 <ul>
-<li>Keep your screen work-visible</li>
-<li>Remove neutral tabs</li>
-<li>Start work immediately after login</li>
+<li>Malinis na work screen</li>
+<li>Kaunting distractions</li>
+<li>Pag-umpisa agad ng trabaho pag-login</li>
 </ul>
-
-<p>
-The trick is removing decisions, not improving willpower.
-</p>
-
-<p>
-Willpower is unreliable. Systems are not.
-</p>
-
+<p>Mas madaling sundan ang magandang sistema kaysa umasa sa sipag araw-araw.</p>
 </div>
 
-<h2 class="section-title">3. Your chair position affects your QA score</h2>
+<h2 class="section-title">3. Nakakaapekto ang upuan mo sa trabaho mo</h2>
 
 <div class="card">
-
-<p>
-Bad posture quietly creates:
-</p>
-
+<p>Kapag hindi komportable ang upuan o mesa mo, puwedeng magkaroon ng:</p>
 <ul>
-<li>Subtle fatigue</li>
-<li>Slower response time</li>
-<li>Micro-errors in judgment</li>
-<li>More procrastinated fixes</li>
+<li>Mas mabilis na pagod</li>
+<li>Mabagal na reaksyon</li>
+<li>Maliit na pagkakamali</li>
 </ul>
-
-<p>
-WFH performance often starts declining in the spine before it appears in QA.
-</p>
-
+<p>Minsan, hindi utak ang unang napapagod.</p>
+<p>Katawan muna.</p>
 </div>
 
-<h2 class="section-title">4. Transition friction is the silent productivity killer</h2>
+<h2 class="section-title">4. Mahirap bumalik sa focus kapag palaging napuputol</h2>
 
 <div class="card">
-
-<p>
-Every time you:
-</p>
-
+<p>Tuwing:</p>
 <ul>
-<li>Go to lunch</li>
-<li>Check your phone</li>
-<li>Step away for a break</li>
+<li>Nagche-check ka ng phone</li>
+<li>Lumalayo sa workstation</li>
+<li>Nag-i-scroll ng kung anu-ano</li>
 </ul>
-
-<p>
-Your brain pays a restart tax.
-</p>
-
-<p>
-The skill isn't working fast. It's returning to focus quickly.
-</p>
-
+<p>Kailangan ulit mag-adjust ng isip para makabalik sa trabaho.</p>
+<p>Hindi ang bilis magtrabaho ang pinakamahalaga.</p>
+<p>Ang mahalaga ay kung gaano ka kabilis makabalik sa focus.</p>
 </div>
 
-<h2 class="section-title">5. Your headset is a performance instrument</h2>
+<h2 class="section-title">5. Ang headset ay hindi lang simpleng gamit</h2>
 
 <div class="card">
-
+<p>Lalo na kung voice account.</p>
+<p>Kapag malinaw ang audio:</p>
 <ul>
-<li>Audio clarity affects confidence</li>
-<li>Delay creates conversational panic</li>
-<li>Poor mic quality increases repetition errors</li>
+<li>Mas madali kang makaintindi</li>
+<li>Mas kampante kang magsalita</li>
+<li>Mas kaunti ang misunderstandings</li>
 </ul>
-
-<p>
-A bad headset doesn't just sound bad. It creates stress loops.
-</p>
-
+<p>Minsan, ang mahinang headset ang dahilan kung bakit mas nakakapagod ang buong shift.</p>
 </div>
 
-<h2 class="section-title">6. Queue fear control</h2>
+<h2 class="section-title">6. Huwag matakot magkamali</h2>
 
 <div class="card">
-
-<p>
-People don't slow down because tasks are hard.
-</p>
-
-<p>
-They slow down because they fear mistakes.
-</p>
-
-<p>
-Over-checking often hurts productivity more than actual errors.
-</p>
-
+<p>Maraming tao ang bumabagal dahil takot silang magkamali.</p>
+<p>Kaya inuulit-ulit nilang suriin ang lahat.</p>
+<p>Maganda ang pagiging maingat.</p>
+<p>Pero may punto na ang sobrang pag-check ay mas nakakasayang ng oras kaysa nakakatulong.</p>
 </div>
 
-<h2 class="section-title">7. Back office auto-skip syndrome</h2>
+<h2 class="section-title">7. Huwag mag-shortcut kapag paulit-ulit ang trabaho</h2>
 
 <div class="card">
+<p>Kapag pare-pareho ang ginagawa araw-araw, nagsisimulang maging kampante ang utak.</p>
+<p>Dito nagsisimula ang mga pagkakamali.</p>
+<p>Kaya kahit pamilyar na ang task, ugaliing suriin pa rin ang trabaho.</p>
+</div>
 
-<p>
-After enough repetition, your brain starts:
-</p>
+<h2 class="section-title">8. Ang pagod ay dumarating nang hindi mo napapansin</h2>
 
+<div class="card">
+<p>Hindi mo kailangang makaramdam ng sobrang pagod.</p>
+<p>Minsan nagiging:</p>
 <ul>
-<li>Skipping verification steps</li>
-<li>Assuming correctness</li>
-<li>Rushing confirmations</li>
+<li>Medyo mabagal</li>
+<li>Medyo makakalimutin</li>
+<li>Medyo hindi maingat</li>
 </ul>
-
-<p>
-This is how silent errors accumulate.
-</p>
-
+<p>At kadalasan, sapat na iyon para makaapekto sa performance.</p>
 </div>
 
-<h2 class="section-title">8. The invisible fatigue curve</h2>
+<h2 class="section-title">9. Ang break ay para mag-recharge</h2>
 
 <div class="card">
-
-<ul>
-<li>Slightly slower</li>
-<li>Slightly less careful</li>
-<li>Slightly more forgetful</li>
-</ul>
-
-<p>
-That "slightly" is what destroys accuracy scores.
-</p>
-
+<p>Gamitin ang break para malinawan ang isip.</p>
+<p>Hindi para malunod sa ibang distractions.</p>
+<p>Mas mahalaga kung paano ka bumabalik sa trabaho kaysa gaano katagal ang pahinga mo.</p>
 </div>
 
-<h2 class="section-title">9. Breaks are reset protocols</h2>
+<h2 class="section-title">10. Huwag dalhin ang problema sa susunod na task</h2>
 
 <div class="card">
-
-<p>
-Treat breaks like system resets, not entertainment sessions.
-</p>
-
-<p>
-The quality of your return matters more than the length of your break.
-</p>
-
-</div>
-
-<h2 class="section-title">10. Context switching without emotional residue</h2>
-
-<div class="card">
-
-<p>
-Can you:
-</p>
-
-<ul>
-<li>Handle a difficult interaction</li>
-<li>Log it correctly</li>
-<li>Move immediately to the next task</li>
-<li>Leave frustration behind</li>
-</ul>
-
-<p>
-Most burnout begins when emotions travel from task to task.
-</p>
-
+<p>May mga araw na may mahirap na customer o nakakastress na trabaho.</p>
+<p>Normal iyon.</p>
+<p>Pero kapag nadadala mo ang inis o frustration sa susunod na task, mas lalong bumibigat ang araw.</p>
+<p>Tapusin ang isang task.</p>
+<p>Bitawan.</p>
+<p>Saka lumipat sa susunod.</p>
 </div>
 
 <div class="card">
-
 <h2>Final Truth</h2>
-
-<p>
-WFH success in BPO is not about comfort.
-</p>
-
-<p>
-It is about controlling:
-</p>
-
+<p>Ang tagumpay sa work-from-home ay hindi tungkol sa pagiging komportable.</p>
+<p>Tungkol ito sa:</p>
 <ul>
-<li>Distraction leakage</li>
-<li>Mental resets</li>
-<li>Repetition fatigue</li>
-<li>Emotional carryover</li>
+<li>Pagkontrol sa distractions</li>
+<li>Pagbabalik ng focus</li>
+<li>Pag-iwas sa paulit-ulit na pagkakamali</li>
+<li>Pag-manage ng stress</li>
 </ul>
+<p>Iniisip ng marami na ang work-from-home ay nagbibigay ng kalayaan.</p>
+<p>Sa totoo lang, ipinapakita nito kung gaano ka talaga ka-disiplinado kapag walang nakatingin.</p>
+</div>
 
-<p>
-People think working from home gives freedom.
-</p>
-
-<p>
-It actually gives exposure.
-</p>
-
-<p>
-You see exactly how disciplined your attention really is.
-</p>
+<a href="index-taglish.html" class="home-button">
+    <span class="home-icon">⌂</span> Back to Headquarters
+</a>
 
 </div>
 
-<a href="index.html" class="back-button">← Return to HQ</a>
-
-</div>
+<script>
+document.getElementById("languageSelect").addEventListener("change", function(){
+    const selectedPage = this.value;
+    if(selectedPage !== "#"){
+        window.location.href = selectedPage;
+    }
+});
+</script>
 
 </body>
 </html>
