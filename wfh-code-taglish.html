@@ -44,19 +44,6 @@ h1{
     padding:30px 24px;
 }
 
-.corner-tag{
-    position:fixed;
-    top:16px;
-    left:16px;
-    background:#121826;
-    border:1px solid #243244;
-    color:#a5b4fc;
-    padding:8px 12px;
-    border-radius:8px;
-    font-size:12px;
-    letter-spacing:.5px;
-}
-
 .card{
     background:#121826;
     border:1px solid #1f2937;
@@ -80,19 +67,47 @@ li{
     margin-bottom:8px;
 }
 
-.back-button{
-    display:inline-block;
+/* HOME BUTTON */
+
+.home-button{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
     margin-top:20px;
-    padding:12px 18px;
+    margin-bottom:40px;
+    padding:14px 22px;
     text-decoration:none;
     color:#b6c2ff;
     border:1px solid #243244;
-    border-radius:10px;
-    background:#0f172a;
+    border-radius:12px;
+    background:linear-gradient(180deg,#0f172a,#0b0f14);
+    font-weight:600;
+    font-size:15px;
+    position:relative;
+    transition:.2s;
+    overflow:hidden;
 }
 
-.back-button:hover{
+.home-button::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:3px;
+    height:100%;
+    background:#5b6cff;
+    border-radius:12px 0 0 12px;
+}
+
+.home-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(91,108,255,.15);
     background:#101a2c;
+    color:#d6dcff;
+}
+
+.home-icon{
+    font-size:18px;
 }
 
 /* LANGUAGE SELECTOR */
@@ -122,8 +137,6 @@ li{
 </head>
 
 <body>
-
-<div class="corner-tag">WFH CODE</div>
 
 <div class="language-box">
     <select class="language-select" id="languageSelect">
@@ -289,7 +302,9 @@ na "kumuha ng magandang headset" at "maghanap ng tahimik na lugar."
 <p>Sa totoo lang, ipinapakita nito kung gaano ka talaga ka-disiplinado kapag walang nakatingin.</p>
 </div>
 
-<a href="index-taglish.html" class="back-button">← Bumalik sa HQ</a>
+<a href="index-taglish.html" class="home-button">
+<span class="home-icon">⌂</span> Bumalik sa NightGrindHQ
+</a>
 
 </div>
 
