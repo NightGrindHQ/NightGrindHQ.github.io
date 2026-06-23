@@ -6,6 +6,9 @@
 <title>WFH CODE | NightGrindHQ | Taglish</title>
 
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
 body{
     margin:0;
     background:#0e1116;
@@ -14,8 +17,6 @@ body{
     line-height:1.8;
     font-size:17px;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
 *{
     -webkit-font-smoothing:antialiased;
@@ -69,116 +70,214 @@ li{
     margin-bottom:8px;
 }
 
-/* TOP HACKER HOME BUTTON */
+/* ── EMBER TOP BUTTON ── */
 
-.hacker-button{
+.ember-button{
     display:inline-flex;
     align-items:center;
-    gap:10px;
+    gap:12px;
     margin-bottom:28px;
-    padding:12px 20px;
+    padding:16px 32px;
     text-decoration:none;
-    font-family:'Share Tech Mono', monospace;
-    font-size:13px;
+    font-size:14px;
+    font-weight:600;
     letter-spacing:2px;
     text-transform:uppercase;
-    color:#00ff8c;
-    background:#080d14;
-    border:1px solid #1a2744;
-    border-radius:10px;
+    color:rgba(220,180,120,.75);
+    background:#0a0806;
+    border:1px solid rgba(180,100,20,.15);
+    border-radius:12px;
     position:relative;
     overflow:hidden;
-    transition:.2s;
+    transition:all .45s ease;
+    cursor:pointer;
     box-shadow:
-        0 0 0 1px #0d1b2a,
-        0 0 14px rgba(0,255,140,.05),
-        inset 0 0 20px rgba(0,0,0,.4);
+        0 0 0 1px rgba(0,0,0,.5),
+        inset 0 0 30px rgba(0,0,0,.4);
 }
 
-.hacker-button::before{
+.ember-button::before{
+    content:"";
+    position:absolute;
+    bottom:-20px;
+    left:50%;
+    transform:translateX(-50%);
+    width:70%;
+    height:40px;
+    background:radial-gradient(
+        ellipse,
+        rgba(220,100,20,.2) 0%,
+        transparent 70%
+    );
+    transition:all .5s ease;
+    opacity:0;
+}
+
+.ember-button::after{
     content:"";
     position:absolute;
     top:0;
     left:0;
     right:0;
     height:1px;
-    background:linear-gradient(90deg,transparent,#00ff8c55,transparent);
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(220,120,30,.3),
+        transparent
+    );
+    opacity:0;
+    transition:opacity .45s ease;
 }
 
-.hacker-button::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:
-        linear-gradient(rgba(0,255,140,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,140,.03) 1px, transparent 1px);
-    background-size:10px 10px;
-    pointer-events:none;
-}
-
-.hacker-button:hover{
-    color:#00ff8c;
-    background:#0a1220;
+.ember-button:hover{
+    color:rgba(250,210,130,.98);
+    border-color:rgba(200,100,20,.45);
+    background:#0d0a07;
     box-shadow:
-        0 0 0 1px #1a2744,
-        0 0 24px rgba(0,255,140,.12),
-        inset 0 0 20px rgba(0,0,0,.4);
-    transform:translateY(-1px);
+        0 0 0 1px rgba(180,80,10,.25),
+        0 0 24px rgba(200,80,10,.14),
+        0 0 48px rgba(180,60,0,.08),
+        inset 0 0 30px rgba(0,0,0,.4);
+    transform:translateY(-2px);
 }
 
-.hacker-button .blink{
-    animation:blink 1s step-start infinite;
+.ember-button:hover::before{
+    opacity:1;
+    bottom:-8px;
 }
 
-@keyframes blink{
-    0%,100%{ opacity:1; }
-    50%{ opacity:0; }
+.ember-button:hover::after{
+    opacity:1;
 }
 
-/* BOTTOM HOME BUTTON */
+.ember-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:rgba(220,130,30,.55);
+    flex-shrink:0;
+    transition:all .45s ease;
+}
 
-.home-button{
+.ember-button:hover .ember-dot{
+    background:rgba(240,150,30,.95);
+    box-shadow:
+        0 0 6px rgba(240,120,20,.7),
+        0 0 12px rgba(220,80,10,.4);
+}
+
+.ember-arrow{
+    font-size:17px;
+    opacity:.55;
+    transition:opacity .35s ease;
     display:inline-flex;
     align-items:center;
-    gap:10px;
+}
+
+.ember-button:hover .ember-arrow{
+    opacity:1;
+    animation:bounceLeft .65s ease infinite;
+}
+
+@keyframes bounceLeft{
+    0%,100%{ transform:translateX(0); }
+    50%{     transform:translateX(-5px); }
+}
+
+/* ── LUXURY BOTTOM BUTTON ── */
+
+.luxury-button{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
     margin-top:20px;
     margin-bottom:40px;
-    padding:14px 22px;
+    padding:16px 32px;
     text-decoration:none;
-    color:#b6c2ff;
-    border:1px solid #243244;
-    border-radius:12px;
-    background:linear-gradient(180deg,#0f172a,#0b0f14);
+    font-size:14px;
     font-weight:600;
-    font-size:15px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:#c8d0ff;
+    border-radius:12px;
     position:relative;
-    transition:.2s;
     overflow:hidden;
+    transition:all .35s ease;
+
+    background:linear-gradient(
+        135deg,
+        #0d1424 0%,
+        #111d35 40%,
+        #0d1424 100%
+    );
+
+    border:1px solid #2a3a5c;
+
+    box-shadow:
+        0 0 0 1px #1a2744,
+        0 4px 24px rgba(0,0,0,.5),
+        inset 0 1px 0 rgba(180,200,255,.06);
 }
 
-.home-button::before{
+.luxury-button::before{
     content:"";
     position:absolute;
-    left:0;
     top:0;
-    width:3px;
+    left:-100%;
+    width:60%;
     height:100%;
-    background:#5b6cff;
-    border-radius:12px 0 0 12px;
+    background:linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(180,200,255,.07) 50%,
+        transparent 100%
+    );
+    transition:left .5s ease;
 }
 
-.home-button:hover{
+.luxury-button::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:10%;
+    right:10%;
+    height:1px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(180,200,255,.25),
+        transparent
+    );
+}
+
+.luxury-button:hover{
+    color:#e8edff;
     transform:translateY(-2px);
-    box-shadow:0 6px 20px rgba(91,108,255,.15);
-    background:#101a2c;
-    color:#d6dcff;
+    border-color:#3d5080;
+    background:linear-gradient(
+        135deg,
+        #101828 0%,
+        #162040 40%,
+        #101828 100%
+    );
+    box-shadow:
+        0 0 0 1px #2a3a5c,
+        0 8px 32px rgba(91,108,255,.18),
+        0 2px 8px rgba(0,0,0,.4),
+        inset 0 1px 0 rgba(180,200,255,.10);
 }
 
-.home-icon{
-    font-size:18px;
+.luxury-button:hover::before{
+    left:140%;
 }
 
-/* LANGUAGE SELECTOR */
+.luxury-icon{
+    font-size:17px;
+    opacity:.85;
+}
+
+/* ── LANGUAGE SELECTOR ── */
 
 .language-box{
     position:fixed;
@@ -201,6 +300,7 @@ li{
 .language-select:hover{
     border-color:#5b6cff;
 }
+
 </style>
 </head>
 
@@ -222,8 +322,10 @@ li{
 
 <div class="container">
 
-<a href="index-taglish.html" class="hacker-button">
-    <span class="blink">▮</span> NIGHTGRINDHQ <span style="opacity:.4">//</span> BUMALIK SA HQ
+<a href="index-taglish.html" class="ember-button">
+    <span class="ember-dot"></span>
+    <span class="ember-arrow">←</span>
+    NightGrindHQ
 </a>
 
 <div class="card">
@@ -374,8 +476,8 @@ na "kumuha ng magandang headset" at "maghanap ng tahimik na lugar."
 <p>Sa totoo lang, ipinapakita nito kung gaano ka talaga ka-disiplinado kapag walang nakatingin.</p>
 </div>
 
-<a href="index-taglish.html" class="home-button">
-    <span class="home-icon">⌂</span> Back to Headquarters
+<a href="index-taglish.html" class="luxury-button">
+    <span class="luxury-icon">⌂</span> Bumalik sa Headquarters
 </a>
 
 </div>
