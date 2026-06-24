@@ -7,7 +7,7 @@
 
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Grotesk:wght@300;400;500&display=swap');
 
 body {
     margin: 0;
@@ -31,18 +31,48 @@ header {
     text-align: center;
     background: linear-gradient(180deg, #101722, #0e1116);
     border-bottom: 1px solid #1f2937;
-    padding: 60px 20px 40px;
+    padding: 60px 20px 48px;
 }
 
-h1 {
+/* ── MAIN TITLE — E style + C coloring ── */
+
+.site-title-wrap {
+    display: inline-block;
+    position: relative;
+}
+
+.site-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 52px;
+    font-weight: 300;
     margin: 0;
-    font-size: 44px;
-    color: #eef2ff;
-    letter-spacing: 1px;
+    line-height: 1;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    display: inline;
+}
+
+.site-title .night { color: #c4b5fd; font-weight: 300; }
+.site-title .grind { color: #eef2ff; font-weight: 300; }
+.site-title .hq    {
+    color: #a78bfa;
+    font-weight: 500;
+    text-shadow:
+        0 0 18px rgba(167,139,250,.4),
+        0 0 40px rgba(124,58,237,.2);
+}
+
+.title-glow-line {
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #7c3aed, #a78bfa, transparent);
+    margin-top: 12px;
+    box-shadow: 0 0 14px rgba(139,92,246,.55);
+    border-radius: 2px;
 }
 
 .tagline {
-    margin-top: 10px;
+    margin-top: 18px;
     color: #94a3b8;
     font-size: 16px;
 }
@@ -229,27 +259,10 @@ h1 {
     padding: 25px;
 }
 
-/* ── CARDS ── */
-
-.card {
-    background: #121826;
-    border: 1px solid #1f2937;
-    border-radius: 14px;
-    padding: 22px;
-    margin-bottom: 22px;
-}
-
-.card h2 {
-    margin-top: 0;
-    color: #b6c2ff;
-}
-
-p {
-    color: #cbd5e1;
-}
+p { color: #cbd5e1; }
 
 /* ────────────────────────────────────────────
-   BORDERLESS HQ ARTICLES — OPTION C
+   BORDERLESS HQ ARTICLES
    ──────────────────────────────────────────── */
 
 .hq-section {
@@ -314,7 +327,6 @@ p {
     align-self: center;
 }
 
-/* Thin rule */
 .hq-rule {
     border: none;
     border-top: 1px solid #1a1030;
@@ -341,9 +353,7 @@ p {
     animation: dash-in .4s .1s forwards;
 }
 
-@keyframes dash-in {
-    to { opacity: 1; }
-}
+@keyframes dash-in { to { opacity: 1; } }
 
 .hq-quote-words {
     font-family: 'Share Tech Mono', monospace;
@@ -356,7 +366,6 @@ p {
     align-items: center;
 }
 
-/* Each word fades + rises in sequence */
 .hq-quote-words .w {
     display: inline-block;
     opacity: 0;
@@ -365,7 +374,6 @@ p {
     color: #a78bfa;
 }
 
-/* Last word gets the accent pop */
 .hq-quote-words .w.accent {
     color: #c4b5fd;
     text-shadow:
@@ -374,10 +382,7 @@ p {
 }
 
 @keyframes word-in {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ── GLITCH TRIGGER ── */
@@ -413,11 +418,8 @@ p {
     position: absolute;
     inset: 0;
     background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 3px,
-        rgba(139,92,246,.03) 3px,
-        rgba(139,92,246,.03) 4px
+        0deg, transparent, transparent 3px,
+        rgba(139,92,246,.03) 3px, rgba(139,92,246,.03) 4px
     );
     pointer-events: none;
 }
@@ -461,9 +463,7 @@ p {
 }
 
 .glitch-trigger:hover .glitch-label,
-.glitch-trigger.open  .glitch-label {
-    color: #e9d5ff;
-}
+.glitch-trigger.open  .glitch-label { color: #e9d5ff; }
 
 .glitch-badge {
     font-size: 9px;
@@ -531,9 +531,7 @@ p {
     transform: translateY(-6px);
 }
 
-.intel-item:first-child {
-    border-top: 1px solid #2e1a50;
-}
+.intel-item:first-child { border-top: 1px solid #2e1a50; }
 
 .intel-item::before {
     content: "";
@@ -550,9 +548,7 @@ p {
     border-color: #2e1a50;
 }
 
-.intel-item:hover::before {
-    width: 100%;
-}
+.intel-item:hover::before { width: 100%; }
 
 .intel-item .item-dot {
     width: 7px; height: 7px;
@@ -580,20 +576,15 @@ p {
     font-style: normal;
 }
 
-.intel-item:hover .item-arrow {
-    opacity: 1;
-    transform: translateX(0);
-}
+.intel-item:hover .item-arrow { opacity: 1; transform: translateX(0); }
 
 .glitch-drawer.open .intel-item:nth-child(1) { animation: intel-in .3s .06s forwards; }
 .glitch-drawer.open .intel-item:nth-child(2) { animation: intel-in .3s .14s forwards; }
 .glitch-drawer.open .intel-item:nth-child(3) { animation: intel-in .3s .22s forwards; }
 
-@keyframes intel-in {
-    to { opacity: 1; transform: translateY(0); }
-}
+@keyframes intel-in { to { opacity: 1; transform: translateY(0); } }
 
-/* ── OTHER CARDS ── */
+/* ── MISC ── */
 
 .big-button {
     display: block;
@@ -640,7 +631,6 @@ p {
     gap: 0;
 }
 
-/* Collapsed pill trigger */
 .player-pill {
     display: flex;
     align-items: center;
@@ -674,7 +664,6 @@ p {
         0 1px 0 rgba(255,255,255,.03) inset;
 }
 
-/* Waveform bars — animated when playing */
 .player-wave {
     display: flex;
     align-items: flex-end;
@@ -690,15 +679,13 @@ p {
     transition: background .3s;
 }
 
-.player-wave span:nth-child(1) { height: 5px;  animation: none; }
-.player-wave span:nth-child(2) { height: 10px; animation: none; }
-.player-wave span:nth-child(3) { height: 7px;  animation: none; }
-.player-wave span:nth-child(4) { height: 13px; animation: none; }
-.player-wave span:nth-child(5) { height: 6px;  animation: none; }
+.player-wave span:nth-child(1) { height: 5px; }
+.player-wave span:nth-child(2) { height: 10px; }
+.player-wave span:nth-child(3) { height: 7px; }
+.player-wave span:nth-child(4) { height: 13px; }
+.player-wave span:nth-child(5) { height: 6px; }
 
-.player-wrap.playing .player-wave span {
-    background: #a0a0b8;
-}
+.player-wrap.playing .player-wave span { background: #a0a0b8; }
 
 .player-wrap.playing .player-wave span:nth-child(1) { animation: bar-bounce 0.9s  ease-in-out infinite alternate; }
 .player-wrap.playing .player-wave span:nth-child(2) { animation: bar-bounce 0.7s  ease-in-out infinite alternate; }
@@ -708,10 +695,9 @@ p {
 
 @keyframes bar-bounce {
     from { transform: scaleY(.3); }
-    to   { transform: scaleY(1);  }
+    to   { transform: scaleY(1); }
 }
 
-/* Pill track name */
 .pill-track {
     font-family: 'Share Tech Mono', monospace;
     font-size: 11px;
@@ -723,11 +709,8 @@ p {
     transition: color .2s;
 }
 
-.player-wrap.playing .pill-track {
-    color: #a0a0b8;
-}
+.player-wrap.playing .pill-track { color: #a0a0b8; }
 
-/* Pill play/pause button */
 .pill-btn {
     width: 26px; height: 26px;
     border-radius: 50%;
@@ -737,7 +720,6 @@ p {
     cursor: pointer;
     transition: background .2s, border-color .2s;
     flex-shrink: 0;
-    font-size: 9px;
     color: #8888a0;
 }
 
@@ -747,7 +729,6 @@ p {
     color: #c0c0d8;
 }
 
-/* Expand chevron */
 .pill-chevron {
     font-size: 9px;
     color: #3a3a4a;
@@ -760,8 +741,6 @@ p {
     transform: rotate(180deg);
     color: #55556a;
 }
-
-/* ── EXPANDED PANEL ── */
 
 .player-panel {
     width: 320px;
@@ -778,9 +757,7 @@ p {
     will-change: grid-template-rows;
 }
 
-.player-wrap.open .player-panel {
-    grid-template-rows: 1fr;
-}
+.player-wrap.open .player-panel { grid-template-rows: 1fr; }
 
 .player-panel-inner {
     overflow: hidden;
@@ -789,13 +766,7 @@ p {
     gap: 16px;
 }
 
-/* Track info */
-.panel-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding-top: 2px;
-}
+.panel-info { display: flex; flex-direction: column; gap: 2px; padding-top: 2px; }
 
 .panel-track {
     font-family: 'Share Tech Mono', monospace;
@@ -815,12 +786,7 @@ p {
     text-transform: uppercase;
 }
 
-/* Progress bar */
-.panel-progress {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
+.panel-progress { display: flex; flex-direction: column; gap: 6px; }
 
 .progress-track {
     width: 100%;
@@ -850,7 +816,6 @@ p {
     letter-spacing: 1px;
 }
 
-/* Controls */
 .panel-controls {
     display: flex;
     align-items: center;
@@ -871,17 +836,13 @@ p {
     line-height: 1;
 }
 
-.ctrl-btn:hover {
-    color: #a0a0b8;
-    background: #1a1a22;
-}
+.ctrl-btn:hover { color: #a0a0b8; background: #1a1a22; }
 
 .ctrl-btn.main {
     width: 52px; height: 52px;
     border-radius: 50%;
     background: #1a1a22;
     border: 1px solid #2e2e3a;
-    font-size: 14px;
     color: #9090b0;
     transition: background .2s, border-color .2s, color .2s;
 }
@@ -898,7 +859,6 @@ p {
     position: relative;
 }
 
-/* Dot indicator under active shuffle/loop */
 .ctrl-btn.active::after {
     content: '';
     position: absolute;
@@ -910,7 +870,6 @@ p {
     background: #6666a0;
 }
 
-/* Volume */
 .panel-volume {
     display: flex;
     align-items: center;
@@ -946,11 +905,8 @@ p {
     transition: background .2s;
 }
 
-.vol-slider::-webkit-slider-thumb:hover {
-    background: #8888a8;
-}
+.vol-slider::-webkit-slider-thumb:hover { background: #8888a8; }
 
-/* Track list */
 .panel-tracklist {
     display: flex;
     flex-direction: column;
@@ -969,13 +925,8 @@ p {
     transition: background .15s;
 }
 
-.track-row:hover {
-    background: #141420;
-}
-
-.track-row.active {
-    background: #141420;
-}
+.track-row:hover { background: #141420; }
+.track-row.active { background: #141420; }
 
 .track-num {
     font-family: 'Share Tech Mono', monospace;
@@ -985,9 +936,7 @@ p {
     text-align: right;
 }
 
-.track-row.active .track-num {
-    color: #7070a0;
-}
+.track-row.active .track-num { color: #7070a0; }
 
 .track-name {
     font-family: 'Share Tech Mono', monospace;
@@ -1000,9 +949,7 @@ p {
     letter-spacing: .5px;
 }
 
-.track-row.active .track-name {
-    color: #a0a0c0;
-}
+.track-row.active .track-name { color: #a0a0c0; }
 
 .track-dur {
     font-family: 'Share Tech Mono', monospace;
@@ -1019,7 +966,6 @@ p {
     padding: 0 2px;
 }
 
-/* Header */
 .rb-header {
     display: flex;
     align-items: stretch;
@@ -1085,11 +1031,7 @@ p {
     flex-shrink: 0;
 }
 
-.rb-text {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
+.rb-text { display: flex; flex-direction: column; gap: 3px; }
 
 .rb-title {
     font-family: 'Share Tech Mono', monospace;
@@ -1125,7 +1067,6 @@ p {
     color: #c4b5fd;
 }
 
-/* Drawer */
 .rb-drawer {
     display: grid;
     grid-template-rows: 0fr;
@@ -1151,7 +1092,6 @@ p {
     padding: 24px 20px 20px;
 }
 
-/* Groups */
 .rb-group {
     display: flex;
     flex-direction: column;
@@ -1176,18 +1116,13 @@ p {
     opacity: .8;
 }
 
-/* Fields */
 .rb-row-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
 }
 
-.rb-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
+.rb-field { display: flex; flex-direction: column; gap: 6px; }
 
 .rb-label {
     font-family: 'Share Tech Mono', monospace;
@@ -1213,9 +1148,7 @@ p {
     user-select: text;
 }
 
-.rb-input::placeholder {
-    color: #2a2a40;
-}
+.rb-input::placeholder { color: #2a2a40; }
 
 .rb-input:focus {
     border-color: #5a3a8a;
@@ -1228,7 +1161,6 @@ p {
     line-height: 1.6;
 }
 
-/* Experience blocks */
 .rb-exp-block {
     display: flex;
     gap: 14px;
@@ -1254,7 +1186,6 @@ p {
     gap: 10px;
 }
 
-/* Actions */
 .rb-actions {
     display: flex;
     align-items: center;
@@ -1285,7 +1216,6 @@ p {
     transform: translateY(-1px);
 }
 
-/* Download button — hidden until resume is built */
 .rb-download-wrap {
     opacity: 0;
     transform: translateX(-8px);
@@ -1322,6 +1252,65 @@ p {
     box-shadow: 0 0 16px rgba(80,80,120,.15);
 }
 
+/* ────────────────────────────────────────────
+   FOOTER
+   ──────────────────────────────────────────── */
+
+.site-footer {
+    margin-top: 80px;
+    padding: 32px 20px 40px;
+    border-top: 1px solid #111720;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+.footer-logo .fn { color: #c4b5fd; }
+.footer-logo .fg { color: #eef2ff; }
+.footer-logo .fh { color: #a78bfa; }
+
+.footer-links {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: #2a3244;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.footer-links a:hover { color: #7c3aed; }
+
+.footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: #1a2030;
+    letter-spacing: 2px;
+    text-align: center;
+    line-height: 2;
+}
+
+.footer-copy span { color: #2a3244; }
+
 </style>
 </head>
 
@@ -1338,7 +1327,12 @@ p {
         </select>
     </div>
 
-    <h1>NightGrindHQ</h1>
+    <div class="site-title-wrap">
+        <h1 class="site-title">
+            <span class="night">Night</span><span class="grind">Grind</span><span class="hq">HQ</span>
+        </h1>
+        <span class="title-glow-line"></span>
+    </div>
 
     <div class="tagline">
         Get hired. Work nights. Stay focused.
@@ -1379,9 +1373,7 @@ p {
 </header>
 
 <section class="hero">
-
     <img src="IMG_1642.png" alt="NightGrindHQ">
-
     <div class="hero-text">
         <h2>Night Shift Intelligence</h2>
         <p>
@@ -1389,7 +1381,6 @@ p {
             and professionals building discipline after dark.
         </p>
     </div>
-
 </section>
 
 <div class="container">
@@ -1410,13 +1401,11 @@ p {
 
         <hr class="hq-rule">
 
-        <!-- Animated quote — JS injects word spans -->
         <div class="hq-quote" id="hqQuote">
             <span class="hq-quote-dash"></span>
             <span class="hq-quote-words" id="hqQuoteWords"></span>
         </div>
 
-        <!-- GLITCH TRIGGER -->
         <div class="glitch-trigger" id="glitchTrigger" onclick="toggleGlitch()">
             <div class="glitch-left">
                 <span class="glitch-label">Access Intel</span>
@@ -1425,7 +1414,6 @@ p {
             <i class="glitch-arrow">▼</i>
         </div>
 
-        <!-- GLITCH DRAWER -->
         <div class="glitch-drawer" id="glitchDrawer">
             <div class="glitch-drawer-inner">
 
@@ -1455,12 +1443,9 @@ p {
 
     </div>
 
-    <!-- ══════════════════════════════════════════
-         RESUME BUILDER
-         ══════════════════════════════════════════ -->
+    <!-- ── RESUME BUILDER ── -->
     <div class="rb-section">
 
-        <!-- Header trigger -->
         <div class="rb-header" id="rbHeader" onclick="toggleResume()">
             <div class="rb-bar-group">
                 <div class="rb-bar"></div>
@@ -1472,11 +1457,9 @@ p {
             <i class="rb-chevron" id="rbChevron">▼</i>
         </div>
 
-        <!-- Drawer -->
         <div class="rb-drawer" id="rbDrawer">
             <div class="rb-drawer-inner">
 
-                <!-- Personal -->
                 <div class="rb-group">
                     <div class="rb-group-label">Personal Info</div>
                     <div class="rb-row-2">
@@ -1511,7 +1494,6 @@ p {
                     </div>
                 </div>
 
-                <!-- Summary -->
                 <div class="rb-group">
                     <div class="rb-group-label">Professional Summary</div>
                     <div class="rb-field">
@@ -1519,7 +1501,6 @@ p {
                     </div>
                 </div>
 
-                <!-- Experience -->
                 <div class="rb-group">
                     <div class="rb-group-label">Work Experience</div>
 
@@ -1584,7 +1565,6 @@ p {
                     </div>
                 </div>
 
-                <!-- Education -->
                 <div class="rb-group">
                     <div class="rb-group-label">Education</div>
                     <div class="rb-row-2">
@@ -1609,7 +1589,6 @@ p {
                     </div>
                 </div>
 
-                <!-- Skills -->
                 <div class="rb-group">
                     <div class="rb-group-label">Skills</div>
                     <div class="rb-field">
@@ -1618,14 +1597,13 @@ p {
                     </div>
                 </div>
 
-                <!-- Save button -->
                 <div class="rb-actions">
                     <button class="rb-save-btn" onclick="generateResume()">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10.5V12h10v-1.5M7 2v7M4 6.5l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         Build My Resume
                     </button>
                     <div class="rb-download-wrap" id="rbDownloadWrap">
-                        <button class="rb-download-btn" id="rbDownloadBtn" onclick="downloadResume()">
+                        <button class="rb-download-btn" onclick="downloadResume()">
                             <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 10.5V12h10v-1.5M7 2v7M4 6.5l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             Save as PDF
                         </button>
@@ -1637,25 +1615,42 @@ p {
 
     </div>
 
-
 </div>
 
-<!-- ══════════════════════════════════════════
-     FLOATING MUSIC PLAYER
-     ══════════════════════════════════════════ -->
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+
+    <div class="footer-logo">
+        <span class="fn">Night</span><span class="fg">Grind</span><span class="fh">HQ</span>
+    </div>
+
+    <div class="footer-links">
+        <a href="#">Articles</a>
+        <a href="#">Resume Builder</a>
+        <a href="#">Flow State Music</a>
+        <a href="#">Contact</a>
+    </div>
+
+    <div class="footer-copy">
+        &copy; 2025 NightGrindHQ. All rights reserved.<br>
+        <span>Designed &amp; built by the NightGrindHQ team.</span>
+    </div>
+
+</footer>
+
+<!-- ── FLOATING MUSIC PLAYER ── -->
 <div class="player-wrap" id="playerWrap">
 
-    <!-- Collapsed pill -->
     <div class="player-pill" id="playerPill">
 
-        <div class="player-wave" id="playerWave">
+        <div class="player-wave">
             <span></span><span></span><span></span><span></span><span></span>
         </div>
 
         <span class="pill-track" id="pillTrack">NO TRACK LOADED</span>
 
         <div class="pill-btn" id="pillPlayBtn" onclick="togglePlay(event)">
-            <svg id="pillPlayIcon" width="10" height="10" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg id="pillPlayIcon" width="10" height="10" viewBox="0 0 14 14" fill="none">
                 <path d="M3 2.2a1 1 0 0 1 1.514-.857l8 4.8a1 1 0 0 1 0 1.714l-8 4.8A1 1 0 0 1 3 11.8V2.2Z" fill="currentColor"/>
             </svg>
         </div>
@@ -1664,17 +1659,14 @@ p {
 
     </div>
 
-    <!-- Expanded panel -->
     <div class="player-panel" id="playerPanel">
         <div class="player-panel-inner">
 
-            <!-- Track info -->
             <div class="panel-info">
                 <div class="panel-track" id="panelTrack">NO TRACK LOADED</div>
-                <div class="panel-meta" id="panelMeta">NIGHTGRINDHQ · FOCUS SESSION</div>
+                <div class="panel-meta">NIGHTGRINDHQ · FLOW STATE MUSIC</div>
             </div>
 
-            <!-- Progress -->
             <div class="panel-progress">
                 <div class="progress-track" id="progressTrack" onclick="seekAudio(event)">
                     <div class="progress-fill" id="progressFill"></div>
@@ -1685,27 +1677,24 @@ p {
                 </div>
             </div>
 
-            <!-- Controls -->
             <div class="panel-controls">
                 <button class="ctrl-btn" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle">⇄</button>
 
-                <!-- PREV — custom SVG -->
                 <button class="ctrl-btn" onclick="prevTrack()" title="Previous">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <rect x="2" y="3" width="2" height="10" rx="1" fill="currentColor"/>
                         <path d="M13 3.8a1 1 0 0 0-1.555-.832L5 7.168a1 1 0 0 0 0 1.664l6.445 4.2A1 1 0 0 0 13 12.2V3.8Z" fill="currentColor"/>
                     </svg>
                 </button>
 
                 <button class="ctrl-btn main" id="mainPlayBtn" onclick="togglePlay(event)">
-                    <svg id="mainPlayIcon" width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg id="mainPlayIcon" width="20" height="20" viewBox="0 0 14 14" fill="none">
                         <path d="M3 2.2a1 1 0 0 1 1.514-.857l8 4.8a1 1 0 0 1 0 1.714l-8 4.8A1 1 0 0 1 3 11.8V2.2Z" fill="currentColor"/>
                     </svg>
                 </button>
 
-                <!-- NEXT — custom SVG -->
                 <button class="ctrl-btn" onclick="nextTrack()" title="Next">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <rect x="12" y="3" width="2" height="10" rx="1" fill="currentColor"/>
                         <path d="M3 3.8a1 1 0 0 1 1.555-.832L11 7.168a1 1 0 0 1 0 1.664L4.555 13.032A1 1 0 0 1 3 12.2V3.8Z" fill="currentColor"/>
                     </svg>
@@ -1714,11 +1703,9 @@ p {
                 <button class="ctrl-btn" id="loopBtn" onclick="toggleLoop()" title="Loop">↻</button>
             </div>
 
-            <!-- Volume -->
             <div class="panel-volume">
-                <!-- VOLUME — custom SVG -->
                 <span class="vol-icon">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                         <path d="M2 5h2.5L8 2v10L4.5 9H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" fill="currentColor"/>
                         <path d="M10 4.5a3.5 3.5 0 0 1 0 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
                         <path d="M11.5 2.5a6 6 0 0 1 0 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
@@ -1727,7 +1714,6 @@ p {
                 <input class="vol-slider" id="volSlider" type="range" min="0" max="1" step="0.01" value="0.8" oninput="setVolume(this.value)">
             </div>
 
-            <!-- Track list -->
             <div class="panel-tracklist" id="trackList"></div>
 
         </div>
@@ -1739,40 +1725,32 @@ p {
 
 <script>
 
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-});
+document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 
 document.getElementById("languageSelect").addEventListener("change", function() {
-    const selectedPage = this.value;
-    if (selectedPage !== "#") {
-        window.location.href = selectedPage;
-    }
+    var p = this.value;
+    if (p !== "#") window.location.href = p;
 });
 
-/* ── QUOTE WORD ANIMATOR ── */
+/* ── QUOTE ANIMATOR ── */
 (function() {
-    const quote  = "Discipline compounds. Read one article today.";
-    const words  = quote.split(" ");
-    const container = document.getElementById("hqQuoteWords");
-    const baseDelay = 0.3;   // seconds before first word
-    const step      = 0.13;  // seconds between each word
-
+    var quote   = "Discipline compounds. Read one article today.";
+    var words   = quote.split(" ");
+    var container = document.getElementById("hqQuoteWords");
     words.forEach(function(word, i) {
         var span = document.createElement("span");
         span.className = "w" + (i === words.length - 1 ? " accent" : "");
         span.textContent = word;
-        span.style.animationDelay = (baseDelay + i * step) + "s";
+        span.style.animationDelay = (0.3 + i * 0.13) + "s";
         container.appendChild(span);
     });
 })();
 
-/* ── GLITCH DRAWER TOGGLE ── */
+/* ── GLITCH DRAWER ── */
 function toggleGlitch() {
     var trigger = document.getElementById('glitchTrigger');
     var drawer  = document.getElementById('glitchDrawer');
     var isOpen  = drawer.classList.contains('open');
-
     if (isOpen) {
         drawer.classList.remove('open');
         trigger.classList.remove('open');
@@ -1794,67 +1772,44 @@ function toggleGlitch() {
 
 /* ── CLOCKS ── */
 function updateClocks() {
-
     var zones = [
         { id: 'clock-ph',  dateId: 'date-ph',  tz: 'Asia/Manila' },
         { id: 'clock-in',  dateId: 'date-in',  tz: 'Asia/Kolkata' },
         { id: 'clock-mx',  dateId: 'date-mx',  tz: 'America/Mexico_City' },
         { id: 'clock-est', dateId: 'date-est', tz: 'America/New_York' }
     ];
-
     zones.forEach(function(zone) {
-
         var now = new Date();
-
         var timeParts = now.toLocaleTimeString('en-US', {
-            timeZone: zone.tz,
-            hour:     '2-digit',
-            minute:   '2-digit',
-            second:   '2-digit',
-            hour12:   true
+            timeZone: zone.tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
         });
-
         var date = now.toLocaleDateString('en-US', {
-            timeZone: zone.tz,
-            month:    'short',
-            day:      'numeric',
-            weekday:  'short'
+            timeZone: zone.tz, month: 'short', day: 'numeric', weekday: 'short'
         });
-
         var el      = document.getElementById(zone.id);
         var parts   = timeParts.split(':');
         var seconds = parts[2].split(' ');
-
         el.innerHTML =
-            parts[0] +
-            '<span class="colon">:</span>' +
-            parts[1] +
-            '<span class="colon">:</span>' +
-            seconds[0] +
-            ' <span style="font-size:13px;opacity:.6">' + seconds[1] + '</span>';
-
+            parts[0] + '<span class="colon">:</span>' +
+            parts[1] + '<span class="colon">:</span>' +
+            seconds[0] + ' <span style="font-size:13px;opacity:.6">' + seconds[1] + '</span>';
         document.getElementById(zone.dateId).textContent = date;
-
     });
-
 }
-
 updateClocks();
 setInterval(updateClocks, 1000);
 
 /* ══════════════════════════════════════════
    MUSIC PLAYER
    ══════════════════════════════════════════
-
-   Drop your audio files into the same folder
-   as index.html and update the playlist below.
-   Supported: .mp3  .ogg  .wav  .flac
+   Add your .mp3 files to the same folder as
+   index.html and update the playlist below.
    ══════════════════════════════════════════ */
 
 var playlist = [
-    { title: "Track 01 — Night Loop",    file: "track-01.mp3", duration: "3:42" },
-    { title: "Track 02 — Deep Focus",    file: "track-02.mp3", duration: "4:15" },
-    { title: "Track 03 — Grind Mode",    file: "track-03.mp3", duration: "5:01" }
+    { title: "Track 01 — Night Loop",  file: "track-01.mp3", duration: "3:42" },
+    { title: "Track 02 — Deep Focus",  file: "track-02.mp3", duration: "4:15" },
+    { title: "Track 03 — Grind Mode",  file: "track-03.mp3", duration: "5:01" }
 ];
 
 var currentIndex = 0;
@@ -1867,14 +1822,11 @@ var audio        = document.getElementById('audioEl');
 var playerWrap   = document.getElementById('playerWrap');
 var pillTrack    = document.getElementById('pillTrack');
 var panelTrack   = document.getElementById('panelTrack');
-var pillPlayBtn  = document.getElementById('pillPlayBtn');
-var mainPlayBtn  = document.getElementById('mainPlayBtn');
 var progressFill = document.getElementById('progressFill');
 var timeCurrent  = document.getElementById('timeCurrent');
 var timeDuration = document.getElementById('timeDuration');
 var trackListEl  = document.getElementById('trackList');
 
-/* Build track list */
 playlist.forEach(function(t, i) {
     var row = document.createElement('div');
     row.className = 'track-row' + (i === 0 ? ' active' : '');
@@ -1893,60 +1845,33 @@ function loadTrack(index, autoplay) {
     audio.src = t.file;
     pillTrack.textContent  = t.title;
     panelTrack.textContent = t.title;
-    progressFill.style.width = '0%';
-    timeCurrent.textContent  = '0:00';
-    timeDuration.textContent = t.duration;
-
-    /* Update active row */
-    document.querySelectorAll('.track-row').forEach(function(r) {
-        r.classList.remove('active');
-    });
-    var activeRow = document.getElementById('track-row-' + index);
-    if (activeRow) activeRow.classList.add('active');
-
-    if (autoplay) {
-        audio.play();
-        setPlayingState(true);
-    }
+    progressFill.style.width    = '0%';
+    timeCurrent.textContent     = '0:00';
+    timeDuration.textContent    = t.duration;
+    document.querySelectorAll('.track-row').forEach(function(r) { r.classList.remove('active'); });
+    var row = document.getElementById('track-row-' + index);
+    if (row) row.classList.add('active');
+    if (autoplay) { audio.play(); setPlayingState(true); }
 }
 
 function togglePlay(e) {
     if (e) e.stopPropagation();
-    if (!audio.src || audio.src === window.location.href) {
-        loadTrack(0, true);
-        return;
-    }
-    if (isPlaying) {
-        audio.pause();
-        setPlayingState(false);
-    } else {
-        audio.play();
-        setPlayingState(true);
-    }
+    if (!audio.src || audio.src === window.location.href) { loadTrack(0, true); return; }
+    if (isPlaying) { audio.pause(); setPlayingState(false); }
+    else           { audio.play();  setPlayingState(true);  }
 }
 
 function setPlayingState(playing) {
     isPlaying = playing;
-
     var playSVG  = '<path d="M3 2.2a1 1 0 0 1 1.514-.857l8 4.8a1 1 0 0 1 0 1.714l-8 4.8A1 1 0 0 1 3 11.8V2.2Z" fill="currentColor"/>';
     var pauseSVG = '<rect x="2.5" y="2" width="3.5" height="10" rx="1.2" fill="currentColor"/><rect x="8" y="2" width="3.5" height="10" rx="1.2" fill="currentColor"/>';
-
     var icon = playing ? pauseSVG : playSVG;
-
     document.getElementById('mainPlayIcon').innerHTML = icon;
     document.getElementById('pillPlayIcon').innerHTML = icon;
-
-    if (playing) {
-        playerWrap.classList.add('playing');
-    } else {
-        playerWrap.classList.remove('playing');
-    }
+    playerWrap.classList.toggle('playing', playing);
 }
 
-function prevTrack() {
-    var i = (currentIndex - 1 + playlist.length) % playlist.length;
-    loadTrack(i, isPlaying);
-}
+function prevTrack() { loadTrack((currentIndex - 1 + playlist.length) % playlist.length, isPlaying); }
 
 function nextTrack() {
     var i;
@@ -1965,45 +1890,35 @@ function toggleShuffle() {
 }
 
 function toggleLoop() {
-    isLooping = !isLooping;
+    isLooping  = !isLooping;
     audio.loop = isLooping;
     document.getElementById('loopBtn').classList.toggle('active', isLooping);
 }
 
-function setVolume(val) {
-    audio.volume = parseFloat(val);
-}
+function setVolume(val)  { audio.volume = parseFloat(val); }
 
 function seekAudio(e) {
     var rect = document.getElementById('progressTrack').getBoundingClientRect();
-    var pct  = (e.clientX - rect.left) / rect.width;
-    if (audio.duration) {
-        audio.currentTime = pct * audio.duration;
-    }
+    if (audio.duration) audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
 }
 
 function fmtTime(s) {
     if (isNaN(s)) return '0:00';
-    var m = Math.floor(s / 60);
-    var sec = Math.floor(s % 60);
+    var m = Math.floor(s / 60), sec = Math.floor(s % 60);
     return m + ':' + (sec < 10 ? '0' : '') + sec;
 }
 
 audio.addEventListener('timeupdate', function() {
     if (audio.duration) {
-        progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
-        timeCurrent.textContent  = fmtTime(audio.currentTime);
-        timeDuration.textContent = fmtTime(audio.duration);
+        progressFill.style.width    = (audio.currentTime / audio.duration * 100) + '%';
+        timeCurrent.textContent     = fmtTime(audio.currentTime);
+        timeDuration.textContent    = fmtTime(audio.duration);
     }
 });
 
-audio.addEventListener('ended', function() {
-    if (!isLooping) nextTrack();
-});
-
+audio.addEventListener('ended', function() { if (!isLooping) nextTrack(); });
 audio.volume = 0.8;
 
-/* Panel toggle — clicking pill area except the buttons */
 document.getElementById('playerPill').addEventListener('click', function(e) {
     if (e.target.closest('.pill-btn') || e.target.closest('.pill-chevron')) return;
     togglePanel(e);
@@ -2014,18 +1929,14 @@ function togglePanel(e) {
     isPanelOpen = !isPanelOpen;
     if (isPanelOpen) {
         playerWrap.classList.add('open');
-        /* Load first track info without playing */
-        if (!audio.src || audio.src === window.location.href) {
-            loadTrack(0, false);
-        }
+        if (!audio.src || audio.src === window.location.href) loadTrack(0, false);
     } else {
         playerWrap.classList.remove('open');
     }
 }
 
-/* Init pill label */
-pillTrack.textContent  = playlist[0].title;
-panelTrack.textContent = playlist[0].title;
+pillTrack.textContent    = playlist[0].title;
+panelTrack.textContent   = playlist[0].title;
 timeDuration.textContent = playlist[0].duration;
 
 /* ══════════════════════════════════════════
@@ -2036,26 +1947,22 @@ var rbOpen = false;
 
 function toggleResume() {
     rbOpen = !rbOpen;
-    var header = document.getElementById('rbHeader');
-    var drawer = document.getElementById('rbDrawer');
-    header.classList.toggle('open', rbOpen);
-    drawer.classList.toggle('open', rbOpen);
+    document.getElementById('rbHeader').classList.toggle('open', rbOpen);
+    document.getElementById('rbDrawer').classList.toggle('open', rbOpen);
 }
 
 function generateResume() {
-    // Show the download button
-    var wrap = document.getElementById('rbDownloadWrap');
-    wrap.classList.add('visible');
+    document.getElementById('rbDownloadWrap').classList.add('visible');
 }
 
 function downloadResume() {
-    var name       = document.getElementById('rb-name').value        || 'Your Name';
-    var jobtitle   = document.getElementById('rb-jobtitle').value    || '';
-    var email      = document.getElementById('rb-email').value       || '';
-    var phone      = document.getElementById('rb-phone').value       || '';
-    var location   = document.getElementById('rb-location').value    || '';
-    var linkedin   = document.getElementById('rb-linkedin').value    || '';
-    var summary    = document.getElementById('rb-summary').value     || '';
+    var name     = document.getElementById('rb-name').value     || 'Your Name';
+    var jobtitle = document.getElementById('rb-jobtitle').value || '';
+    var email    = document.getElementById('rb-email').value    || '';
+    var phone    = document.getElementById('rb-phone').value    || '';
+    var location = document.getElementById('rb-location').value || '';
+    var linkedin = document.getElementById('rb-linkedin').value || '';
+    var summary  = document.getElementById('rb-summary').value  || '';
 
     var exp1title    = document.getElementById('rb-exp1-title').value    || '';
     var exp1company  = document.getElementById('rb-exp1-company').value  || '';
@@ -2069,142 +1976,89 @@ function downloadResume() {
     var exp2loc      = document.getElementById('rb-exp2-loc').value      || '';
     var exp2desc     = document.getElementById('rb-exp2-desc').value     || '';
 
-    var eduDegree  = document.getElementById('rb-edu-degree').value  || '';
-    var eduSchool  = document.getElementById('rb-edu-school').value  || '';
-    var eduYear    = document.getElementById('rb-edu-year').value    || '';
-    var eduHonors  = document.getElementById('rb-edu-honors').value  || '';
+    var eduDegree = document.getElementById('rb-edu-degree').value || '';
+    var eduSchool = document.getElementById('rb-edu-school').value || '';
+    var eduYear   = document.getElementById('rb-edu-year').value   || '';
+    var eduHonors = document.getElementById('rb-edu-honors').value || '';
 
-    var skillsRaw  = document.getElementById('rb-skills').value || '';
-    var skills     = skillsRaw.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+    var skills = (document.getElementById('rb-skills').value || '')
+        .split(',').map(function(s){ return s.trim(); }).filter(Boolean);
 
-    function escHtml(str) {
+    function esc(str) {
         return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    function expDescHtml(desc) {
+    function descHtml(desc) {
         if (!desc) return '';
         return desc.split('\n').map(function(line) {
             line = line.trim();
             if (!line) return '';
             if (line.startsWith('•')) line = line.substring(1).trim();
-            return '<li>' + escHtml(line) + '</li>';
+            return '<li>' + esc(line) + '</li>';
         }).join('');
     }
 
-    function expBlock(title, company, duration, loc, desc) {
-        if (!title && !company) return '';
+    function expBlock(t, c, d, l, desc) {
+        if (!t && !c) return '';
         return '<div class="exp-block">' +
             '<div class="exp-header">' +
-                '<div>' +
-                    '<div class="exp-title">' + escHtml(title) + '</div>' +
-                    '<div class="exp-company">' + escHtml(company) + '</div>' +
-                '</div>' +
-                '<div class="exp-meta">' +
-                    '<div>' + escHtml(duration) + '</div>' +
-                    '<div>' + escHtml(loc) + '</div>' +
-                '</div>' +
+                '<div><div class="exp-title">' + esc(t) + '</div><div class="exp-company">' + esc(c) + '</div></div>' +
+                '<div class="exp-meta"><div>' + esc(d) + '</div><div>' + esc(l) + '</div></div>' +
             '</div>' +
-            (desc ? '<ul class="exp-list">' + expDescHtml(desc) + '</ul>' : '') +
+            (desc ? '<ul class="exp-list">' + descHtml(desc) + '</ul>' : '') +
         '</div>';
     }
 
     var skillTags = skills.map(function(s) {
-        return '<span class="skill-tag">' + escHtml(s) + '</span>';
+        return '<span class="skill-tag">' + esc(s) + '</span>';
     }).join('');
 
-    var html = '<!DOCTYPE html><html lang="en"><head>' +
-        '<meta charset="UTF-8">' +
-        '<title>' + escHtml(name) + ' — Resume</title>' +
-        '<style>' +
-        '*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }' +
-        'body { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 13px; color: #1a1a2e; background: #fff; line-height: 1.6; }' +
-        '.page { max-width: 760px; margin: 0 auto; padding: 48px 44px; }' +
-
-        /* Header */
-        '.resume-header { border-bottom: 3px solid #1a1a2e; padding-bottom: 18px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }' +
-        '.header-left .full-name { font-size: 28px; font-weight: 700; color: #0d0d1a; letter-spacing: -0.5px; line-height: 1.1; }' +
-        '.header-left .job-title { font-size: 13px; color: #5a3a8a; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }' +
-        '.header-right { text-align: right; font-size: 11.5px; color: #444; line-height: 1.8; }' +
-        '.header-right a { color: #5a3a8a; text-decoration: none; }' +
-
-        /* Section */
-        '.section { margin-bottom: 22px; }' +
-        '.section-title { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #5a3a8a; border-bottom: 1px solid #e0d6f5; padding-bottom: 5px; margin-bottom: 14px; }' +
-
-        /* Summary */
-        '.summary-text { color: #333; font-size: 13px; line-height: 1.7; }' +
-
-        /* Experience */
-        '.exp-block { margin-bottom: 16px; }' +
-        '.exp-block:last-child { margin-bottom: 0; }' +
-        '.exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }' +
-        '.exp-title { font-weight: 700; font-size: 13.5px; color: #0d0d1a; }' +
-        '.exp-company { font-size: 12px; color: #5a3a8a; font-weight: 600; }' +
-        '.exp-meta { text-align: right; font-size: 11px; color: #666; line-height: 1.7; }' +
-        '.exp-list { padding-left: 16px; color: #333; font-size: 12.5px; }' +
-        '.exp-list li { margin-bottom: 3px; }' +
-
-        /* Education */
-        '.edu-row { display: flex; justify-content: space-between; align-items: flex-start; }' +
-        '.edu-degree { font-weight: 700; font-size: 13px; color: #0d0d1a; }' +
-        '.edu-school { font-size: 12px; color: #5a3a8a; margin-top: 2px; }' +
-        '.edu-honors { font-size: 11px; color: #888; font-style: italic; margin-top: 2px; }' +
-        '.edu-year { font-size: 11px; color: #666; text-align: right; }' +
-
-        /* Skills */
-        '.skills-wrap { display: flex; flex-wrap: wrap; gap: 7px; }' +
-        '.skill-tag { background: #f0ebff; color: #5a3a8a; border: 1px solid #d4c4f5; border-radius: 4px; padding: 3px 10px; font-size: 11.5px; font-weight: 500; }' +
-
-        /* Footer */
-        '.resume-footer { margin-top: 40px; padding-top: 12px; border-top: 1px solid #e8e8f0; text-align: center; font-size: 10px; color: #bbb; letter-spacing: 2px; text-transform: uppercase; }' +
-
-        '@media print {' +
-        '  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
-        '  .page { padding: 32px 36px; }' +
-        '}' +
+    var html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">' +
+        '<title>' + esc(name) + ' — Resume</title><style>' +
+        '*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}' +
+        'body{font-family:"Segoe UI",Helvetica,Arial,sans-serif;font-size:13px;color:#1a1a2e;background:#fff;line-height:1.6}' +
+        '.page{max-width:760px;margin:0 auto;padding:48px 44px}' +
+        '.resume-header{border-bottom:3px solid #1a1a2e;padding-bottom:18px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}' +
+        '.full-name{font-size:28px;font-weight:700;color:#0d0d1a;letter-spacing:-.5px;line-height:1.1}' +
+        '.job-title{font-size:13px;color:#5a3a8a;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-top:5px}' +
+        '.header-right{text-align:right;font-size:11.5px;color:#444;line-height:1.8}' +
+        '.header-right a{color:#5a3a8a;text-decoration:none}' +
+        '.section{margin-bottom:22px}' +
+        '.section-title{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#5a3a8a;border-bottom:1px solid #e0d6f5;padding-bottom:5px;margin-bottom:14px}' +
+        '.summary-text{color:#333;font-size:13px;line-height:1.7}' +
+        '.exp-block{margin-bottom:16px}' +
+        '.exp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}' +
+        '.exp-title{font-weight:700;font-size:13.5px;color:#0d0d1a}' +
+        '.exp-company{font-size:12px;color:#5a3a8a;font-weight:600}' +
+        '.exp-meta{text-align:right;font-size:11px;color:#666;line-height:1.7}' +
+        '.exp-list{padding-left:16px;color:#333;font-size:12.5px}' +
+        '.exp-list li{margin-bottom:3px}' +
+        '.edu-row{display:flex;justify-content:space-between;align-items:flex-start}' +
+        '.edu-degree{font-weight:700;font-size:13px;color:#0d0d1a}' +
+        '.edu-school{font-size:12px;color:#5a3a8a;margin-top:2px}' +
+        '.edu-honors{font-size:11px;color:#888;font-style:italic;margin-top:2px}' +
+        '.edu-year{font-size:11px;color:#666;text-align:right}' +
+        '.skills-wrap{display:flex;flex-wrap:wrap;gap:7px}' +
+        '.skill-tag{background:#f0ebff;color:#5a3a8a;border:1px solid #d4c4f5;border-radius:4px;padding:3px 10px;font-size:11.5px;font-weight:500}' +
+        '.resume-footer{margin-top:40px;padding-top:12px;border-top:1px solid #e8e8f0;text-align:center;font-size:10px;color:#bbb;letter-spacing:2px;text-transform:uppercase}' +
+        '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{padding:32px 36px}}' +
         '</style></head><body><div class="page">' +
-
         '<div class="resume-header">' +
-            '<div class="header-left">' +
-                '<div class="full-name">' + escHtml(name) + '</div>' +
-                (jobtitle ? '<div class="job-title">' + escHtml(jobtitle) + '</div>' : '') +
-            '</div>' +
+            '<div><div class="full-name">' + esc(name) + '</div>' + (jobtitle ? '<div class="job-title">' + esc(jobtitle) + '</div>' : '') + '</div>' +
             '<div class="header-right">' +
-                (email    ? '<div>' + escHtml(email) + '</div>' : '') +
-                (phone    ? '<div>' + escHtml(phone) + '</div>' : '') +
-                (location ? '<div>' + escHtml(location) + '</div>' : '') +
-                (linkedin ? '<div><a href="' + escHtml(linkedin) + '">' + escHtml(linkedin) + '</a></div>' : '') +
+                (email    ? '<div>' + esc(email) + '</div>' : '') +
+                (phone    ? '<div>' + esc(phone) + '</div>' : '') +
+                (location ? '<div>' + esc(location) + '</div>' : '') +
+                (linkedin ? '<div><a href="' + esc(linkedin) + '">' + esc(linkedin) + '</a></div>' : '') +
             '</div>' +
         '</div>' +
-
-        (summary ? '<div class="section"><div class="section-title">Professional Summary</div><div class="summary-text">' + escHtml(summary) + '</div></div>' : '') +
-
-        ((exp1title || exp2title) ?
-            '<div class="section"><div class="section-title">Work Experience</div>' +
-            expBlock(exp1title, exp1company, exp1duration, exp1loc, exp1desc) +
-            expBlock(exp2title, exp2company, exp2duration, exp2loc, exp2desc) +
-            '</div>' : '') +
-
-        ((eduDegree || eduSchool) ?
-            '<div class="section"><div class="section-title">Education</div>' +
-            '<div class="edu-row">' +
-                '<div>' +
-                    '<div class="edu-degree">' + escHtml(eduDegree) + '</div>' +
-                    '<div class="edu-school">' + escHtml(eduSchool) + '</div>' +
-                    (eduHonors ? '<div class="edu-honors">' + escHtml(eduHonors) + '</div>' : '') +
-                '</div>' +
-                '<div class="edu-year">' + escHtml(eduYear) + '</div>' +
-            '</div></div>' : '') +
-
-        (skills.length ?
-            '<div class="section"><div class="section-title">Skills</div>' +
-            '<div class="skills-wrap">' + skillTags + '</div></div>' : '') +
-
+        (summary ? '<div class="section"><div class="section-title">Professional Summary</div><div class="summary-text">' + esc(summary) + '</div></div>' : '') +
+        ((exp1title || exp2title) ? '<div class="section"><div class="section-title">Work Experience</div>' + expBlock(exp1title,exp1company,exp1duration,exp1loc,exp1desc) + expBlock(exp2title,exp2company,exp2duration,exp2loc,exp2desc) + '</div>' : '') +
+        ((eduDegree || eduSchool) ? '<div class="section"><div class="section-title">Education</div><div class="edu-row"><div><div class="edu-degree">' + esc(eduDegree) + '</div><div class="edu-school">' + esc(eduSchool) + '</div>' + (eduHonors ? '<div class="edu-honors">' + esc(eduHonors) + '</div>' : '') + '</div><div class="edu-year">' + esc(eduYear) + '</div></div></div>' : '') +
+        (skills.length ? '<div class="section"><div class="section-title">Skills</div><div class="skills-wrap">' + skillTags + '</div></div>' : '') +
         '<div class="resume-footer">Built with NightGrindHQ · nightgrindhq.com</div>' +
-
         '</div></body></html>';
 
-    /* Open in new tab then trigger print-to-PDF */
     var win = window.open('', '_blank');
     win.document.write(html);
     win.document.close();
