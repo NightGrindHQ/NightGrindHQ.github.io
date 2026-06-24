@@ -772,9 +772,10 @@ p {
     padding: 18px 20px 20px;
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows .4s cubic-bezier(.4,0,.2,1);
+    transition: grid-template-rows .55s cubic-bezier(0.16, 1, 0.3, 1);
     overflow: hidden;
     box-shadow: 0 16px 48px rgba(0,0,0,.6);
+    will-change: grid-template-rows;
 }
 
 .player-wrap.open .player-panel {
@@ -876,7 +877,7 @@ p {
 }
 
 .ctrl-btn.main {
-    width: 38px; height: 38px;
+    width: 52px; height: 52px;
     border-radius: 50%;
     background: #1a1a22;
     border: 1px solid #2e2e3a;
@@ -891,6 +892,24 @@ p {
     color: #c0c0d8;
 }
 
+.ctrl-btn.active {
+    color: #8888c0;
+    background: #16162a;
+    position: relative;
+}
+
+/* Dot indicator under active shuffle/loop */
+.ctrl-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #6666a0;
+}
+
 /* Volume */
 .panel-volume {
     display: flex;
@@ -900,8 +919,10 @@ p {
 
 .vol-icon {
     font-size: 12px;
-    color: #35354a;
+    color: #52526a;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
 }
 
 .vol-slider {
@@ -1139,7 +1160,11 @@ p {
 
         <span class="pill-track" id="pillTrack">NO TRACK LOADED</span>
 
-        <div class="pill-btn" id="pillPlayBtn" onclick="togglePlay(event)">▶</div>
+        <div class="pill-btn" id="pillPlayBtn" onclick="togglePlay(event)">
+            <svg id="pillPlayIcon" width="10" height="10" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 2.2a1 1 0 0 1 1.514-.857l8 4.8a1 1 0 0 1 0 1.714l-8 4.8A1 1 0 0 1 3 11.8V2.2Z" fill="currentColor"/>
+            </svg>
+        </div>
 
         <i class="pill-chevron" id="pillChevron" onclick="togglePanel(event)">▼</i>
 
@@ -1168,14 +1193,43 @@ p {
 
             <!-- Controls -->
             <div class="panel-controls">
-                <button class="ctrl-btn" onclick="prevTrack()" title="Previous">⏮</button>
-                <button class="ctrl-btn main" id="mainPlayBtn" onclick="togglePlay(event)">▶</button>
-                <button class="ctrl-btn" onclick="nextTrack()" title="Next">⏭</button>
+                <button class="ctrl-btn" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle">⇄</button>
+
+                <!-- PREV — custom SVG -->
+                <button class="ctrl-btn" onclick="prevTrack()" title="Previous">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="3" width="2" height="10" rx="1" fill="currentColor"/>
+                        <path d="M13 3.8a1 1 0 0 0-1.555-.832L5 7.168a1 1 0 0 0 0 1.664l6.445 4.2A1 1 0 0 0 13 12.2V3.8Z" fill="currentColor"/>
+                    </svg>
+                </button>
+
+                <button class="ctrl-btn main" id="mainPlayBtn" onclick="togglePlay(event)">
+                    <svg id="mainPlayIcon" width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 2.2a1 1 0 0 1 1.514-.857l8 4.8a1 1 0 0 1 0 1.714l-8 4.8A1 1 0 0 1 3 11.8V2.2Z" fill="currentColor"/>
+                    </svg>
+                </button>
+
+                <!-- NEXT — custom SVG -->
+                <button class="ctrl-btn" onclick="nextTrack()" title="Next">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="12" y="3" width="2" height="10" rx="1" fill="currentColor"/>
+                        <path d="M3 3.8a1 1 0 0 1 1.555-.832L11 7.168a1 1 0 0 1 0 1.664L4.555 13.032A1 1 0 0 1 3 12.2V3.8Z" fill="currentColor"/>
+                    </svg>
+                </button>
+
+                <button class="ctrl-btn" id="loopBtn" onclick="toggleLoop()" title="Loop">↻</button>
             </div>
 
             <!-- Volume -->
             <div class="panel-volume">
-                <span class="vol-icon">🔈</span>
+                <!-- VOLUME — custom SVG -->
+                <span class="vol-icon">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 5h2.5L8 2v10L4.5 9H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" fill="currentColor"/>
+                        <path d="M10 4.5a3.5 3.5 0 0 1 0 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M11.5 2.5a6 6 0 0 1 0 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                </span>
                 <input class="vol-slider" id="volSlider" type="range" min="0" max="1" step="0.01" value="0.8" oninput="setVolume(this.value)">
             </div>
 
@@ -1293,6 +1347,192 @@ function updateClocks() {
 
 updateClocks();
 setInterval(updateClocks, 1000);
+
+/* ══════════════════════════════════════════
+   MUSIC PLAYER
+   ══════════════════════════════════════════
+
+   Drop your audio files into the same folder
+   as index.html and update the playlist below.
+   Supported: .mp3  .ogg  .wav  .flac
+   ══════════════════════════════════════════ */
+
+var playlist = [
+    { title: "Track 01 — Night Loop",    file: "track-01.mp3", duration: "3:42" },
+    { title: "Track 02 — Deep Focus",    file: "track-02.mp3", duration: "4:15" },
+    { title: "Track 03 — Grind Mode",    file: "track-03.mp3", duration: "5:01" }
+];
+
+var currentIndex = 0;
+var isPlaying    = false;
+var isPanelOpen  = false;
+var isShuffled   = false;
+var isLooping    = false;
+
+var audio        = document.getElementById('audioEl');
+var playerWrap   = document.getElementById('playerWrap');
+var pillTrack    = document.getElementById('pillTrack');
+var panelTrack   = document.getElementById('panelTrack');
+var pillPlayBtn  = document.getElementById('pillPlayBtn');
+var mainPlayBtn  = document.getElementById('mainPlayBtn');
+var progressFill = document.getElementById('progressFill');
+var timeCurrent  = document.getElementById('timeCurrent');
+var timeDuration = document.getElementById('timeDuration');
+var trackListEl  = document.getElementById('trackList');
+
+/* Build track list */
+playlist.forEach(function(t, i) {
+    var row = document.createElement('div');
+    row.className = 'track-row' + (i === 0 ? ' active' : '');
+    row.id = 'track-row-' + i;
+    row.innerHTML =
+        '<span class="track-num">' + (i + 1) + '</span>' +
+        '<span class="track-name">' + t.title + '</span>' +
+        '<span class="track-dur">'  + t.duration + '</span>';
+    row.addEventListener('click', function() { loadTrack(i, true); });
+    trackListEl.appendChild(row);
+});
+
+function loadTrack(index, autoplay) {
+    currentIndex = index;
+    var t = playlist[index];
+    audio.src = t.file;
+    pillTrack.textContent  = t.title;
+    panelTrack.textContent = t.title;
+    progressFill.style.width = '0%';
+    timeCurrent.textContent  = '0:00';
+    timeDuration.textContent = t.duration;
+
+    /* Update active row */
+    document.querySelectorAll('.track-row').forEach(function(r) {
+        r.classList.remove('active');
+    });
+    var activeRow = document.getElementById('track-row-' + index);
+    if (activeRow) activeRow.classList.add('active');
+
+    if (autoplay) {
+        audio.play();
+        setPlayingState(true);
+    }
+}
+
+function togglePlay(e) {
+    if (e) e.stopPropagation();
+    if (!audio.src || audio.src === window.location.href) {
+        loadTrack(0, true);
+        return;
+    }
+    if (isPlaying) {
+        audio.pause();
+        setPlayingState(false);
+    } else {
+        audio.play();
+        setPlayingState(true);
+    }
+}
+
+function setPlayingState(playing) {
+    isPlaying = playing;
+
+    var playSVG  = '<path d="M3 2.2a1 1 0 0 1 1.514-.857l8 4.8a1 1 0 0 1 0 1.714l-8 4.8A1 1 0 0 1 3 11.8V2.2Z" fill="currentColor"/>';
+    var pauseSVG = '<rect x="2.5" y="2" width="3.5" height="10" rx="1.2" fill="currentColor"/><rect x="8" y="2" width="3.5" height="10" rx="1.2" fill="currentColor"/>';
+
+    var icon = playing ? pauseSVG : playSVG;
+
+    document.getElementById('mainPlayIcon').innerHTML = icon;
+    document.getElementById('pillPlayIcon').innerHTML = icon;
+
+    if (playing) {
+        playerWrap.classList.add('playing');
+    } else {
+        playerWrap.classList.remove('playing');
+    }
+}
+
+function prevTrack() {
+    var i = (currentIndex - 1 + playlist.length) % playlist.length;
+    loadTrack(i, isPlaying);
+}
+
+function nextTrack() {
+    var i;
+    if (isShuffled) {
+        do { i = Math.floor(Math.random() * playlist.length); }
+        while (playlist.length > 1 && i === currentIndex);
+    } else {
+        i = (currentIndex + 1) % playlist.length;
+    }
+    loadTrack(i, isPlaying);
+}
+
+function toggleShuffle() {
+    isShuffled = !isShuffled;
+    document.getElementById('shuffleBtn').classList.toggle('active', isShuffled);
+}
+
+function toggleLoop() {
+    isLooping = !isLooping;
+    audio.loop = isLooping;
+    document.getElementById('loopBtn').classList.toggle('active', isLooping);
+}
+
+function setVolume(val) {
+    audio.volume = parseFloat(val);
+}
+
+function seekAudio(e) {
+    var rect = document.getElementById('progressTrack').getBoundingClientRect();
+    var pct  = (e.clientX - rect.left) / rect.width;
+    if (audio.duration) {
+        audio.currentTime = pct * audio.duration;
+    }
+}
+
+function fmtTime(s) {
+    if (isNaN(s)) return '0:00';
+    var m = Math.floor(s / 60);
+    var sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+audio.addEventListener('timeupdate', function() {
+    if (audio.duration) {
+        progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+        timeCurrent.textContent  = fmtTime(audio.currentTime);
+        timeDuration.textContent = fmtTime(audio.duration);
+    }
+});
+
+audio.addEventListener('ended', function() {
+    if (!isLooping) nextTrack();
+});
+
+audio.volume = 0.8;
+
+/* Panel toggle — clicking pill area except the buttons */
+document.getElementById('playerPill').addEventListener('click', function(e) {
+    if (e.target.closest('.pill-btn') || e.target.closest('.pill-chevron')) return;
+    togglePanel(e);
+});
+
+function togglePanel(e) {
+    if (e) e.stopPropagation();
+    isPanelOpen = !isPanelOpen;
+    if (isPanelOpen) {
+        playerWrap.classList.add('open');
+        /* Load first track info without playing */
+        if (!audio.src || audio.src === window.location.href) {
+            loadTrack(0, false);
+        }
+    } else {
+        playerWrap.classList.remove('open');
+    }
+}
+
+/* Init pill label */
+pillTrack.textContent  = playlist[0].title;
+panelTrack.textContent = playlist[0].title;
+timeDuration.textContent = playlist[0].duration;
 
 </script>
 
