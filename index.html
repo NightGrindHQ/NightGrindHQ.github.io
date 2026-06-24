@@ -9,89 +9,87 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-body{
-    margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:#0e1116;
-    color:#d1d7e0;
-    line-height:1.75;
-    font-size:17px;
-
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    user-select:none;
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #0e1116;
+    color: #d1d7e0;
+    line-height: 1.75;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-/* HEADER */
+/* ── HEADER ── */
 
-header{
-    position:relative;
-    text-align:center;
-    background:linear-gradient(180deg,#101722,#0e1116);
-    border-bottom:1px solid #1f2937;
-    padding:60px 20px 40px;
+header {
+    position: relative;
+    text-align: center;
+    background: linear-gradient(180deg, #101722, #0e1116);
+    border-bottom: 1px solid #1f2937;
+    padding: 60px 20px 40px;
 }
 
-h1{
-    margin:0;
-    font-size:44px;
-    color:#eef2ff;
-    letter-spacing:1px;
+h1 {
+    margin: 0;
+    font-size: 44px;
+    color: #eef2ff;
+    letter-spacing: 1px;
 }
 
-.tagline{
-    margin-top:10px;
-    color:#94a3b8;
-    font-size:16px;
+.tagline {
+    margin-top: 10px;
+    color: #94a3b8;
+    font-size: 16px;
 }
 
-/* LANGUAGE SELECTOR */
+/* ── LANGUAGE SELECTOR ── */
 
-.language-box{
-    position:absolute;
-    top:18px;
-    right:18px;
-    z-index:100;
+.language-box {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 100;
 }
 
-.language-select{
-    background:#0f172a;
-    color:#cbd5e1;
-    border:1px solid #243244;
-    border-radius:8px;
-    padding:8px 12px;
-    font-size:14px;
-    outline:none;
-    cursor:pointer;
+.language-select {
+    background: #0f172a;
+    color: #cbd5e1;
+    border: 1px solid #243244;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
 }
 
-.language-select:hover{
-    border-color:#5b6cff;
+.language-select:hover {
+    border-color: #5b6cff;
 }
 
-/* CLOCKS */
+/* ── CLOCKS ── */
 
-.clock-bar{
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    flex-wrap:wrap;
-    margin-top:30px;
+.clock-bar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 30px;
 }
 
-.clock-box{
-    position:relative;
-    background:#080d14;
-    border:1px solid #1a2744;
-    border-radius:12px;
-    padding:16px 24px;
-    text-align:center;
-    min-width:140px;
-    overflow:hidden;
+.clock-box {
+    position: relative;
+    background: #080d14;
+    border: 1px solid #1a2744;
+    border-radius: 12px;
+    padding: 16px 24px;
+    text-align: center;
+    min-width: 140px;
+    overflow: hidden;
     box-shadow:
         0 0 0 1px #0d1b2a,
         0 0 18px rgba(0,255,140,.04),
@@ -99,231 +97,531 @@ h1{
     transition: box-shadow .3s;
 }
 
-.clock-box:hover{
+.clock-box:hover {
     box-shadow:
         0 0 0 1px #1a2744,
         0 0 28px rgba(0,255,140,.10),
         inset 0 0 30px rgba(0,0,0,.4);
 }
 
-.clock-box::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    height:2px;
-    background:linear-gradient(90deg,transparent,#00ff8c44,transparent);
+.clock-box::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff8c44, transparent);
 }
 
-.clock-box::after{
-    content:"";
-    position:absolute;
-    inset:0;
+.clock-box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
     background-image:
         linear-gradient(rgba(0,255,140,.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0,255,140,.03) 1px, transparent 1px);
-    background-size:12px 12px;
-    pointer-events:none;
+    background-size: 12px 12px;
+    pointer-events: none;
 }
 
-.clock-flag{
-    font-size:20px;
-    margin-bottom:4px;
-    position:relative;
-    z-index:1;
+.clock-flag {
+    font-size: 20px;
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 1;
 }
 
-.clock-label{
-    font-family:'Share Tech Mono', monospace;
-    font-size:10px;
-    color:#00ff8c;
-    text-transform:uppercase;
-    letter-spacing:3px;
-    margin-bottom:8px;
-    opacity:.7;
-    position:relative;
-    z-index:1;
+.clock-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: #00ff8c;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    opacity: .7;
+    position: relative;
+    z-index: 1;
 }
 
-.clock-time{
-    font-family:'Share Tech Mono', monospace;
-    font-size:22px;
-    font-weight:400;
-    color:#00ff8c;
-    letter-spacing:2px;
+.clock-time {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 22px;
+    font-weight: 400;
+    color: #00ff8c;
+    letter-spacing: 2px;
     text-shadow:
         0 0 8px rgba(0,255,140,.6),
         0 0 20px rgba(0,255,140,.3);
-    position:relative;
-    z-index:1;
+    position: relative;
+    z-index: 1;
 }
 
-.clock-date{
-    font-family:'Share Tech Mono', monospace;
-    font-size:10px;
-    color:#2a6b4a;
-    letter-spacing:2px;
-    margin-top:6px;
-    text-transform:uppercase;
-    position:relative;
-    z-index:1;
+.clock-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: #2a6b4a;
+    letter-spacing: 2px;
+    margin-top: 6px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
 }
 
-.colon{
-    display:inline-block;
-    animation:blink 1s step-start infinite;
+.colon {
+    display: inline-block;
+    animation: blink 1s step-start infinite;
 }
 
-@keyframes blink{
-    0%,100%{ opacity:1; }
-    50%{ opacity:0; }
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
 }
 
-/* HERO IMAGE */
+/* ── HERO ── */
 
-.hero{
-    position:relative;
-    height:420px;
-    overflow:hidden;
-    border-bottom:1px solid #1f2937;
+.hero {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    border-bottom: 1px solid #1f2937;
 }
 
-.hero img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    filter:grayscale(100%);
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%);
 }
 
-.hero::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-    linear-gradient(
-        rgba(14,17,22,.35),
-        rgba(14,17,22,.82)
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(14,17,22,.35), rgba(14,17,22,.82));
+}
+
+.hero-text {
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    text-align: center;
+    width: 90%;
+}
+
+.hero-text h2 {
+    margin: 0;
+    color: #e5e7eb;
+    font-size: 28px;
+}
+
+.hero-text p {
+    margin-top: 10px;
+    color: #cbd5e1;
+}
+
+/* ── LAYOUT ── */
+
+.container {
+    max-width: 850px;
+    margin: auto;
+    padding: 25px;
+}
+
+/* ── CARDS ── */
+
+.card {
+    background: #121826;
+    border: 1px solid #1f2937;
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 22px;
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #b6c2ff;
+}
+
+p {
+    color: #cbd5e1;
+}
+
+/* ────────────────────────────────────────────
+   BORDERLESS HQ ARTICLES — OPTION C
+   ──────────────────────────────────────────── */
+
+.hq-section {
+    margin-bottom: 22px;
+    padding: 0 2px;
+}
+
+.hq-header {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 0;
+}
+
+.hq-bar-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.hq-bar {
+    width: 3px;
+    align-self: stretch;
+    background: linear-gradient(180deg, #7c3aed, #a78bfa);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(139,92,246,.55);
+    flex-shrink: 0;
+}
+
+.hq-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.hq-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 18px;
+    font-weight: 400;
+    color: #e9d5ff;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1;
+}
+
+.hq-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: #7c3aed;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: .7;
+}
+
+.hq-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: #3d2466;
+    letter-spacing: 2px;
+    align-self: center;
+}
+
+/* Thin rule */
+.hq-rule {
+    border: none;
+    border-top: 1px solid #1a1030;
+    margin: 14px 0 20px;
+}
+
+/* ── ANIMATED QUOTE ── */
+
+.hq-quote {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 20px;
+    min-height: 22px;
+}
+
+.hq-quote-dash {
+    display: inline-block;
+    width: 18px;
+    height: 1px;
+    background: #a78bfa;
+    flex-shrink: 0;
+    opacity: 0;
+    animation: dash-in .4s .1s forwards;
+}
+
+@keyframes dash-in {
+    to { opacity: 1; }
+}
+
+.hq-quote-words {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+/* Each word fades + rises in sequence */
+.hq-quote-words .w {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(5px);
+    animation: word-in .45s forwards;
+    color: #a78bfa;
+}
+
+/* Last word gets the accent pop */
+.hq-quote-words .w.accent {
+    color: #c4b5fd;
+    text-shadow:
+        0 0 10px rgba(196,181,253,.45),
+        0 0 24px rgba(139,92,246,.25);
+}
+
+@keyframes word-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── GLITCH TRIGGER ── */
+
+.glitch-trigger {
+    font-family: 'Share Tech Mono', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background: #08060f;
+    border: 1px solid #3d2466;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .3s, box-shadow .3s;
+    box-shadow: 0 0 18px rgba(139,92,246,.07);
+}
+
+.glitch-trigger::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(180deg, #7c3aed, #a78bfa);
+    border-radius: 10px 0 0 10px;
+    box-shadow: 0 0 14px rgba(139,92,246,.6);
+}
+
+.glitch-trigger::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(139,92,246,.03) 3px,
+        rgba(139,92,246,.03) 4px
     );
+    pointer-events: none;
 }
 
-.hero-text{
-    position:absolute;
-    bottom:35px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:2;
-    text-align:center;
-    width:90%;
+.glitch-trigger:hover {
+    border-color: #7c3aed;
+    box-shadow: 0 0 32px rgba(139,92,246,.18);
 }
 
-.hero-text h2{
-    margin:0;
-    color:#e5e7eb;
-    font-size:28px;
+.glitch-trigger.open {
+    border-color: #7c3aed;
+    box-shadow: 0 0 40px rgba(139,92,246,.2);
+    border-radius: 10px 10px 0 0;
 }
 
-.hero-text p{
-    margin-top:10px;
-    color:#cbd5e1;
+.glitch-trigger:hover .glitch-label {
+    animation: glitch-text .4s steps(1) forwards;
 }
 
-/* LAYOUT */
-
-.container{
-    max-width:850px;
-    margin:auto;
-    padding:25px;
+@keyframes glitch-text {
+    0%   { text-shadow: none; transform: translateX(0); }
+    20%  { text-shadow: -2px 0 #f0abfc, 2px 0 #7c3aed; transform: translateX(-2px); }
+    40%  { text-shadow:  2px 0 #f0abfc, -2px 0 #7c3aed; transform: translateX(2px); }
+    60%  { text-shadow: -1px 0 #f0abfc; transform: translateX(-1px); }
+    80%  { text-shadow:  1px 0 #7c3aed; transform: translateX(0); }
+    100% { text-shadow: none; transform: translateX(0); }
 }
 
-/* CARDS */
-
-.card{
-    background:#121826;
-    border:1px solid #1f2937;
-    border-radius:14px;
-    padding:22px;
-    margin-bottom:22px;
+.glitch-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.card h2{
-    margin-top:0;
-    color:#b6c2ff;
+.glitch-label {
+    color: #c4b5fd;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: color .2s;
 }
 
-/* DROPDOWN */
-
-details{
-    margin-top:15px;
+.glitch-trigger:hover .glitch-label,
+.glitch-trigger.open  .glitch-label {
+    color: #e9d5ff;
 }
 
-summary{
-    cursor:pointer;
-    list-style:none;
-    padding:15px;
-    border-radius:10px;
-    background:linear-gradient(180deg,#0f172a,#0b0f14);
-    border:1px solid #243244;
-    color:#b6c2ff;
-    font-weight:600;
+.glitch-badge {
+    font-size: 9px;
+    background: rgba(124,58,237,.2);
+    color: #c4b5fd;
+    border: 1px solid #4c1d95;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
-summary:hover{
-    background:#101a2c;
+.glitch-arrow {
+    font-size: 11px;
+    color: #7c3aed;
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1), color .2s;
+    font-style: normal;
 }
 
-summary::-webkit-details-marker{
-    display:none;
+.glitch-trigger.open .glitch-arrow {
+    transform: rotate(180deg);
+    color: #c4b5fd;
 }
 
-/* HQ BUTTONS */
+/* ── GLITCH DRAWER ── */
 
-.big-button{
-    display:block;
-    padding:15px;
-    margin-top:12px;
-
-    background:linear-gradient(180deg,#0f172a,#0b0f14);
-    border:1px solid #243244;
-
-    border-radius:10px;
-    color:#d6dcff;
-    text-decoration:none;
-    font-weight:600;
-
-    position:relative;
-    transition:.2s;
+.glitch-drawer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .45s cubic-bezier(.4,0,.2,1);
+    background: #08060f;
+    border: 1px solid #3d2466;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
 }
 
-.big-button::before{
-    content:"";
-    position:absolute;
-    left:0;
-    top:0;
-    width:3px;
-    height:100%;
-    background:#5b6cff;
-    border-radius:10px 0 0 10px;
+.glitch-drawer.open {
+    grid-template-rows: 1fr;
+    box-shadow: 0 12px 40px rgba(139,92,246,.10);
 }
 
-.big-button:hover{
-    transform:translateY(-1px);
-    box-shadow:0 6px 18px rgba(91,108,255,.12);
-    background:#101a2c;
+.glitch-drawer-inner {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-/* TEXT */
+/* ── ARTICLE ROWS ── */
 
-p{
-    color:#cbd5e1;
+.intel-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #94a3b8;
+    border-top: 1px solid #1a1030;
+    font-size: 15px;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    transition: background .2s, color .2s, border-color .2s;
+    opacity: 0;
+    transform: translateY(-6px);
 }
 
-.quote{
-    font-style:italic;
-    color:#94a3b8;
-    text-align:center;
-    margin-top:10px;
+.intel-item:first-child {
+    border-top: 1px solid #2e1a50;
+}
+
+.intel-item::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    width: 0; height: 100%;
+    background: linear-gradient(90deg, rgba(124,58,237,.15), transparent);
+    transition: width .3s ease;
+}
+
+.intel-item:hover {
+    background: rgba(124,58,237,.06);
+    color: #e9d5ff;
+    border-color: #2e1a50;
+}
+
+.intel-item:hover::before {
+    width: 100%;
+}
+
+.intel-item .item-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #3d2466;
+    border: 1px solid #7c3aed66;
+    min-width: 7px;
+    transition: background .2s, box-shadow .2s;
+}
+
+.intel-item:hover .item-dot {
+    background: #7c3aed;
+    box-shadow: 0 0 8px rgba(139,92,246,.6);
+}
+
+.intel-item .item-icon  { font-size: 18px; }
+.intel-item .item-title { flex: 1; }
+
+.intel-item .item-arrow {
+    font-size: 12px;
+    color: #7c3aed;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity .2s, transform .2s;
+    font-style: normal;
+}
+
+.intel-item:hover .item-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.glitch-drawer.open .intel-item:nth-child(1) { animation: intel-in .3s .06s forwards; }
+.glitch-drawer.open .intel-item:nth-child(2) { animation: intel-in .3s .14s forwards; }
+.glitch-drawer.open .intel-item:nth-child(3) { animation: intel-in .3s .22s forwards; }
+
+@keyframes intel-in {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── OTHER CARDS ── */
+
+.big-button {
+    display: block;
+    padding: 15px;
+    margin-top: 12px;
+    background: linear-gradient(180deg, #0f172a, #0b0f14);
+    border: 1px solid #243244;
+    border-radius: 10px;
+    color: #d6dcff;
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+    transition: .2s;
+}
+
+.big-button::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px; height: 100%;
+    background: #5b6cff;
+    border-radius: 10px 0 0 10px;
+}
+
+.big-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(91,108,255,.12);
+    background: #101a2c;
 }
 
 </style>
@@ -334,27 +632,12 @@ p{
 <header>
 
     <div class="language-box">
-
         <select class="language-select" id="languageSelect">
-
-            <option value="index.html" selected>
-                🌐 English
-            </option>
-
-            <option value="index-taglish.html">
-                🇵🇭 Taglish
-            </option>
-
-            <option value="#">
-                🇮🇳 Hindi
-            </option>
-
-            <option value="#">
-                🇪🇸 Español
-            </option>
-
+            <option value="index.html" selected>🌐 English</option>
+            <option value="index-taglish.html">🇵🇭 Taglish</option>
+            <option value="#">🇮🇳 Hindi</option>
+            <option value="#">🇪🇸 Español</option>
         </select>
-
     </div>
 
     <h1>NightGrindHQ</h1>
@@ -366,31 +649,31 @@ p{
     <div class="clock-bar">
 
         <div class="clock-box">
-        <div class="clock-flag">🇵🇭</div>
-        <div class="clock-label">Philippines</div>
-        <div class="clock-time" id="clock-ph">--<span class="colon">:</span>--<span class="colon">:</span>--</div>
-        <div class="clock-date" id="date-ph">---</div>
+            <div class="clock-flag">🇵🇭</div>
+            <div class="clock-label">Philippines</div>
+            <div class="clock-time" id="clock-ph">--<span class="colon">:</span>--<span class="colon">:</span>--</div>
+            <div class="clock-date" id="date-ph">---</div>
         </div>
 
         <div class="clock-box">
-        <div class="clock-flag">🇮🇳</div>
-        <div class="clock-label">India</div>
-        <div class="clock-time" id="clock-in">--<span class="colon">:</span>--<span class="colon">:</span>--</div>
-        <div class="clock-date" id="date-in">---</div>
+            <div class="clock-flag">🇮🇳</div>
+            <div class="clock-label">India</div>
+            <div class="clock-time" id="clock-in">--<span class="colon">:</span>--<span class="colon">:</span>--</div>
+            <div class="clock-date" id="date-in">---</div>
         </div>
 
         <div class="clock-box">
-        <div class="clock-flag">🇲🇽</div>
-        <div class="clock-label">Mexico</div>
-        <div class="clock-time" id="clock-mx">--<span class="colon">:</span>--<span class="colon">:</span>--</div>
-        <div class="clock-date" id="date-mx">---</div>
+            <div class="clock-flag">🇲🇽</div>
+            <div class="clock-label">Mexico</div>
+            <div class="clock-time" id="clock-mx">--<span class="colon">:</span>--<span class="colon">:</span>--</div>
+            <div class="clock-date" id="date-mx">---</div>
         </div>
 
         <div class="clock-box">
-        <div class="clock-flag">🇺🇸</div>
-        <div class="clock-label">EST</div>
-        <div class="clock-time" id="clock-est">--<span class="colon">:</span>--<span class="colon">:</span>--</div>
-        <div class="clock-date" id="date-est">---</div>
+            <div class="clock-flag">🇺🇸</div>
+            <div class="clock-label">EST</div>
+            <div class="clock-time" id="clock-est">--<span class="colon">:</span>--<span class="colon">:</span>--</div>
+            <div class="clock-date" id="date-est">---</div>
         </div>
 
     </div>
@@ -403,91 +686,139 @@ p{
 
     <div class="hero-text">
         <h2>Night Shift Intelligence</h2>
-
         <p>
             Practical guides for BPO applicants, remote workers,
             and professionals building discipline after dark.
         </p>
-
     </div>
 
 </section>
 
 <div class="container">
 
-    <div class="card">
+    <!-- ── HQ ARTICLES ── -->
+    <div class="hq-section">
 
-        <h2>HQ Articles</h2>
+        <div class="hq-header">
+            <div class="hq-bar-group">
+                <div class="hq-bar"></div>
+                <div class="hq-text">
+                    <p class="hq-title">HQ Articles</p>
+                    <span class="hq-sub">Night Shift Intelligence</span>
+                </div>
+            </div>
+            <span class="hq-count">03 ENTRIES</span>
+        </div>
 
-        <p class="quote">
-            Discipline compounds. Read one article today.
-        </p>
+        <hr class="hq-rule">
 
-        <details>
+        <!-- Animated quote — JS injects word spans -->
+        <div class="hq-quote" id="hqQuote">
+            <span class="hq-quote-dash"></span>
+            <span class="hq-quote-words" id="hqQuoteWords"></span>
+        </div>
 
-            <summary>
-                Open HQ Knowledge Base
-            </summary>
+        <!-- GLITCH TRIGGER -->
+        <div class="glitch-trigger" id="glitchTrigger" onclick="toggleGlitch()">
+            <div class="glitch-left">
+                <span class="glitch-label">Access Intel</span>
+                <span class="glitch-badge">Classified</span>
+            </div>
+            <i class="glitch-arrow">▼</i>
+        </div>
 
-            <a class="big-button" href="bpo-basics-hq.html">
-                📘 BPO Applicant Basics from The HQ
-            </a>
+        <!-- GLITCH DRAWER -->
+        <div class="glitch-drawer" id="glitchDrawer">
+            <div class="glitch-drawer-inner">
 
-            <a class="big-button" href="voice-nonvoice-strat.html">
-                🧠 Voice / Non-Voice Applicant Strat
-            </a>
+                <a class="intel-item" href="bpo-basics-hq.html">
+                    <span class="item-dot"></span>
+                    <span class="item-icon">📘</span>
+                    <span class="item-title">BPO Applicant Basics from The HQ</span>
+                    <i class="item-arrow">→</i>
+                </a>
 
-            <a class="big-button" href="wfh-code.html">
-                🏠 WFH CODE (BPO Remote Discipline Guide)
-            </a>
+                <a class="intel-item" href="voice-nonvoice-strat.html">
+                    <span class="item-dot"></span>
+                    <span class="item-icon">🧠</span>
+                    <span class="item-title">Voice / Non-Voice Applicant Strat</span>
+                    <i class="item-arrow">→</i>
+                </a>
 
-        </details>
+                <a class="intel-item" href="wfh-code.html">
+                    <span class="item-dot"></span>
+                    <span class="item-icon">🏠</span>
+                    <span class="item-title">WFH CODE (BPO Remote Discipline Guide)</span>
+                    <i class="item-arrow">→</i>
+                </a>
+
+            </div>
+        </div>
 
     </div>
 
-    <div class="card">
-
-        <h2>Focus System</h2>
-
-        <p>
-            Productivity music, deep-focus sessions,
-            and night-shift workflow tools will be deployed here.
-        </p>
-
-    </div>
-
-    <div class="card">
-
-        <h2>Future Module</h2>
-
-        <p>
-            Resume Builder, HQ Resources,
-            and Remote Work Toolkit.
-        </p>
-
-    </div>
 
 </div>
 
 <script>
 
-document.addEventListener('contextmenu', function(e){
+document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
 });
 
-document.getElementById("languageSelect").addEventListener("change", function(){
-
+document.getElementById("languageSelect").addEventListener("change", function() {
     const selectedPage = this.value;
-
-    if(selectedPage !== "#"){
+    if (selectedPage !== "#") {
         window.location.href = selectedPage;
     }
-
 });
 
+/* ── QUOTE WORD ANIMATOR ── */
+(function() {
+    const quote  = "Discipline compounds. Read one article today.";
+    const words  = quote.split(" ");
+    const container = document.getElementById("hqQuoteWords");
+    const baseDelay = 0.3;   // seconds before first word
+    const step      = 0.13;  // seconds between each word
+
+    words.forEach(function(word, i) {
+        var span = document.createElement("span");
+        span.className = "w" + (i === words.length - 1 ? " accent" : "");
+        span.textContent = word;
+        span.style.animationDelay = (baseDelay + i * step) + "s";
+        container.appendChild(span);
+    });
+})();
+
+/* ── GLITCH DRAWER TOGGLE ── */
+function toggleGlitch() {
+    var trigger = document.getElementById('glitchTrigger');
+    var drawer  = document.getElementById('glitchDrawer');
+    var isOpen  = drawer.classList.contains('open');
+
+    if (isOpen) {
+        drawer.classList.remove('open');
+        trigger.classList.remove('open');
+        drawer.querySelectorAll('.intel-item').forEach(function(el) {
+            el.style.animation = 'none';
+            el.style.opacity   = '0';
+            el.style.transform = 'translateY(-6px)';
+        });
+    } else {
+        drawer.querySelectorAll('.intel-item').forEach(function(el) {
+            el.style.animation = '';
+            el.style.opacity   = '';
+            el.style.transform = '';
+        });
+        drawer.classList.add('open');
+        trigger.classList.add('open');
+    }
+}
+
+/* ── CLOCKS ── */
 function updateClocks() {
 
-    const zones = [
+    var zones = [
         { id: 'clock-ph',  dateId: 'date-ph',  tz: 'Asia/Manila' },
         { id: 'clock-in',  dateId: 'date-in',  tz: 'Asia/Kolkata' },
         { id: 'clock-mx',  dateId: 'date-mx',  tz: 'America/Mexico_City' },
@@ -496,26 +827,26 @@ function updateClocks() {
 
     zones.forEach(function(zone) {
 
-        const now = new Date();
+        var now = new Date();
 
-        const timeParts = now.toLocaleTimeString('en-US', {
+        var timeParts = now.toLocaleTimeString('en-US', {
             timeZone: zone.tz,
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
+            hour:     '2-digit',
+            minute:   '2-digit',
+            second:   '2-digit',
+            hour12:   true
         });
 
-        const date = now.toLocaleDateString('en-US', {
+        var date = now.toLocaleDateString('en-US', {
             timeZone: zone.tz,
-            month: 'short',
-            day: 'numeric',
-            weekday: 'short'
+            month:    'short',
+            day:      'numeric',
+            weekday:  'short'
         });
 
-        const el = document.getElementById(zone.id);
-        const parts = timeParts.split(':');
-        const seconds = parts[2].split(' ');
+        var el      = document.getElementById(zone.id);
+        var parts   = timeParts.split(':');
+        var seconds = parts[2].split(' ');
 
         el.innerHTML =
             parts[0] +
