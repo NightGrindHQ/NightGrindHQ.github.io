@@ -1147,7 +1147,64 @@ p { color: #cbd5e1; }
     line-height: 1.6;
 }
 
-.rb-exp-block {
+.rb-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rb-add-btn {
+    font-family: 'Share Tech Mono', monospace;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: rgba(124,58,237,.1);
+    border: 1px solid #3d2466;
+    border-radius: 6px;
+    color: #a78bfa;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+}
+
+.rb-add-btn:hover {
+    background: rgba(124,58,237,.2);
+    border-color: #7c3aed;
+}
+
+.rb-remove-btn {
+    font-family: 'Share Tech Mono', monospace;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    background: rgba(220,38,38,.07);
+    border: 1px solid #3a1a1a;
+    border-radius: 5px;
+    color: #7a3535;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .2s, border-color .2s, color .2s;
+    margin-left: auto;
+    margin-bottom: 10px;
+}
+
+.rb-remove-btn:hover {
+    background: rgba(220,38,38,.14);
+    border-color: #7f1d1d;
+    color: #f87171;
+}
+
+.rb-exp-list-gap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
     display: flex;
     gap: 14px;
     padding: 16px;
@@ -1490,71 +1547,18 @@ p { color: #cbd5e1; }
                 </div>
 
                 <div class="rb-group">
-                    <div class="rb-group-label">Work Experience</div>
-
-                    <div class="rb-exp-block">
-                        <div class="rb-exp-num">01</div>
-                        <div class="rb-exp-fields">
-                            <div class="rb-row-2">
-                                <div class="rb-field">
-                                    <label class="rb-label">Job Title</label>
-                                    <input class="rb-input" id="rb-exp1-title" type="text" placeholder="Agent / Specialist">
-                                </div>
-                                <div class="rb-field">
-                                    <label class="rb-label">Company</label>
-                                    <input class="rb-input" id="rb-exp1-company" type="text" placeholder="Accenture Manila">
-                                </div>
-                            </div>
-                            <div class="rb-row-2">
-                                <div class="rb-field">
-                                    <label class="rb-label">Duration</label>
-                                    <input class="rb-input" id="rb-exp1-duration" type="text" placeholder="Jan 2022 – Present">
-                                </div>
-                                <div class="rb-field">
-                                    <label class="rb-label">Location</label>
-                                    <input class="rb-input" id="rb-exp1-loc" type="text" placeholder="Taguig, PH">
-                                </div>
-                            </div>
-                            <div class="rb-field">
-                                <label class="rb-label">Key Responsibilities</label>
-                                <textarea class="rb-input rb-textarea" id="rb-exp1-desc" placeholder="• Handled 80+ inbound calls daily&#10;• Maintained 96% CSAT score&#10;• Trained 3 new agents"></textarea>
-                            </div>
-                        </div>
+                    <div class="rb-group-header">
+                        <div class="rb-group-label">Work Experience</div>
+                        <button class="rb-add-btn" onclick="addExpBlock()">
+                            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            Add
+                        </button>
                     </div>
-
-                    <div class="rb-exp-block">
-                        <div class="rb-exp-num">02</div>
-                        <div class="rb-exp-fields">
-                            <div class="rb-row-2">
-                                <div class="rb-field">
-                                    <label class="rb-label">Job Title</label>
-                                    <input class="rb-input" id="rb-exp2-title" type="text" placeholder="Previous Role">
-                                </div>
-                                <div class="rb-field">
-                                    <label class="rb-label">Company</label>
-                                    <input class="rb-input" id="rb-exp2-company" type="text" placeholder="Previous Company">
-                                </div>
-                            </div>
-                            <div class="rb-row-2">
-                                <div class="rb-field">
-                                    <label class="rb-label">Duration</label>
-                                    <input class="rb-input" id="rb-exp2-duration" type="text" placeholder="Mar 2020 – Dec 2021">
-                                </div>
-                                <div class="rb-field">
-                                    <label class="rb-label">Location</label>
-                                    <input class="rb-input" id="rb-exp2-loc" type="text" placeholder="City, Country">
-                                </div>
-                            </div>
-                            <div class="rb-field">
-                                <label class="rb-label">Key Responsibilities</label>
-                                <textarea class="rb-input rb-textarea" id="rb-exp2-desc" placeholder="• Responsibility one&#10;• Responsibility two"></textarea>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="rb-exp-list"></div>
                 </div>
 
                 <div class="rb-group">
-                    <div class="rb-group-label">Education</div>
+                    <div class="rb-group-label">College / University</div>
                     <div class="rb-row-2">
                         <div class="rb-field">
                             <label class="rb-label">Degree / Course</label>
@@ -1573,6 +1577,30 @@ p { color: #cbd5e1; }
                         <div class="rb-field">
                             <label class="rb-label">Honors (optional)</label>
                             <input class="rb-input" id="rb-edu-honors" type="text" placeholder="Cum Laude">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rb-group">
+                    <div class="rb-group-label">Secondary Education</div>
+                    <div class="rb-row-2">
+                        <div class="rb-field">
+                            <label class="rb-label">School</label>
+                            <input class="rb-input" id="rb-sec-school" type="text" placeholder="Rizal High School">
+                        </div>
+                        <div class="rb-field">
+                            <label class="rb-label">Track / Strand (optional)</label>
+                            <input class="rb-input" id="rb-sec-strand" type="text" placeholder="STEM / ABM / GAS">
+                        </div>
+                    </div>
+                    <div class="rb-row-2">
+                        <div class="rb-field">
+                            <label class="rb-label">Year Graduated</label>
+                            <input class="rb-input" id="rb-sec-year" type="text" placeholder="2015">
+                        </div>
+                        <div class="rb-field">
+                            <label class="rb-label">Honors (optional)</label>
+                            <input class="rb-input" id="rb-sec-honors" type="text" placeholder="With Honors">
                         </div>
                     </div>
                 </div>
@@ -1917,13 +1945,96 @@ timeDuration.textContent = playlist[0].duration;
    RESUME BUILDER
    ══════════════════════════════════════════ */
 
-var rbOpen = false;
+var rbOpen   = false;
+var expCount = 0;
 
 function toggleResume() {
     rbOpen = !rbOpen;
     document.getElementById('rbHeader').classList.toggle('open', rbOpen);
     document.getElementById('rbDrawer').classList.toggle('open', rbOpen);
 }
+
+function initExpBlocks() {
+    addExpBlock('Agent / Specialist', 'Accenture Manila', 'Jan 2022 – Present', 'Taguig, PH',
+        '• Handled 80+ inbound calls daily\n• Maintained 96% CSAT score\n• Trained 3 new agents');
+    addExpBlock('Previous Role', 'Previous Company', 'Mar 2020 – Dec 2021', 'City, Country',
+        '• Responsibility one\n• Responsibility two');
+}
+
+function addExpBlock(titlePH, compPH, durPH, locPH, descPH) {
+    expCount++;
+    var n    = expCount;
+    var list = document.getElementById('rb-exp-list');
+    titlePH  = titlePH || 'Job Title';
+    compPH   = compPH  || 'Company Name';
+    durPH    = durPH   || 'Jan 2024 – Present';
+    locPH    = locPH   || 'City, Country';
+    descPH   = descPH  || '• Responsibility one\n• Responsibility two';
+
+    var block = document.createElement('div');
+    block.className    = 'rb-exp-block';
+    block.id           = 'rb-exp-block-' + n;
+    block.style.marginBottom = '12px';
+
+    block.innerHTML =
+        '<div class="rb-exp-num">' + String(n).padStart(2,'0') + '</div>' +
+        '<div class="rb-exp-fields">' +
+            '<button class="rb-remove-btn" onclick="removeExpBlock(' + n + ')">' +
+                '<svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>' +
+                ' Remove' +
+            '</button>' +
+            '<div class="rb-row-2">' +
+                '<div class="rb-field"><label class="rb-label">Job Title</label>' +
+                '<input class="rb-input" id="rb-exp' + n + '-title" type="text" placeholder="' + titlePH + '"></div>' +
+                '<div class="rb-field"><label class="rb-label">Company</label>' +
+                '<input class="rb-input" id="rb-exp' + n + '-company" type="text" placeholder="' + compPH + '"></div>' +
+            '</div>' +
+            '<div class="rb-row-2">' +
+                '<div class="rb-field"><label class="rb-label">Duration</label>' +
+                '<input class="rb-input" id="rb-exp' + n + '-duration" type="text" placeholder="' + durPH + '"></div>' +
+                '<div class="rb-field"><label class="rb-label">Location</label>' +
+                '<input class="rb-input" id="rb-exp' + n + '-loc" type="text" placeholder="' + locPH + '"></div>' +
+            '</div>' +
+            '<div class="rb-field"><label class="rb-label">Key Responsibilities</label>' +
+            '<textarea class="rb-input rb-textarea" id="rb-exp' + n + '-desc" placeholder="' + descPH.replace(/\n/g,'&#10;') + '"></textarea></div>' +
+        '</div>';
+
+    list.appendChild(block);
+    renumberExpBlocks();
+}
+
+function removeExpBlock(n) {
+    var block = document.getElementById('rb-exp-block-' + n);
+    if (block) {
+        block.style.transition = 'opacity .25s, transform .25s';
+        block.style.opacity    = '0';
+        block.style.transform  = 'translateY(-6px)';
+        setTimeout(function() { block.remove(); renumberExpBlocks(); }, 260);
+    }
+}
+
+function renumberExpBlocks() {
+    document.querySelectorAll('#rb-exp-list .rb-exp-block').forEach(function(b, i) {
+        var n = b.querySelector('.rb-exp-num');
+        if (n) n.textContent = String(i + 1).padStart(2, '0');
+    });
+}
+
+function collectExpData() {
+    var results = [];
+    document.querySelectorAll('#rb-exp-list .rb-exp-block').forEach(function(b) {
+        var id = b.id.replace('rb-exp-block-', '');
+        var t  = (document.getElementById('rb-exp' + id + '-title')    || {}).value || '';
+        var c  = (document.getElementById('rb-exp' + id + '-company')  || {}).value || '';
+        var d  = (document.getElementById('rb-exp' + id + '-duration') || {}).value || '';
+        var l  = (document.getElementById('rb-exp' + id + '-loc')      || {}).value || '';
+        var ds = (document.getElementById('rb-exp' + id + '-desc')     || {}).value || '';
+        if (t || c) results.push({ title: t, company: c, duration: d, loc: l, desc: ds });
+    });
+    return results;
+}
+
+initExpBlocks();
 
 function generateResume() {
     document.getElementById('rbDownloadWrap').classList.add('visible');
@@ -1938,28 +2049,23 @@ function downloadResume() {
     var linkedin = document.getElementById('rb-linkedin').value || '';
     var summary  = document.getElementById('rb-summary').value  || '';
 
-    var exp1title    = document.getElementById('rb-exp1-title').value    || '';
-    var exp1company  = document.getElementById('rb-exp1-company').value  || '';
-    var exp1duration = document.getElementById('rb-exp1-duration').value || '';
-    var exp1loc      = document.getElementById('rb-exp1-loc').value      || '';
-    var exp1desc     = document.getElementById('rb-exp1-desc').value     || '';
-
-    var exp2title    = document.getElementById('rb-exp2-title').value    || '';
-    var exp2company  = document.getElementById('rb-exp2-company').value  || '';
-    var exp2duration = document.getElementById('rb-exp2-duration').value || '';
-    var exp2loc      = document.getElementById('rb-exp2-loc').value      || '';
-    var exp2desc     = document.getElementById('rb-exp2-desc').value     || '';
-
     var eduDegree = document.getElementById('rb-edu-degree').value || '';
     var eduSchool = document.getElementById('rb-edu-school').value || '';
     var eduYear   = document.getElementById('rb-edu-year').value   || '';
     var eduHonors = document.getElementById('rb-edu-honors').value || '';
 
+    var secSchool = document.getElementById('rb-sec-school').value  || '';
+    var secStrand = document.getElementById('rb-sec-strand').value  || '';
+    var secYear   = document.getElementById('rb-sec-year').value    || '';
+    var secHonors = document.getElementById('rb-sec-honors').value  || '';
+
     var skills = (document.getElementById('rb-skills').value || '')
         .split(',').map(function(s){ return s.trim(); }).filter(Boolean);
 
+    var experiences = collectExpData();
+
     function esc(str) {
-        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
     function descHtml(desc) {
@@ -1969,23 +2075,42 @@ function downloadResume() {
             if (!line) return '';
             if (line.startsWith('•')) line = line.substring(1).trim();
             return '<li>' + esc(line) + '</li>';
-        }).join('');
+        }).filter(Boolean).join('');
     }
 
-    function expBlock(t, c, d, l, desc) {
-        if (!t && !c) return '';
+    function expBlockHTML(e) {
         return '<div class="exp-block">' +
             '<div class="exp-header">' +
-                '<div><div class="exp-title">' + esc(t) + '</div><div class="exp-company">' + esc(c) + '</div></div>' +
-                '<div class="exp-meta"><div>' + esc(d) + '</div><div>' + esc(l) + '</div></div>' +
+                '<div><div class="exp-title">' + esc(e.title) + '</div>' +
+                '<div class="exp-company">' + esc(e.company) + '</div></div>' +
+                '<div class="exp-meta"><div>' + esc(e.duration) + '</div><div>' + esc(e.loc) + '</div></div>' +
             '</div>' +
-            (desc ? '<ul class="exp-list">' + descHtml(desc) + '</ul>' : '') +
+            (e.desc ? '<ul class="exp-list">' + descHtml(e.desc) + '</ul>' : '') +
         '</div>';
     }
 
     var skillTags = skills.map(function(s) {
         return '<span class="skill-tag">' + esc(s) + '</span>';
     }).join('');
+
+    var expHTML = experiences.length
+        ? '<div class="section"><div class="section-title">Work Experience</div>' + experiences.map(expBlockHTML).join('') + '</div>'
+        : '';
+
+    var eduHTML = (eduDegree || eduSchool)
+        ? '<div class="section"><div class="section-title">College / University</div><div class="edu-row">' +
+          '<div><div class="edu-degree">' + esc(eduDegree) + '</div><div class="edu-school">' + esc(eduSchool) + '</div>' +
+          (eduHonors ? '<div class="edu-honors">' + esc(eduHonors) + '</div>' : '') + '</div>' +
+          '<div class="edu-year">' + esc(eduYear) + '</div></div></div>'
+        : '';
+
+    var secHTML = secSchool
+        ? '<div class="section"><div class="section-title">Secondary Education</div><div class="edu-row">' +
+          '<div><div class="edu-degree">' + esc(secSchool) + '</div>' +
+          (secStrand ? '<div class="edu-school">' + esc(secStrand) + '</div>' : '') +
+          (secHonors ? '<div class="edu-honors">' + esc(secHonors) + '</div>' : '') + '</div>' +
+          '<div class="edu-year">' + esc(secYear) + '</div></div></div>'
+        : '';
 
     var html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">' +
         '<title>' + esc(name) + ' — Resume</title><style>' +
@@ -2014,21 +2139,20 @@ function downloadResume() {
         '.edu-year{font-size:11px;color:#666;text-align:right}' +
         '.skills-wrap{display:flex;flex-wrap:wrap;gap:7px}' +
         '.skill-tag{background:#f0ebff;color:#5a3a8a;border:1px solid #d4c4f5;border-radius:4px;padding:3px 10px;font-size:11.5px;font-weight:500}' +
-        '.resume-footer{margin-top:40px;padding-top:12px;border-top:1px solid #e8e8f0;text-align:center;font-size:10px;color:#bbb;letter-spacing:2px;text-transform:uppercase}' +
         '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{padding:32px 36px}}' +
         '</style></head><body><div class="page">' +
         '<div class="resume-header">' +
-            '<div><div class="full-name">' + esc(name) + '</div>' + (jobtitle ? '<div class="job-title">' + esc(jobtitle) + '</div>' : '') + '</div>' +
+            '<div><div class="full-name">' + esc(name) + '</div>' +
+            (jobtitle ? '<div class="job-title">' + esc(jobtitle) + '</div>' : '') + '</div>' +
             '<div class="header-right">' +
-                (email    ? '<div>' + esc(email) + '</div>' : '') +
-                (phone    ? '<div>' + esc(phone) + '</div>' : '') +
+                (email    ? '<div>' + esc(email)    + '</div>' : '') +
+                (phone    ? '<div>' + esc(phone)    + '</div>' : '') +
                 (location ? '<div>' + esc(location) + '</div>' : '') +
                 (linkedin ? '<div><a href="' + esc(linkedin) + '">' + esc(linkedin) + '</a></div>' : '') +
             '</div>' +
         '</div>' +
         (summary ? '<div class="section"><div class="section-title">Professional Summary</div><div class="summary-text">' + esc(summary) + '</div></div>' : '') +
-        ((exp1title || exp2title) ? '<div class="section"><div class="section-title">Work Experience</div>' + expBlock(exp1title,exp1company,exp1duration,exp1loc,exp1desc) + expBlock(exp2title,exp2company,exp2duration,exp2loc,exp2desc) + '</div>' : '') +
-        ((eduDegree || eduSchool) ? '<div class="section"><div class="section-title">Education</div><div class="edu-row"><div><div class="edu-degree">' + esc(eduDegree) + '</div><div class="edu-school">' + esc(eduSchool) + '</div>' + (eduHonors ? '<div class="edu-honors">' + esc(eduHonors) + '</div>' : '') + '</div><div class="edu-year">' + esc(eduYear) + '</div></div></div>' : '') +
+        expHTML + eduHTML + secHTML +
         (skills.length ? '<div class="section"><div class="section-title">Skills</div><div class="skills-wrap">' + skillTags + '</div></div>' : '') +
         '</div></body></html>';
 
