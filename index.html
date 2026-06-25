@@ -77,6 +77,19 @@ header {
     font-size: 16px;
 }
 
+/* Tagline phrase-by-phrase slow fade */
+.tagline-phrase {
+    display: inline;
+    opacity: 0;
+    animation: phrase-in 2.4s ease forwards;
+}
+
+@keyframes phrase-in {
+    0%   { opacity: 0; }
+    30%  { opacity: 0; }
+    100% { opacity: 1; }
+}
+
 /* ── LANGUAGE SELECTOR ── */
 
 .language-box {
@@ -333,14 +346,13 @@ p { color: #cbd5e1; }
     margin: 14px 0 20px;
 }
 
-/* ── ANIMATED QUOTE ── */
+/* ── STATIC QUOTE ── */
 
 .hq-quote {
     display: flex;
     align-items: center;
     gap: 12px;
     margin: 0 0 20px;
-    min-height: 22px;
 }
 
 .hq-quote-dash {
@@ -349,40 +361,14 @@ p { color: #cbd5e1; }
     height: 1px;
     background: #a78bfa;
     flex-shrink: 0;
-    opacity: 0;
-    animation: dash-in .4s .1s forwards;
 }
-
-@keyframes dash-in { to { opacity: 1; } }
 
 .hq-quote-words {
     font-family: 'Share Tech Mono', monospace;
     font-size: 13px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    align-items: center;
-}
-
-.hq-quote-words .w {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(5px);
-    animation: word-in .45s forwards;
     color: #a78bfa;
-}
-
-.hq-quote-words .w.accent {
-    color: #c4b5fd;
-    text-shadow:
-        0 0 10px rgba(196,181,253,.45),
-        0 0 24px rgba(139,92,246,.25);
-}
-
-@keyframes word-in {
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ── GLITCH TRIGGER ── */
@@ -1127,17 +1113,17 @@ p { color: #cbd5e1; }
 .rb-label {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
-    color: #3d3d55;
+    color: #7070a0;
     letter-spacing: 2px;
     text-transform: uppercase;
 }
 
 .rb-input {
-    background: #0c0c14;
-    border: 1px solid #1e1e2e;
+    background: #10101e;
+    border: 1px solid #2e2a4a;
     border-radius: 7px;
     padding: 10px 12px;
-    color: #c4b5fd;
+    color: #e2d9ff;
     font-family: 'Share Tech Mono', monospace;
     font-size: 12px;
     outline: none;
@@ -1148,11 +1134,11 @@ p { color: #cbd5e1; }
     user-select: text;
 }
 
-.rb-input::placeholder { color: #2a2a40; }
+.rb-input::placeholder { color: #44405a; }
 
 .rb-input:focus {
-    border-color: #5a3a8a;
-    box-shadow: 0 0 0 3px rgba(124,58,237,.1);
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124,58,237,.12);
 }
 
 .rb-textarea {
@@ -1335,7 +1321,9 @@ p { color: #cbd5e1; }
     </div>
 
     <div class="tagline">
-        Get hired. Work nights. Stay focused.
+        <span class="tagline-phrase" style="animation-delay: 0s;">Get hired.</span>
+        <span class="tagline-phrase" style="animation-delay: 2s;"> Work nights.</span>
+        <span class="tagline-phrase" style="animation-delay: 4s;"> Stay focused.</span>
     </div>
 
     <div class="clock-bar">
@@ -1401,9 +1389,9 @@ p { color: #cbd5e1; }
 
         <hr class="hq-rule">
 
-        <div class="hq-quote" id="hqQuote">
+        <div class="hq-quote">
             <span class="hq-quote-dash"></span>
-            <span class="hq-quote-words" id="hqQuoteWords"></span>
+            <span class="hq-quote-words">Discipline compounds. Read one article today.</span>
         </div>
 
         <div class="glitch-trigger" id="glitchTrigger" onclick="toggleGlitch()">
@@ -1732,20 +1720,6 @@ document.getElementById("languageSelect").addEventListener("change", function() 
     if (p !== "#") window.location.href = p;
 });
 
-/* ── QUOTE ANIMATOR ── */
-(function() {
-    var quote   = "Discipline compounds. Read one article today.";
-    var words   = quote.split(" ");
-    var container = document.getElementById("hqQuoteWords");
-    words.forEach(function(word, i) {
-        var span = document.createElement("span");
-        span.className = "w" + (i === words.length - 1 ? " accent" : "");
-        span.textContent = word;
-        span.style.animationDelay = (0.3 + i * 0.13) + "s";
-        container.appendChild(span);
-    });
-})();
-
 /* ── GLITCH DRAWER ── */
 function toggleGlitch() {
     var trigger = document.getElementById('glitchTrigger');
@@ -2056,7 +2030,6 @@ function downloadResume() {
         ((exp1title || exp2title) ? '<div class="section"><div class="section-title">Work Experience</div>' + expBlock(exp1title,exp1company,exp1duration,exp1loc,exp1desc) + expBlock(exp2title,exp2company,exp2duration,exp2loc,exp2desc) + '</div>' : '') +
         ((eduDegree || eduSchool) ? '<div class="section"><div class="section-title">Education</div><div class="edu-row"><div><div class="edu-degree">' + esc(eduDegree) + '</div><div class="edu-school">' + esc(eduSchool) + '</div>' + (eduHonors ? '<div class="edu-honors">' + esc(eduHonors) + '</div>' : '') + '</div><div class="edu-year">' + esc(eduYear) + '</div></div></div>' : '') +
         (skills.length ? '<div class="section"><div class="section-title">Skills</div><div class="skills-wrap">' + skillTags + '</div></div>' : '') +
-        '<div class="resume-footer">Built with NightGrindHQ · nightgrindhq.com</div>' +
         '</div></body></html>';
 
     var win = window.open('', '_blank');
