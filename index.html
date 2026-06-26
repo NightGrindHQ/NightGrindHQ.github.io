@@ -127,23 +127,23 @@ header {
 .clock-box {
     position: relative;
     background: #080d14;
-    border: 1px solid #1a2744;
+    border: 1px solid #1c2435;
     border-radius: 12px;
     padding: 16px 24px;
     text-align: center;
     min-width: 140px;
     overflow: hidden;
     box-shadow:
-        0 0 0 1px #0d1b2a,
-        0 0 18px rgba(0,255,140,.04),
+        0 0 0 1px #0d1822,
+        0 0 18px rgba(130,200,170,.03),
         inset 0 0 30px rgba(0,0,0,.4);
     transition: box-shadow .3s;
 }
 
 .clock-box:hover {
     box-shadow:
-        0 0 0 1px #1a2744,
-        0 0 28px rgba(0,255,140,.10),
+        0 0 0 1px #263545,
+        0 0 24px rgba(130,200,170,.07),
         inset 0 0 30px rgba(0,0,0,.4);
 }
 
@@ -152,7 +152,7 @@ header {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #00ff8c44, transparent);
+    background: linear-gradient(90deg, transparent, #82c8aa33, transparent);
 }
 
 .clock-box::after {
@@ -160,8 +160,8 @@ header {
     position: absolute;
     inset: 0;
     background-image:
-        linear-gradient(rgba(0,255,140,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,140,.03) 1px, transparent 1px);
+        linear-gradient(rgba(130,200,170,.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(130,200,170,.012) 1px, transparent 1px);
     background-size: 12px 12px;
     pointer-events: none;
 }
@@ -176,7 +176,7 @@ header {
 .clock-label {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
-    color: #00ff8c;
+    color: #82c8aa;
     text-transform: uppercase;
     letter-spacing: 3px;
     margin-bottom: 8px;
@@ -189,11 +189,11 @@ header {
     font-family: 'Share Tech Mono', monospace;
     font-size: 22px;
     font-weight: 400;
-    color: #00ff8c;
+    color: #9dd4bc;
     letter-spacing: 2px;
     text-shadow:
-        0 0 8px rgba(0,255,140,.6),
-        0 0 20px rgba(0,255,140,.3);
+        0 0 8px rgba(130,200,170,.28),
+        0 0 20px rgba(100,170,140,.14);
     position: relative;
     z-index: 1;
 }
@@ -201,7 +201,7 @@ header {
 .clock-date {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
-    color: #2a6b4a;
+    color: #2a5040;
     letter-spacing: 2px;
     margin-top: 6px;
     text-transform: uppercase;
@@ -2114,36 +2114,60 @@ function downloadResume() {
 
     var html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">' +
         '<title>' + esc(name) + ' — Resume</title><style>' +
+        '@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap");' +
         '*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}' +
-        'body{font-family:"Segoe UI",Helvetica,Arial,sans-serif;font-size:13px;color:#1a1a2e;background:#fff;line-height:1.6}' +
-        '.page{max-width:760px;margin:0 auto;padding:48px 44px}' +
-        '.resume-header{border-bottom:3px solid #1a1a2e;padding-bottom:18px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}' +
-        '.full-name{font-size:28px;font-weight:700;color:#0d0d1a;letter-spacing:-.5px;line-height:1.1}' +
-        '.job-title{font-size:13px;color:#5a3a8a;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-top:5px}' +
-        '.header-right{text-align:right;font-size:11.5px;color:#444;line-height:1.8}' +
-        '.header-right a{color:#5a3a8a;text-decoration:none}' +
-        '.section{margin-bottom:22px}' +
-        '.section-title{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#5a3a8a;border-bottom:1px solid #e0d6f5;padding-bottom:5px;margin-bottom:14px}' +
-        '.summary-text{color:#333;font-size:13px;line-height:1.7}' +
-        '.exp-block{margin-bottom:16px}' +
-        '.exp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}' +
-        '.exp-title{font-weight:700;font-size:13.5px;color:#0d0d1a}' +
-        '.exp-company{font-size:12px;color:#5a3a8a;font-weight:600}' +
-        '.exp-meta{text-align:right;font-size:11px;color:#666;line-height:1.7}' +
-        '.exp-list{padding-left:16px;color:#333;font-size:12.5px}' +
-        '.exp-list li{margin-bottom:3px}' +
-        '.edu-row{display:flex;justify-content:space-between;align-items:flex-start}' +
-        '.edu-degree{font-weight:700;font-size:13px;color:#0d0d1a}' +
-        '.edu-school{font-size:12px;color:#5a3a8a;margin-top:2px}' +
-        '.edu-honors{font-size:11px;color:#888;font-style:italic;margin-top:2px}' +
-        '.edu-year{font-size:11px;color:#666;text-align:right}' +
-        '.skills-wrap{display:flex;flex-wrap:wrap;gap:7px}' +
-        '.skill-tag{background:#f0ebff;color:#5a3a8a;border:1px solid #d4c4f5;border-radius:4px;padding:3px 10px;font-size:11.5px;font-weight:500}' +
-        '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{padding:32px 36px}}' +
+        'body{font-family:"DM Sans",Helvetica,Arial,sans-serif;font-size:12.5px;color:#1c1c28;background:#fff;line-height:1.65}' +
+        '.page{max-width:740px;margin:0 auto;padding:52px 48px}' +
+
+        /* Header */
+        '.resume-header{margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid #1c1c28;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}' +
+        '.full-name{font-family:"DM Serif Display",serif;font-size:32px;font-weight:400;color:#0d0d1a;letter-spacing:-.3px;line-height:1}' +
+        '.job-title{margin-top:6px;font-size:10.5px;font-weight:500;color:#4a3070;letter-spacing:3px;text-transform:uppercase}' +
+        '.header-right{text-align:right;font-size:11px;color:#555;line-height:2;flex-shrink:0}' +
+        '.header-right a{color:#4a3070;text-decoration:none}' +
+
+        /* Dark accent bar under header */
+        '.accent-bar{height:3px;background:linear-gradient(90deg,#1c1c28,#4a3070,#1c1c2800);margin-bottom:28px;border-radius:2px}' +
+
+        /* Section */
+        '.section{margin-bottom:24px}' +
+        '.section-title{font-size:9px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:#fff;background:#1c1c28;display:inline-block;padding:3px 10px;border-radius:3px;margin-bottom:13px}' +
+
+        /* Summary */
+        '.summary-text{color:#333;font-size:12.5px;line-height:1.75;font-weight:300}' +
+
+        /* Experience */
+        '.exp-block{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #ede9f5}' +
+        '.exp-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}' +
+        '.exp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px;gap:12px}' +
+        '.exp-left{}' +
+        '.exp-title{font-weight:500;font-size:13px;color:#0d0d1a}' +
+        '.exp-company{font-size:11.5px;color:#4a3070;font-weight:400;margin-top:2px}' +
+        '.exp-meta{text-align:right;font-size:10.5px;color:#888;line-height:1.8;flex-shrink:0}' +
+        '.exp-list{padding-left:14px;color:#333;font-size:12px;font-weight:300}' +
+        '.exp-list li{margin-bottom:4px}' +
+
+        /* Education */
+        '.edu-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}' +
+        '.edu-left{}' +
+        '.edu-degree{font-weight:500;font-size:13px;color:#0d0d1a}' +
+        '.edu-school{font-size:11.5px;color:#4a3070;margin-top:2px}' +
+        '.edu-honors{font-size:10.5px;color:#888;font-style:italic;margin-top:3px}' +
+        '.edu-year{font-size:10.5px;color:#888;text-align:right;flex-shrink:0;padding-top:2px}' +
+
+        /* Skills */
+        '.skills-wrap{display:flex;flex-wrap:wrap;gap:6px}' +
+        '.skill-tag{background:#f5f2ff;color:#3d2070;border:1px solid #d8cff0;border-radius:3px;padding:4px 11px;font-size:11px;font-weight:400;letter-spacing:.3px}' +
+
+        /* Print */
+        '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{padding:36px 40px}}' +
         '</style></head><body><div class="page">' +
+
         '<div class="resume-header">' +
-            '<div><div class="full-name">' + esc(name) + '</div>' +
-            (jobtitle ? '<div class="job-title">' + esc(jobtitle) + '</div>' : '') + '</div>' +
+            '<div>' +
+                '<div class="full-name">' + esc(name) + '</div>' +
+                (jobtitle ? '<div class="job-title">' + esc(jobtitle) + '</div>' : '') +
+            '</div>' +
             '<div class="header-right">' +
                 (email    ? '<div>' + esc(email)    + '</div>' : '') +
                 (phone    ? '<div>' + esc(phone)    + '</div>' : '') +
@@ -2151,7 +2175,9 @@ function downloadResume() {
                 (linkedin ? '<div><a href="' + esc(linkedin) + '">' + esc(linkedin) + '</a></div>' : '') +
             '</div>' +
         '</div>' +
-        (summary ? '<div class="section"><div class="section-title">Professional Summary</div><div class="summary-text">' + esc(summary) + '</div></div>' : '') +
+        '<div class="accent-bar"></div>' +
+
+        (summary ? '<div class="section"><div class="section-title">Profile</div><div class="summary-text">' + esc(summary) + '</div></div>' : '') +
         expHTML + eduHTML + secHTML +
         (skills.length ? '<div class="section"><div class="section-title">Skills</div><div class="skills-wrap">' + skillTags + '</div></div>' : '') +
         '</div></body></html>';
