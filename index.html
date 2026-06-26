@@ -114,39 +114,9 @@ header {
     top: 18px;
     right: 18px;
     z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
-/* Night Shifters Counter */
-.shifters-counter {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    color: #2a5040;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    white-space: nowrap;
-}
 
-.shifters-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: #9dd4bc;
-    box-shadow: 0 0 6px rgba(157,212,188,.5);
-    animation: sdot-pulse 2.2s ease-in-out infinite;
-    flex-shrink: 0;
-}
-
-@keyframes sdot-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: .3; transform: scale(.7); }
-}
-
-.shifters-num { color: #82c8aa; }
 
 .language-select {
     background: #0f172a;
@@ -420,23 +390,7 @@ p { color: #cbd5e1; }
     color: #a78bfa;
 }
 
-/* ── WAVEFORM VISUALIZER ── */
 
-.waveform-wrap {
-    width: 100%;
-    max-width: 560px;
-    margin: 20px auto 0;
-    position: relative;
-    height: 56px;
-}
-
-#waveCanvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    /* fully transparent — blends with page bg */
-    background: transparent;
-}
 
 /* ── SECTION SPACING ── */
 
@@ -1440,11 +1394,7 @@ p { color: #cbd5e1; }
 <header>
 
     <div class="language-box">
-        <div class="shifters-counter">
-            <span class="shifters-dot"></span>
-            <span><span class="shifters-num" id="shiftersNum">1,247</span> online</span>
-        </div>
-        <select class="language-select" id="languageSelect">
+<select class="language-select" id="languageSelect">
             <option value="index.html" selected>🌐 English</option>
             <option value="index-taglish.html">🇵🇭 Taglish</option>
             <option value="#">🇮🇳 Hindi</option>
@@ -1465,10 +1415,6 @@ p { color: #cbd5e1; }
         <span class="tagline-phrase" style="animation-delay: 2s;"> Stay focused.</span>
     </div>
 
-    <!-- Waveform visualizer -->
-    <div class="waveform-wrap">
-        <canvas id="waveCanvas"></canvas>
-    </div>
 
     <div class="clock-bar">
 
@@ -1964,186 +1910,9 @@ function updateClocks() {
         document.getElementById(zone.dateId).textContent = date;
     });
 }
-/* ══════════════════════════════════════════
-   WAVEFORM VISUALIZER
-   Particle-emitting bars that react to audio.
-   Falls back to ambient simulation when no
-   audio is playing.
-   ══════════════════════════════════════════ */
-(function() {
-    var canvas  = document.getElementById('waveCanvas');
-    if (!canvas) return;
-    var ctx     = canvas.getContext('2d');
-    var W, H;
-    var BAR_COUNT   = 48;
-    var analyser    = null;
-    var dataArray   = null;
-    var audioCtxRef = null;
-    var sourceNode  = null;
-    var connected   = false;
-    var particles   = [];
+;
 
-    function resize() {
-        var rect = canvas.getBoundingClientRect();
-        W = canvas.width  = rect.width  * window.devicePixelRatio;
-        H = canvas.height = rect.height * window.devicePixelRatio;
-        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    }
-
-    window.addEventListener('resize', resize);
-    resize();
-
-    /* Try to connect to the existing audio element */
-    function tryConnect() {
-        if (connected) return;
-        var audioEl = document.getElementById('audioEl');
-        if (!audioEl || audioEl.paused) return;
-        try {
-            if (!audioCtxRef) {
-                audioCtxRef = new (window.AudioContext || window.webkitAudioContext)();
-                analyser    = audioCtxRef.createAnalyser();
-                analyser.fftSize = 128;
-                dataArray   = new Uint8Array(analyser.frequencyBinCount);
-                sourceNode  = audioCtxRef.createMediaElementSource(audioEl);
-                sourceNode.connect(analyser);
-                analyser.connect(audioCtxRef.destination);
-            }
-            connected = true;
-        } catch(e) { /* cross-origin or already connected */ }
-    }
-
-    document.addEventListener('play', tryConnect, true);
-
-    /* Particle class */
-    function Particle(x, y, strength) {
-        this.x  = x;
-        this.y  = y;
-        this.vx = (Math.random() - 0.5) * strength * 1.4;
-        this.vy = -(Math.random() * strength * 2 + 0.5);
-        this.life = 1;
-        this.decay = 0.03 + Math.random() * 0.04;
-        this.r = Math.random() * 1.5 + 0.5;
-        this.purple = Math.random() > 0.45;
-    }
-
-    Particle.prototype.update = function() {
-        this.x   += this.vx;
-        this.y   += this.vy;
-        this.vy  += 0.04; /* gravity */
-        this.life -= this.decay;
-    };
-
-    /* Ambient simulation when not connected */
-    var simTime = 0;
-    function getSimBars() {
-        simTime += 0.022;
-        var bars = new Array(BAR_COUNT);
-        for (var i = 0; i < BAR_COUNT; i++) {
-            var freq = i / BAR_COUNT;
-            /* compound sine for organic feel */
-            var v =
-                Math.sin(simTime * 1.3 + freq * 7)  * 0.30 +
-                Math.sin(simTime * 2.1 + freq * 3)  * 0.20 +
-                Math.sin(simTime * 0.7 + freq * 12) * 0.12 +
-                Math.abs(Math.sin(simTime * 3.5 + freq * 5)) * 0.18;
-            /* mid-range bias like real music */
-            var mid = 1 - Math.abs((freq - 0.35) * 2.2);
-            v *= 0.5 + Math.max(0, mid) * 0.5;
-            bars[i] = Math.max(0, Math.min(1, v));
-        }
-        return bars;
-    }
-
-    function draw() {
-        var logicalW = W  / window.devicePixelRatio;
-        var logicalH = H  / window.devicePixelRatio;
-
-        ctx.clearRect(0, 0, logicalW, logicalH);
-
-        /* Get bar heights */
-        var bars;
-        if (connected && dataArray) {
-            analyser.getByteFrequencyData(dataArray);
-            bars = new Array(BAR_COUNT);
-            var step = Math.floor(dataArray.length / BAR_COUNT);
-            for (var i = 0; i < BAR_COUNT; i++) {
-                bars[i] = dataArray[i * step] / 255;
-            }
-        } else {
-            bars = getSimBars();
-        }
-
-        var barW   = logicalW / BAR_COUNT;
-        var maxH   = logicalH * 0.82;
-        var baseY  = logicalH;
-
-        for (var i = 0; i < BAR_COUNT; i++) {
-            var v      = bars[i];
-            var bH     = v * maxH;
-            var x      = i * barW;
-            var cx     = x + barW * 0.5;
-
-            /* Bar gradient — purple at base, mint at tip */
-            var grad = ctx.createLinearGradient(cx, baseY, cx, baseY - bH);
-            grad.addColorStop(0,   'rgba(124,58,237,' + (v * 0.55 + 0.05) + ')');
-            grad.addColorStop(0.6, 'rgba(167,139,250,' + (v * 0.7 + 0.1) + ')');
-            grad.addColorStop(1,   'rgba(157,212,188,' + (v * 0.9 + 0.1) + ')');
-
-            ctx.beginPath();
-            ctx.roundRect
-                ? ctx.roundRect(x + 1, baseY - bH, barW - 2, bH, [2, 2, 0, 0])
-                : ctx.rect(x + 1, baseY - bH, barW - 2, bH);
-            ctx.fillStyle = grad;
-            ctx.fill();
-
-            /* Emit particles from tip on strong beats */
-            if (v > 0.55 && Math.random() < v * 0.35) {
-                particles.push(new Particle(cx, baseY - bH, v));
-            }
-        }
-
-        /* Draw + update particles */
-        for (var j = particles.length - 1; j >= 0; j--) {
-            var p = particles[j];
-            p.update();
-            if (p.life <= 0) { particles.splice(j, 1); continue; }
-
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = p.purple
-                ? 'rgba(167,139,250,' + p.life * 0.8 + ')'
-                : 'rgba(157,212,188,' + p.life * 0.8 + ')';
-            ctx.fill();
-        }
-
-        /* Keep particle count sane */
-        if (particles.length > 220) particles.splice(0, particles.length - 220);
-
-        requestAnimationFrame(draw);
-    }
-
-    draw();
-})();
-
-/* ══════════════════════════════════════════
-   NIGHT SHIFTERS COUNTER — real visitor count
-   Uses a free public counter API (countapi.xyz)
-   to track actual unique page visits.
-   ══════════════════════════════════════════ */
-(function() {
-    var el = document.getElementById('shiftersNum');
-    if (!el) return;
-    /* countapi.xyz — free, no account needed.
-       Replace YOUR-NAMESPACE and YOUR-KEY with
-       any unique strings you choose e.g.
-       "nightgrindhq" and "visitors"           */
-    fetch('https://api.countapi.xyz/hit/nightgrindhq/visitors')
-        .then(function(r){ return r.json(); })
-        .then(function(d){
-            if (d && d.value) el.textContent = d.value.toLocaleString();
-        })
-        .catch(function(){ el.textContent = '—'; });
-})();
+;
 
 /* ══════════════════════════════════════════
    MUSIC PLAYER
