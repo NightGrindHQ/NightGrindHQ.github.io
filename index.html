@@ -1537,7 +1537,50 @@ p { color: #cbd5e1; }
                             <input class="rb-input" id="rb-linkedin" type="text" placeholder="linkedin.com/in/juan">
                         </div>
                     </div>
+                    <div class="rb-row-2">
+                        <div class="rb-field">
+                            <label class="rb-label">Age</label>
+                            <input class="rb-input" id="rb-age" type="text" placeholder="24">
+                        </div>
+                        <div class="rb-field">
+                            <label class="rb-label">Gender</label>
+                            <input class="rb-input" id="rb-gender" type="text" placeholder="Male / Female / Non-binary">
+                        </div>
+                    </div>
+                    <div class="rb-row-2">
+                        <div class="rb-field">
+                            <label class="rb-label">Birthday</label>
+                            <input class="rb-input" id="rb-birthday" type="text" placeholder="January 1, 2000">
+                        </div>
+                        <div class="rb-field">
+                            <label class="rb-label">Religion</label>
+                            <input class="rb-input" id="rb-religion" type="text" placeholder="Roman Catholic">
+                        </div>
+                    </div>
                 </div>
+
+                <div class="rb-group">
+                    <div class="rb-group-label">Professional Details</div>
+                    <div class="rb-row-2">
+                        <div class="rb-field">
+                            <label class="rb-label">Related License</label>
+                            <input class="rb-input" id="rb-license" type="text" placeholder="e.g. PRC Nurse License">
+                        </div>
+                        <div class="rb-field">
+                            <label class="rb-label">License Number</label>
+                            <input class="rb-input" id="rb-license-num" type="text" placeholder="0123456">
+                        </div>
+                    </div>
+                    <div class="rb-row-2">
+                        <div class="rb-field">
+                            <label class="rb-label">Typing Speed</label>
+                            <input class="rb-input" id="rb-typing" type="text" placeholder="65 WPM">
+                        </div>
+                        <div class="rb-field">
+                            <label class="rb-label">Internet Speed</label>
+                            <input class="rb-input" id="rb-internet" type="text" placeholder="100 Mbps Fiber">
+                        </div>
+                    </div>
 
                 <div class="rb-group">
                     <div class="rb-group-label">Professional Summary</div>
@@ -2048,6 +2091,14 @@ function downloadResume() {
     var location = document.getElementById('rb-location').value || '';
     var linkedin = document.getElementById('rb-linkedin').value || '';
     var summary  = document.getElementById('rb-summary').value  || '';
+    var age      = document.getElementById('rb-age').value      || '';
+    var gender   = document.getElementById('rb-gender').value   || '';
+    var birthday = document.getElementById('rb-birthday').value || '';
+    var religion = document.getElementById('rb-religion').value || '';
+    var license    = document.getElementById('rb-license').value     || '';
+    var licenseNum = document.getElementById('rb-license-num').value || '';
+    var typing   = document.getElementById('rb-typing').value   || '';
+    var internet = document.getElementById('rb-internet').value || '';
 
     var eduDegree = document.getElementById('rb-edu-degree').value || '';
     var eduSchool = document.getElementById('rb-edu-school').value || '';
@@ -2155,8 +2206,15 @@ function downloadResume() {
         '.edu-honors{font-size:10.5px;color:#888;font-style:italic;margin-top:3px}' +
         '.edu-year{font-size:10.5px;color:#888;text-align:right;flex-shrink:0;padding-top:2px}' +
 
-        /* Skills */
-        '.skills-wrap{display:flex;flex-wrap:wrap;gap:6px}' +
+        /* Personal Details row */
+        '.personal-details{display:flex;flex-wrap:wrap;gap:6px 20px;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid #ede9f5}' +
+        '.pd-item{font-size:11px;color:#555;display:flex;gap:5px}' +
+        '.pd-label{color:#9090b0;font-weight:500;text-transform:uppercase;letter-spacing:1px;font-size:10px}' +
+
+        /* Professional details */
+        '.pro-details{display:flex;flex-wrap:wrap;gap:6px 24px}' +
+        '.pro-item{font-size:11.5px;color:#333;display:flex;align-items:baseline;gap:6px}' +
+        '.pro-item-label{font-size:9px;color:#9090b0;text-transform:uppercase;letter-spacing:1px;font-weight:500}' +
         '.skill-tag{background:#f5f2ff;color:#3d2070;border:1px solid #d8cff0;border-radius:3px;padding:4px 11px;font-size:11px;font-weight:400;letter-spacing:.3px}' +
 
         /* Print */
