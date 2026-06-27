@@ -172,23 +172,23 @@ header {
 .clock-box {
     position: relative;
     background: #080d14;
-    border: 1px solid #1c2435;
+    border: 1px solid #1e2e3a;
     border-radius: 12px;
     padding: 16px 24px;
     text-align: center;
     min-width: 140px;
     overflow: hidden;
     box-shadow:
-        0 0 0 1px #0d1822,
-        0 0 18px rgba(130,200,170,.03),
+        0 0 0 1px #0d1e28,
+        0 0 22px rgba(100,195,155,.07),
         inset 0 0 30px rgba(0,0,0,.4);
     transition: box-shadow .3s;
 }
 
 .clock-box:hover {
     box-shadow:
-        0 0 0 1px #263545,
-        0 0 24px rgba(130,200,170,.07),
+        0 0 0 1px #2a4040,
+        0 0 32px rgba(100,195,155,.14),
         inset 0 0 30px rgba(0,0,0,.4);
 }
 
@@ -197,7 +197,7 @@ header {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #82c8aa33, transparent);
+    background: linear-gradient(90deg, transparent, #6dc9a055, transparent);
 }
 
 .clock-box::after {
@@ -205,8 +205,8 @@ header {
     position: absolute;
     inset: 0;
     background-image:
-        linear-gradient(rgba(130,200,170,.012) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(130,200,170,.012) 1px, transparent 1px);
+        linear-gradient(rgba(100,195,155,.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100,195,155,.015) 1px, transparent 1px);
     background-size: 12px 12px;
     pointer-events: none;
 }
@@ -221,11 +221,11 @@ header {
 .clock-label {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
-    color: #82c8aa;
+    color: #6dc9a0;
     text-transform: uppercase;
     letter-spacing: 3px;
     margin-bottom: 8px;
-    opacity: .7;
+    opacity: .85;
     position: relative;
     z-index: 1;
 }
@@ -234,11 +234,11 @@ header {
     font-family: 'Share Tech Mono', monospace;
     font-size: 22px;
     font-weight: 400;
-    color: #9dd4bc;
+    color: #84e0b8;
     letter-spacing: 2px;
     text-shadow:
-        0 0 8px rgba(130,200,170,.28),
-        0 0 20px rgba(100,170,140,.14);
+        0 0 10px rgba(100,210,160,.55),
+        0 0 24px rgba(80,185,135,.28);
     position: relative;
     z-index: 1;
 }
@@ -246,7 +246,7 @@ header {
 .clock-date {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
-    color: #2a5040;
+    color: #2e6050;
     letter-spacing: 2px;
     margin-top: 6px;
     text-transform: uppercase;
@@ -2350,8 +2350,13 @@ function generateResume() {
 
     function resize() {
         var rect = canvas.parentElement.getBoundingClientRect();
-        W = canvas.width  = rect.width  * (window.devicePixelRatio || 1);
-        H = canvas.height = rect.height * (window.devicePixelRatio || 1);
+        /* Set canvas buffer to exact CSS pixel size — no DPR scaling.
+           DPR scaling was causing the bars to render in left fraction
+           only, with a hard line where the buffer ended. */
+        canvas.width  = Math.floor(rect.width);
+        canvas.height = Math.floor(rect.height);
+        W = canvas.width;
+        H = canvas.height;
     }
 
     window.addEventListener('resize', resize);
@@ -2420,9 +2425,8 @@ function generateResume() {
         if (!animActive) return;
         rafId = requestAnimationFrame(draw);
 
-        var dpr    = window.devicePixelRatio || 1;
-        var logicW = W / dpr;
-        var logicH = H / dpr;
+        var logicW = W;
+        var logicH = H;
 
         ctx.clearRect(0, 0, logicW, logicH);
 
