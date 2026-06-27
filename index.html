@@ -136,14 +136,13 @@ header {
 /* ── WAVEFORM VISUALIZER ── */
 
 .waveform-wrap {
-    width: 100%;
-    max-width: 560px;
-    margin: 20px auto 0;
-    height: 56px;
+    width: 70%;
+    max-width: 480px;
+    margin: 18px auto 0;
+    height: 44px;
     position: relative;
-    display: flex;
-    justify-content: center;
-    overflow: hidden; /* clips any shadow bleed at edges */
+    display: block;
+    overflow: hidden;
 }
 
 #waveCanvas {
@@ -2350,13 +2349,14 @@ function generateResume() {
 
     function resize() {
         var rect = canvas.parentElement.getBoundingClientRect();
-        /* Set canvas buffer to exact CSS pixel size — no DPR scaling.
-           DPR scaling was causing the bars to render in left fraction
-           only, with a hard line where the buffer ended. */
-        canvas.width  = Math.floor(rect.width);
-        canvas.height = Math.floor(rect.height);
-        W = canvas.width;
-        H = canvas.height;
+        var dpr  = window.devicePixelRatio || 1;
+        /* Set buffer at device resolution for crisp rendering,
+           then scale ctx down so drawing coords stay in CSS pixels */
+        canvas.width  = Math.floor(rect.width  * dpr);
+        canvas.height = Math.floor(rect.height * dpr);
+        W = Math.floor(rect.width);
+        H = Math.floor(rect.height);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     window.addEventListener('resize', resize);
