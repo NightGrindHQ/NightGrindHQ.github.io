@@ -133,6 +133,29 @@ header {
     border-color: #5b6cff;
 }
 
+/* ── WAVEFORM VISUALIZER ── */
+
+.waveform-wrap {
+    width: 100%;
+    max-width: 560px;
+    margin: 20px auto 0;
+    height: 56px;
+    position: relative;
+}
+
+#waveCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    opacity: 0;
+    transition: opacity .6s ease;
+}
+
+#waveCanvas.active {
+    opacity: 1;
+}
+
 /* ── CLOCKS ── */
 
 .clock-bar {
@@ -1415,6 +1438,10 @@ p { color: #cbd5e1; }
         <span class="tagline-phrase" style="animation-delay: 2s;"> Stay focused.</span>
     </div>
 
+    <!-- Waveform visualizer — only animates when music plays -->
+    <div class="waveform-wrap">
+        <canvas id="waveCanvas"></canvas>
+    </div>
 
     <div class="clock-bar">
 
@@ -1732,19 +1759,6 @@ p { color: #cbd5e1; }
 
 </div>
 
-<!-- ── ROTATING QUOTES ── -->
-<div class="quotes-section">
-    <div class="quote-inner">
-        <div class="quote-dash-left"></div>
-        <div class="quote-body">
-            <div class="quote-text" id="rotQuoteText"></div>
-            <div class="quote-author" id="rotQuoteAuthor"></div>
-        </div>
-        <div class="quote-dash-right"></div>
-    </div>
-    <div class="quote-dots" id="rotQuoteDots"></div>
-</div>
-
 <!-- ── FOOTER ── -->
 <footer class="site-footer">
 
@@ -1910,9 +1924,8 @@ function updateClocks() {
         document.getElementById(zone.dateId).textContent = date;
     });
 }
-;
-
-;
+updateClocks();
+setInterval(updateClocks, 1000);
 
 /* ══════════════════════════════════════════
    MUSIC PLAYER
@@ -1922,9 +1935,7 @@ function updateClocks() {
    ══════════════════════════════════════════ */
 
 var playlist = [
-    { title: "Track 01 — Night Loop",  file: "track-01.mp3", duration: "3:42" },
-    { title: "Track 02 — Deep Focus",  file: "track-02.mp3", duration: "4:15" },
-    { title: "Track 03 — Grind Mode",  file: "track-03.mp3", duration: "5:01" }
+    { title: "Moldavite — Untouchable", file: "Moldavite - Untouchable.mp3", duration: "" }
 ];
 
 var currentIndex = 0;
@@ -2309,57 +2320,172 @@ function collectTrainingData() {
 /* Seed one training block */
 addTrainingBlock();
 
-/* ══════════════════════════════════════════
-   ROTATING QUOTES
-   ══════════════════════════════════════════ */
-(function() {
-    var quotes = [
-        { text: "The night belongs to those who refuse to waste it.",             author: "— HQ Intel" },
-        { text: "Discipline is choosing between what you want now and what you want most.", author: "— Abraham Lincoln" },
-        { text: "Every shift is a deposit. Every shortcut is a withdrawal. Your future self is watching.",  author: "— HQ Intel" },
-        { text: "Most people sleep through the hours that could change their lives.", author: "— HQ Intel" },
-        { text: "The grind you avoid today becomes the gap tomorrow.",             author: "— HQ Intel" },
-    ];
-
-    var textEl  = document.getElementById('rotQuoteText');
-    var authEl  = document.getElementById('rotQuoteAuthor');
-    var dotsEl  = document.getElementById('rotQuoteDots');
-    var current = 0;
-
-    if (!textEl) return;
-
-    quotes.forEach(function(_, i) {
-        var d = document.createElement('div');
-        d.className = 'quote-dot' + (i === 0 ? ' active' : '');
-        d.addEventListener('click', function() { clearInterval(timer); showQuote(i); });
-        dotsEl.appendChild(d);
-    });
-
-    function showQuote(index) {
-        current = index;
-        textEl.classList.add('fade-out');
-        authEl.classList.add('fade-out');
-        setTimeout(function() {
-            textEl.textContent = quotes[index].text;
-            authEl.textContent = quotes[index].author;
-            textEl.classList.remove('fade-out');
-            authEl.classList.remove('fade-out');
-            dotsEl.querySelectorAll('.quote-dot').forEach(function(d, i) {
-                d.classList.toggle('active', i === index);
-            });
-        }, 560);
-    }
-
-    showQuote(0);
-
-    var timer = setInterval(function() {
-        showQuote((current + 1) % quotes.length);
-    }, 8000);
-})();
+;
 
 function generateResume() {
     document.getElementById('rbDownloadWrap').classList.add('visible');
 }
+
+/* ══════════════════════════════════════════
+   WAVEFORM VISUALIZER
+   Only animates when music is actually playing.
+   Invisible when idle.
+   ══════════════════════════════════════════ */
+(function() {
+    var canvas = document.getElementById('waveCanvas');
+    if (!canvas) return;
+    var ctx    = canvas.getContext('2d');
+    var W, H;
+    var BAR_COUNT  = 48;
+    var analyser   = null;
+    var dataArray  = null;
+    var audioCtx   = null;
+    var connected  = false;
+    var particles  = [];
+    var animActive = false;
+    var rafId      = null;
+
+    function resize() {
+        var rect = canvas.parentElement.getBoundingClientRect();
+        W = canvas.width  = rect.width  * (window.devicePixelRatio || 1);
+        H = canvas.height = rect.height * (window.devicePixelRatio || 1);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    /* Particle */
+    function Particle(x, y, strength) {
+        this.x    = x;
+        this.y    = y;
+        this.vx   = (Math.random() - 0.5) * strength * 1.2;
+        this.vy   = -(Math.random() * strength * 2.2 + 0.6);
+        this.life = 1;
+        this.decay = 0.028 + Math.random() * 0.04;
+        this.r    = Math.random() * 1.6 + 0.4;
+        this.mint = Math.random() > 0.5;
+    }
+
+    Particle.prototype.update = function() {
+        this.x    += this.vx;
+        this.y    += this.vy;
+        this.vy   += 0.045;
+        this.life -= this.decay;
+    };
+
+    function tryConnect() {
+        if (connected) return;
+        var audioEl = document.getElementById('audioEl');
+        if (!audioEl) return;
+        try {
+            if (!audioCtx) {
+                audioCtx  = new (window.AudioContext || window.webkitAudioContext)();
+                analyser  = audioCtx.createAnalyser();
+                analyser.fftSize = 128;
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                var src   = audioCtx.createMediaElementSource(audioEl);
+                src.connect(analyser);
+                analyser.connect(audioCtx.destination);
+            }
+            connected = true;
+        } catch(e) {}
+    }
+
+    function startViz() {
+        tryConnect();
+        canvas.classList.add('active');
+        if (!animActive) { animActive = true; draw(); }
+    }
+
+    function stopViz() {
+        canvas.classList.remove('active');
+        animActive = false;
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        if (ctx) ctx.clearRect(0, 0, W, H);
+        particles = [];
+    }
+
+    /* Hook into existing setPlayingState */
+    var _origSetPlayingState = window.setPlayingState;
+    window.setPlayingState = function(playing) {
+        _origSetPlayingState(playing);
+        if (playing) startViz();
+        else         stopViz();
+    };
+
+    function draw() {
+        if (!animActive) return;
+        rafId = requestAnimationFrame(draw);
+
+        var dpr    = window.devicePixelRatio || 1;
+        var logicW = W / dpr;
+        var logicH = H / dpr;
+
+        ctx.clearRect(0, 0, logicW, logicH);
+
+        var bars = new Array(BAR_COUNT);
+        if (connected && dataArray && analyser) {
+            analyser.getByteFrequencyData(dataArray);
+            var step = Math.floor(dataArray.length / BAR_COUNT);
+            for (var i = 0; i < BAR_COUNT; i++) bars[i] = dataArray[i * step] / 255;
+        } else {
+            for (var i = 0; i < BAR_COUNT; i++) bars[i] = 0;
+        }
+
+        var barW  = logicW / BAR_COUNT;
+        var maxH  = logicH * 0.88;
+        var baseY = logicH;
+
+        for (var i = 0; i < BAR_COUNT; i++) {
+            var v  = bars[i];
+            var bH = v * maxH;
+            var cx = i * barW + barW * 0.5;
+
+            if (bH < 1) continue;
+
+            var grad = ctx.createLinearGradient(cx, baseY, cx, baseY - bH);
+            grad.addColorStop(0,   'rgba(124,58,237,'   + (v * 0.5 + 0.04) + ')');
+            grad.addColorStop(0.55,'rgba(167,139,250,'  + (v * 0.65 + 0.08) + ')');
+            grad.addColorStop(1,   'rgba(157,212,188,'  + (v * 0.85 + 0.1) + ')');
+
+            /* Glow */
+            ctx.shadowColor = 'rgba(167,139,250,' + v * 0.5 + ')';
+            ctx.shadowBlur  = 8 * v;
+
+            ctx.beginPath();
+            if (ctx.roundRect) {
+                ctx.roundRect(i * barW + 1, baseY - bH, barW - 2, bH, [2, 2, 0, 0]);
+            } else {
+                ctx.rect(i * barW + 1, baseY - bH, barW - 2, bH);
+            }
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            ctx.shadowBlur = 0;
+
+            /* Particles on strong beats */
+            if (v > 0.5 && Math.random() < v * 0.3) {
+                particles.push(new Particle(cx, baseY - bH, v));
+            }
+        }
+
+        /* Draw particles */
+        ctx.shadowBlur = 0;
+        for (var j = particles.length - 1; j >= 0; j--) {
+            var p = particles[j];
+            p.update();
+            if (p.life <= 0) { particles.splice(j, 1); continue; }
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = p.mint
+                ? 'rgba(157,212,188,' + (p.life * 0.75) + ')'
+                : 'rgba(167,139,250,' + (p.life * 0.75) + ')';
+            ctx.fill();
+        }
+
+        if (particles.length > 200) particles.splice(0, particles.length - 200);
+    }
+})();
 
 </script>
 
