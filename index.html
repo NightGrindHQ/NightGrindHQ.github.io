@@ -141,6 +141,9 @@ header {
     margin: 20px auto 0;
     height: 56px;
     position: relative;
+    display: flex;
+    justify-content: center;
+    overflow: hidden; /* clips any shadow bleed at edges */
 }
 
 #waveCanvas {
@@ -2461,7 +2464,8 @@ function generateResume() {
             ctx.fillStyle = grad;
             ctx.fill();
 
-            ctx.shadowBlur = 0;
+            ctx.shadowBlur  = 0;
+            ctx.shadowColor = 'transparent';
 
             /* Particles on strong beats */
             if (v > 0.5 && Math.random() < v * 0.3) {
