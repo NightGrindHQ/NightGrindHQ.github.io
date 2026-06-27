@@ -84,11 +84,42 @@ hr {
 .back:hover {
   text-decoration: underline;
 }
+
+.language-box {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+}
+
+.language-select {
+  background: #0f172a;
+  color: #cbd5e1;
+  border: 1px solid #243244;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+.language-select:hover {
+  border-color: #5b6cff;
+}
 </style>
 
 </head>
 
 <body>
+
+<div class="language-box">
+  <select class="language-select" id="languageSelect">
+    <option value="voice-nonvoice-strat.html">🌐 English</option>
+    <option value="voice-nonvoice-strat-taglish.html" selected>🇵🇭 Taglish</option>
+    <option value="#">🇮🇳 Hindi</option>
+    <option value="#">🇪🇸 Español</option>
+  </select>
+</div>
 
 <header>
   <h1>Voice / Non-Voice Applicant Strat</h1>
@@ -202,6 +233,14 @@ Hindi brilliance. Hindi charm. Ang kailangan lang nila ay taong stable nang mata
 
 </div>
 
+<script>
+document.getElementById("languageSelect").addEventListener("change", function(){
+  const selectedPage = this.value;
+  if(selectedPage !== "#"){
+    window.location.href = selectedPage;
+  }
+});
+</script>
+
 </body>
 </html>
-
