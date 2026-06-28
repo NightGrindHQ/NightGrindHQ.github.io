@@ -24,8 +24,6 @@ body {
     user-select: none;
 }
 
-/* ── HEADER ── */
-
 header {
     position: relative;
     text-align: center;
@@ -34,14 +32,11 @@ header {
     padding: 60px 20px 48px;
 }
 
-/* ── MAIN TITLE — E style + C coloring ── */
-
 .site-title-wrap {
     display: inline-block;
     position: relative;
 }
 
-/* Pulsing glow aura behind title */
 .site-title-wrap::before {
     content: '';
     position: absolute;
@@ -94,7 +89,6 @@ header {
     font-size: 16px;
 }
 
-/* Tagline phrase-by-phrase slow fade */
 .tagline-phrase {
     display: inline;
     opacity: 0;
@@ -106,8 +100,6 @@ header {
     30%  { opacity: 0; }
     100% { opacity: 1; }
 }
-
-/* ── LANGUAGE SELECTOR ── */
 
 .language-box {
     position: absolute;
@@ -131,13 +123,13 @@ header {
     border-color: #5b6cff;
 }
 
-/* ── WAVEFORM VISUALIZER ── */
+/* ── WAVEFORM VISUALIZER — 10% smaller than previous (56% → ~50%, 384→346, 35→32) ── */
 
 .waveform-wrap {
-    width: 56%;
-    max-width: 384px;
+    width: 50%;
+    max-width: 346px;
     margin: 18px auto 0;
-    height: 35px;
+    height: 32px;
     position: relative;
     display: block;
     overflow: hidden;
@@ -155,8 +147,6 @@ header {
 #waveCanvas.active {
     opacity: 1;
 }
-
-/* ── CLOCKS ── */
 
 .clock-bar {
     display: flex;
@@ -261,8 +251,6 @@ header {
     50%       { opacity: 0; }
 }
 
-/* ── HERO ── */
-
 .hero {
     position: relative;
     height: 420px;
@@ -306,8 +294,6 @@ header {
     color: #cbd5e1;
 }
 
-/* ── LAYOUT ── */
-
 .container {
     max-width: 850px;
     margin: auto;
@@ -315,10 +301,6 @@ header {
 }
 
 p { color: #cbd5e1; }
-
-/* ────────────────────────────────────────────
-   BORDERLESS HQ ARTICLES
-   ──────────────────────────────────────────── */
 
 .hq-section {
     margin-bottom: 22px;
@@ -388,8 +370,6 @@ p { color: #cbd5e1; }
     margin: 14px 0 20px;
 }
 
-/* ── STATIC QUOTE ── */
-
 .hq-quote {
     display: flex;
     align-items: center;
@@ -412,8 +392,6 @@ p { color: #cbd5e1; }
     text-transform: uppercase;
     color: #a78bfa;
 }
-
-/* ── SECTION SPACING ── */
 
 .hq-section {
     margin-bottom: 52px;
@@ -527,8 +505,6 @@ p { color: #cbd5e1; }
     color: #c4b5fd;
 }
 
-/* ── GLITCH DRAWER ── */
-
 .glitch-drawer {
     display: grid;
     grid-template-rows: 0fr;
@@ -550,8 +526,6 @@ p { color: #cbd5e1; }
     display: flex;
     flex-direction: column;
 }
-
-/* ── ARTICLE ROWS ── */
 
 .intel-item {
     display: flex;
@@ -623,8 +597,6 @@ p { color: #cbd5e1; }
 
 @keyframes intel-in { to { opacity: 1; transform: translateY(0); } }
 
-/* ── MISC ── */
-
 .big-button {
     display: block;
     padding: 15px;
@@ -654,9 +626,7 @@ p { color: #cbd5e1; }
     background: #101a2c;
 }
 
-/* ────────────────────────────────────────────
-   FLOATING MUSIC PLAYER
-   ──────────────────────────────────────────── */
+/* ── FLOATING MUSIC PLAYER ── */
 
 .player-wrap {
     position: fixed;
@@ -996,9 +966,7 @@ p { color: #cbd5e1; }
     color: #2a2a38;
 }
 
-/* ────────────────────────────────────────────
-   RESUME BUILDER
-   ──────────────────────────────────────────── */
+/* ── RESUME BUILDER ── */
 
 .rb-section {
     margin-top: 28px;
@@ -1341,9 +1309,89 @@ p { color: #cbd5e1; }
     box-shadow: 0 0 16px rgba(80,80,120,.15);
 }
 
-/* ────────────────────────────────────────────
-   FOOTER
-   ──────────────────────────────────────────── */
+/* ── PHOTO UPLOAD ── */
+
+.rb-photo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.rb-photo-preview {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    border: 2px dashed #3d2466;
+    background: #10101e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.rb-photo-preview:hover {
+    border-color: #7c3aed;
+    box-shadow: 0 0 16px rgba(124,58,237,.2);
+}
+
+.rb-photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    border-radius: 50%;
+}
+
+.rb-photo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.rb-photo-placeholder svg { opacity: .3; }
+
+.rb-photo-placeholder span {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: #44405a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.rb-photo-input { display: none; }
+
+.rb-photo-hint {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: #3d2466;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.rb-photo-remove {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: #7a3535;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    display: none;
+    transition: color .2s;
+}
+
+.rb-photo-remove:hover { color: #f87171; }
+
+/* ── FOOTER ── */
 
 .site-footer {
     margin-top: 80px;
@@ -1429,7 +1477,6 @@ p { color: #cbd5e1; }
         <span class="tagline-phrase" style="animation-delay: 2s;"> Stay focused.</span>
     </div>
 
-    <!-- Waveform visualizer — only animates when music plays -->
     <div class="waveform-wrap">
         <canvas id="waveCanvas"></canvas>
     </div>
@@ -1556,6 +1603,29 @@ p { color: #cbd5e1; }
         <div class="rb-drawer" id="rbDrawer">
             <div class="rb-drawer-inner">
 
+                <!-- ── PHOTO UPLOAD ── -->
+                <div class="rb-group">
+                    <div class="rb-group-label">Profile Photo <span style="color:#3d2466;letter-spacing:1px;">(Optional)</span></div>
+                    <div class="rb-photo-wrap">
+                        <div class="rb-photo-preview" id="rbPhotoPreview" onclick="document.getElementById('rbPhotoInput').click()">
+                            <div class="rb-photo-placeholder" id="rbPhotoPlaceholder">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="8" r="4" stroke="#7c3aed" stroke-width="1.5"/>
+                                    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <span>Upload Photo</span>
+                            </div>
+                            <img id="rbPhotoImg" src="" alt="Profile photo">
+                        </div>
+                        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+                            <span class="rb-photo-hint">JPG, PNG · Max 5 MB · Optional</span>
+                            <button class="rb-photo-remove" id="rbPhotoRemove" onclick="removePhoto()">✕ Remove photo</button>
+                        </div>
+                    </div>
+                    <input class="rb-photo-input" type="file" id="rbPhotoInput" accept="image/*" onchange="handlePhotoUpload(event)">
+                </div>
+
+                <!-- ── PERSONAL INFO ── -->
                 <div class="rb-group">
                     <div class="rb-group-label">Personal Info</div>
                     <div class="rb-row-2">
@@ -1708,17 +1778,7 @@ p { color: #cbd5e1; }
                     </div>
                 </div>
 
-                <div class="rb-group">
-                    <div class="rb-group-header">
-                        <div class="rb-group-label">Character References</div>
-                        <button class="rb-add-btn" onclick="addRefBlock()">
-                            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                            Add
-                        </button>
-                    </div>
-                    <div id="rb-ref-list"></div>
-                </div>
-
+                <!-- ── TRAININGS & SEMINARS (moved up) ── -->
                 <div class="rb-group">
                     <div class="rb-group-header">
                         <div class="rb-group-label">Trainings &amp; Seminars</div>
@@ -1728,6 +1788,18 @@ p { color: #cbd5e1; }
                         </button>
                     </div>
                     <div id="rb-training-list"></div>
+                </div>
+
+                <!-- ── CHARACTER REFERENCES (moved to last) ── -->
+                <div class="rb-group">
+                    <div class="rb-group-header">
+                        <div class="rb-group-label">Character References</div>
+                        <button class="rb-add-btn" onclick="addRefBlock()">
+                            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            Add
+                        </button>
+                    </div>
+                    <div id="rb-ref-list"></div>
                 </div>
 
                 <div class="rb-actions">
@@ -1924,9 +1996,9 @@ setInterval(updateClocks, 1000);
    MUSIC PLAYER — FADE-IN + CROSSFADE
    ══════════════════════════════════════════ */
 
-var FADE_IN_DURATION    = 2000; /* ms — volume ramps from 0 to target over 2 s on first play */
-var CROSSFADE_DURATION  = 2000; /* ms — outgoing track fades out while incoming fades in */
-var CROSSFADE_START     = 8;    /* seconds before end of track to begin crossfade */
+var FADE_IN_DURATION    = 2000;
+var CROSSFADE_DURATION  = 2000;
+var CROSSFADE_START     = 8;
 
 var playlist = [
     { title: "Moldavite — Untouchable",    file: "Moldavite - Untouchable.mp3",  duration: "" },
@@ -1939,18 +2011,16 @@ var isPlaying     = false;
 var isPanelOpen   = false;
 var isShuffled    = false;
 var isLooping     = false;
-var userVolume    = 0.8; /* master volume the user sets */
+var userVolume    = 0.8;
 
-/* Dual audio elements for crossfade */
 var audioA        = document.getElementById('audioEl');
 var audioB        = document.getElementById('audioElB');
-var activeAudio   = audioA;   /* the one currently playing / fading in */
-var inactiveAudio = audioB;   /* the one about to take over            */
+var activeAudio   = audioA;
+var inactiveAudio = audioB;
 
-/* State flags */
-var crossfadeTimer      = null;  /* setInterval handle for crossfade */
+var crossfadeTimer      = null;
 var isCrossfading       = false;
-var fadeInInterval      = null;  /* rAF / interval for initial fade-in */
+var fadeInInterval      = null;
 
 var playerWrap   = document.getElementById('playerWrap');
 var pillTrack    = document.getElementById('pillTrack');
@@ -1960,7 +2030,6 @@ var timeCurrent  = document.getElementById('timeCurrent');
 var timeDuration = document.getElementById('timeDuration');
 var trackListEl  = document.getElementById('trackList');
 
-/* Build tracklist UI */
 playlist.forEach(function(t, i) {
     var row = document.createElement('div');
     row.className = 'track-row' + (i === 0 ? ' active' : '');
@@ -1973,7 +2042,6 @@ playlist.forEach(function(t, i) {
     trackListEl.appendChild(row);
 });
 
-/* ── helpers ── */
 function fmtTime(s) {
     if (isNaN(s) || !isFinite(s)) return '0:00';
     var m = Math.floor(s / 60), sec = Math.floor(s % 60);
@@ -1998,7 +2066,6 @@ function clearFadeIn() {
     if (fadeInInterval) { clearInterval(fadeInInterval); fadeInInterval = null; }
 }
 
-/* ── Fade-in: ramp activeAudio from 0 → userVolume over FADE_IN_DURATION ── */
 function startFadeIn() {
     clearFadeIn();
     activeAudio.volume = 0;
@@ -2013,7 +2080,6 @@ function startFadeIn() {
     }, stepTime);
 }
 
-/* ── Crossfade: outgoing fades out, incoming fades in simultaneously ── */
 function startCrossfade(nextIndex) {
     if (isCrossfading) return;
     isCrossfading = true;
@@ -2021,7 +2087,6 @@ function startCrossfade(nextIndex) {
     var outgoing = activeAudio;
     var incoming = inactiveAudio;
 
-    /* Prepare incoming */
     incoming.src    = playlist[nextIndex].file;
     incoming.volume = 0;
     incoming.play().catch(function(){});
@@ -2040,39 +2105,27 @@ function startCrossfade(nextIndex) {
             clearCrossfade();
             outgoing.pause();
             outgoing.src = '';
-
-            /* Swap roles */
             activeAudio   = incoming;
             inactiveAudio = outgoing;
-
             currentIndex = nextIndex;
             updateTrackUI(nextIndex);
-            /* Wire progress to new active */
         }
     }, stepTime);
 }
 
-/* ── Load & play a track on activeAudio with 2 s fade-in ── */
 function loadTrack(index, autoplay) {
     clearCrossfade();
     clearFadeIn();
-
-    /* Stop the inactive audio too (in case mid-crossfade) */
     inactiveAudio.pause();
     inactiveAudio.src = '';
-
     currentIndex = index;
     var t = playlist[index];
-
     activeAudio.src    = t.file;
     activeAudio.volume = 0;
-
     progressFill.style.width = '0%';
     timeCurrent.textContent  = '0:00';
     timeDuration.textContent = t.duration;
-
     updateTrackUI(index);
-
     if (autoplay) {
         activeAudio.play().then(function() {
             setPlayingState(true);
@@ -2083,18 +2136,13 @@ function loadTrack(index, autoplay) {
     }
 }
 
-/* ── Play / Pause ── */
 function togglePlay(e) {
     if (e) e.stopPropagation();
-
-    /* Nothing loaded yet */
     if (!activeAudio.src || activeAudio.src === window.location.href) {
         loadTrack(0, true);
         return;
     }
-
     if (isPlaying) {
-        /* Pause: clear any ongoing fade */
         clearFadeIn();
         clearCrossfade();
         activeAudio.pause();
@@ -2102,7 +2150,6 @@ function togglePlay(e) {
     } else {
         activeAudio.play().then(function() {
             setPlayingState(true);
-            /* Resume: fade back in from wherever volume was */
             startFadeIn();
         }).catch(function(){});
     }
@@ -2118,7 +2165,6 @@ function setPlayingState(playing) {
     playerWrap.classList.toggle('playing', playing);
 }
 
-/* ── Prev / Next ── */
 function prevTrack() {
     var i = (currentIndex - 1 + playlist.length) % playlist.length;
     loadTrack(i, isPlaying);
@@ -2139,16 +2185,12 @@ function nextTrack() {
     }
 }
 
-/* ── Progress & seeking ── */
-/* Poll active audio for timeupdate (works for both A and B) */
 setInterval(function() {
     var a = activeAudio;
     if (a.duration) {
         progressFill.style.width = (a.currentTime / a.duration * 100) + '%';
         timeCurrent.textContent  = fmtTime(a.currentTime);
         timeDuration.textContent = fmtTime(a.duration);
-
-        /* Trigger crossfade when close to the end */
         if (
             isPlaying &&
             !isCrossfading &&
@@ -2178,16 +2220,13 @@ function seekAudio(e) {
     }
 }
 
-/* ── Volume ── */
 function setVolume(val) {
     userVolume = parseFloat(val);
-    /* Only apply directly if not mid-fade; fades use userVolume as ceiling */
     if (!fadeInInterval && !isCrossfading) {
         activeAudio.volume = userVolume;
     }
 }
 
-/* ── Shuffle / Loop ── */
 function toggleShuffle() {
     isShuffled = !isShuffled;
     document.getElementById('shuffleBtn').classList.toggle('active', isShuffled);
@@ -2200,7 +2239,6 @@ function toggleLoop() {
     document.getElementById('loopBtn').classList.toggle('active', isLooping);
 }
 
-/* ── Panel toggle ── */
 document.getElementById('playerPill').addEventListener('click', function(e) {
     if (e.target.closest('.pill-btn') || e.target.closest('.pill-chevron')) return;
     togglePanel(e);
@@ -2217,7 +2255,6 @@ function togglePanel(e) {
     }
 }
 
-/* Set initial pill / panel labels */
 pillTrack.textContent    = playlist[0].title;
 panelTrack.textContent   = playlist[0].title;
 timeDuration.textContent = playlist[0].duration;
@@ -2237,6 +2274,36 @@ function toggleResume() {
     document.getElementById('rbDrawer').classList.toggle('open', rbOpen);
 }
 
+/* ── PHOTO UPLOAD ── */
+function handlePhotoUpload(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+        var img = document.getElementById('rbPhotoImg');
+        var placeholder = document.getElementById('rbPhotoPlaceholder');
+        var removeBtn   = document.getElementById('rbPhotoRemove');
+        img.src = ev.target.result;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+        removeBtn.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+}
+
+function removePhoto() {
+    var img         = document.getElementById('rbPhotoImg');
+    var placeholder = document.getElementById('rbPhotoPlaceholder');
+    var removeBtn   = document.getElementById('rbPhotoRemove');
+    var input       = document.getElementById('rbPhotoInput');
+    img.src = '';
+    img.style.display = 'none';
+    placeholder.style.display = 'flex';
+    removeBtn.style.display = 'none';
+    input.value = '';
+}
+
+/* ── WORK EXPERIENCE ── */
 function initExpBlocks() {
     addExpBlock('Agent / Specialist', 'Accenture Manila', 'Jan 2022 – Present', 'Taguig, PH',
         '• Handled 80+ inbound calls daily\n• Maintained 96% CSAT score\n• Trained 3 new agents');
@@ -2319,10 +2386,7 @@ function collectExpData() {
 
 initExpBlocks();
 
-/* ══════════════════════════════════════════
-   CHARACTER REFERENCES
-   ══════════════════════════════════════════ */
-
+/* ── CHARACTER REFERENCES ── */
 var refCount = 0;
 
 function addRefBlock(namePH, titlePH, compPH, phonePH, emailPH) {
@@ -2400,10 +2464,7 @@ function collectRefData() {
 
 addRefBlock();
 
-/* ══════════════════════════════════════════
-   TRAININGS & SEMINARS
-   ══════════════════════════════════════════ */
-
+/* ── TRAININGS & SEMINARS ── */
 var trainingCount = 0;
 
 function addTrainingBlock(titlePH, orgPH, datePH, descPH) {
