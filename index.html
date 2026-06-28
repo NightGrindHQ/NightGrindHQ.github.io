@@ -116,8 +116,6 @@ header {
     z-index: 100;
 }
 
-
-
 .language-select {
     background: #0f172a;
     color: #cbd5e1;
@@ -414,8 +412,6 @@ p { color: #cbd5e1; }
     text-transform: uppercase;
     color: #a78bfa;
 }
-
-
 
 /* ── SECTION SPACING ── */
 
@@ -1262,13 +1258,6 @@ p { color: #cbd5e1; }
     flex-direction: column;
     gap: 12px;
 }
-    display: flex;
-    gap: 14px;
-    padding: 16px;
-    background: #0a0812;
-    border: 1px solid #1a1028;
-    border-radius: 8px;
-}
 
 .rb-exp-num {
     font-family: 'Share Tech Mono', monospace;
@@ -1419,7 +1408,7 @@ p { color: #cbd5e1; }
 <header>
 
     <div class="language-box">
-<select class="language-select" id="languageSelect">
+        <select class="language-select" id="languageSelect">
             <option value="index.html" selected>🌐 English</option>
             <option value="index-taglish.html">🇵🇭 Taglish</option>
             <option value="#">🇮🇳 Hindi</option>
@@ -1865,7 +1854,9 @@ p { color: #cbd5e1; }
 
 </div>
 
+<!-- Two audio elements for crossfade -->
 <audio id="audioEl"></audio>
+<audio id="audioElB"></audio>
 
 <script>
 
@@ -1930,23 +1921,37 @@ updateClocks();
 setInterval(updateClocks, 1000);
 
 /* ══════════════════════════════════════════
-   MUSIC PLAYER
-   ══════════════════════════════════════════
-   Add your .mp3 files to the same folder as
-   index.html and update the playlist below.
+   MUSIC PLAYER — FADE-IN + CROSSFADE
    ══════════════════════════════════════════ */
 
+var FADE_IN_DURATION    = 2000; /* ms — volume ramps from 0 to target over 2 s on first play */
+var CROSSFADE_DURATION  = 2000; /* ms — outgoing track fades out while incoming fades in */
+var CROSSFADE_START     = 8;    /* seconds before end of track to begin crossfade */
+
 var playlist = [
-    { title: "Moldavite — Untouchable", file: "Moldavite - Untouchable.mp3", duration: "" }
+    { title: "Moldavite — Untouchable",    file: "Moldavite - Untouchable.mp3",  duration: "" },
+    { title: "Cody Martin — Mayhem",       file: "Cody Martin - Mayhem.mp3",     duration: "" },
+    { title: "Code Kunst — Wake Up",       file: "Code Kunst - Wake Up.mp3",     duration: "" }
 ];
 
-var currentIndex = 0;
-var isPlaying    = false;
-var isPanelOpen  = false;
-var isShuffled   = false;
-var isLooping    = false;
+var currentIndex  = 0;
+var isPlaying     = false;
+var isPanelOpen   = false;
+var isShuffled    = false;
+var isLooping     = false;
+var userVolume    = 0.8; /* master volume the user sets */
 
-var audio        = document.getElementById('audioEl');
+/* Dual audio elements for crossfade */
+var audioA        = document.getElementById('audioEl');
+var audioB        = document.getElementById('audioElB');
+var activeAudio   = audioA;   /* the one currently playing / fading in */
+var inactiveAudio = audioB;   /* the one about to take over            */
+
+/* State flags */
+var crossfadeTimer      = null;  /* setInterval handle for crossfade */
+var isCrossfading       = false;
+var fadeInInterval      = null;  /* rAF / interval for initial fade-in */
+
 var playerWrap   = document.getElementById('playerWrap');
 var pillTrack    = document.getElementById('pillTrack');
 var panelTrack   = document.getElementById('panelTrack');
@@ -1955,6 +1960,7 @@ var timeCurrent  = document.getElementById('timeCurrent');
 var timeDuration = document.getElementById('timeDuration');
 var trackListEl  = document.getElementById('trackList');
 
+/* Build tracklist UI */
 playlist.forEach(function(t, i) {
     var row = document.createElement('div');
     row.className = 'track-row' + (i === 0 ? ' active' : '');
@@ -1967,26 +1973,139 @@ playlist.forEach(function(t, i) {
     trackListEl.appendChild(row);
 });
 
-function loadTrack(index, autoplay) {
-    currentIndex = index;
+/* ── helpers ── */
+function fmtTime(s) {
+    if (isNaN(s) || !isFinite(s)) return '0:00';
+    var m = Math.floor(s / 60), sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function updateTrackUI(index) {
     var t = playlist[index];
-    audio.src = t.file;
     pillTrack.textContent  = t.title;
     panelTrack.textContent = t.title;
-    progressFill.style.width    = '0%';
-    timeCurrent.textContent     = '0:00';
-    timeDuration.textContent    = t.duration;
     document.querySelectorAll('.track-row').forEach(function(r) { r.classList.remove('active'); });
     var row = document.getElementById('track-row-' + index);
     if (row) row.classList.add('active');
-    if (autoplay) { audio.play(); setPlayingState(true); }
 }
 
+function clearCrossfade() {
+    if (crossfadeTimer) { clearInterval(crossfadeTimer); crossfadeTimer = null; }
+    isCrossfading = false;
+}
+
+function clearFadeIn() {
+    if (fadeInInterval) { clearInterval(fadeInInterval); fadeInInterval = null; }
+}
+
+/* ── Fade-in: ramp activeAudio from 0 → userVolume over FADE_IN_DURATION ── */
+function startFadeIn() {
+    clearFadeIn();
+    activeAudio.volume = 0;
+    var steps     = 60;
+    var stepTime  = FADE_IN_DURATION / steps;
+    var stepVol   = userVolume / steps;
+    var current   = 0;
+    fadeInInterval = setInterval(function() {
+        current++;
+        activeAudio.volume = Math.min(userVolume, stepVol * current);
+        if (current >= steps) clearFadeIn();
+    }, stepTime);
+}
+
+/* ── Crossfade: outgoing fades out, incoming fades in simultaneously ── */
+function startCrossfade(nextIndex) {
+    if (isCrossfading) return;
+    isCrossfading = true;
+
+    var outgoing = activeAudio;
+    var incoming = inactiveAudio;
+
+    /* Prepare incoming */
+    incoming.src    = playlist[nextIndex].file;
+    incoming.volume = 0;
+    incoming.play().catch(function(){});
+
+    var steps    = 60;
+    var stepTime = CROSSFADE_DURATION / steps;
+    var step     = 0;
+
+    crossfadeTimer = setInterval(function() {
+        step++;
+        var ratio         = step / steps;
+        outgoing.volume   = Math.max(0, userVolume * (1 - ratio));
+        incoming.volume   = Math.min(userVolume, userVolume * ratio);
+
+        if (step >= steps) {
+            clearCrossfade();
+            outgoing.pause();
+            outgoing.src = '';
+
+            /* Swap roles */
+            activeAudio   = incoming;
+            inactiveAudio = outgoing;
+
+            currentIndex = nextIndex;
+            updateTrackUI(nextIndex);
+            /* Wire progress to new active */
+        }
+    }, stepTime);
+}
+
+/* ── Load & play a track on activeAudio with 2 s fade-in ── */
+function loadTrack(index, autoplay) {
+    clearCrossfade();
+    clearFadeIn();
+
+    /* Stop the inactive audio too (in case mid-crossfade) */
+    inactiveAudio.pause();
+    inactiveAudio.src = '';
+
+    currentIndex = index;
+    var t = playlist[index];
+
+    activeAudio.src    = t.file;
+    activeAudio.volume = 0;
+
+    progressFill.style.width = '0%';
+    timeCurrent.textContent  = '0:00';
+    timeDuration.textContent = t.duration;
+
+    updateTrackUI(index);
+
+    if (autoplay) {
+        activeAudio.play().then(function() {
+            setPlayingState(true);
+            startFadeIn();
+        }).catch(function(){
+            setPlayingState(false);
+        });
+    }
+}
+
+/* ── Play / Pause ── */
 function togglePlay(e) {
     if (e) e.stopPropagation();
-    if (!audio.src || audio.src === window.location.href) { loadTrack(0, true); return; }
-    if (isPlaying) { audio.pause(); setPlayingState(false); }
-    else           { audio.play();  setPlayingState(true);  }
+
+    /* Nothing loaded yet */
+    if (!activeAudio.src || activeAudio.src === window.location.href) {
+        loadTrack(0, true);
+        return;
+    }
+
+    if (isPlaying) {
+        /* Pause: clear any ongoing fade */
+        clearFadeIn();
+        clearCrossfade();
+        activeAudio.pause();
+        setPlayingState(false);
+    } else {
+        activeAudio.play().then(function() {
+            setPlayingState(true);
+            /* Resume: fade back in from wherever volume was */
+            startFadeIn();
+        }).catch(function(){});
+    }
 }
 
 function setPlayingState(playing) {
@@ -1999,7 +2118,11 @@ function setPlayingState(playing) {
     playerWrap.classList.toggle('playing', playing);
 }
 
-function prevTrack() { loadTrack((currentIndex - 1 + playlist.length) % playlist.length, isPlaying); }
+/* ── Prev / Next ── */
+function prevTrack() {
+    var i = (currentIndex - 1 + playlist.length) % playlist.length;
+    loadTrack(i, isPlaying);
+}
 
 function nextTrack() {
     var i;
@@ -2009,44 +2132,75 @@ function nextTrack() {
     } else {
         i = (currentIndex + 1) % playlist.length;
     }
-    loadTrack(i, isPlaying);
+    if (isPlaying) {
+        startCrossfade(i);
+    } else {
+        loadTrack(i, false);
+    }
 }
 
+/* ── Progress & seeking ── */
+/* Poll active audio for timeupdate (works for both A and B) */
+setInterval(function() {
+    var a = activeAudio;
+    if (a.duration) {
+        progressFill.style.width = (a.currentTime / a.duration * 100) + '%';
+        timeCurrent.textContent  = fmtTime(a.currentTime);
+        timeDuration.textContent = fmtTime(a.duration);
+
+        /* Trigger crossfade when close to the end */
+        if (
+            isPlaying &&
+            !isCrossfading &&
+            !isLooping &&
+            a.duration > CROSSFADE_START + 1 &&
+            a.currentTime >= a.duration - CROSSFADE_START
+        ) {
+            var nextIdx;
+            if (isShuffled) {
+                do { nextIdx = Math.floor(Math.random() * playlist.length); }
+                while (playlist.length > 1 && nextIdx === currentIndex);
+            } else {
+                nextIdx = (currentIndex + 1) % playlist.length;
+            }
+            startCrossfade(nextIdx);
+        }
+    }
+}, 250);
+
+audioA.addEventListener('ended', function() { if (!isCrossfading && !isLooping) nextTrack(); });
+audioB.addEventListener('ended', function() { if (!isCrossfading && !isLooping) nextTrack(); });
+
+function seekAudio(e) {
+    var rect = document.getElementById('progressTrack').getBoundingClientRect();
+    if (activeAudio.duration) {
+        activeAudio.currentTime = ((e.clientX - rect.left) / rect.width) * activeAudio.duration;
+    }
+}
+
+/* ── Volume ── */
+function setVolume(val) {
+    userVolume = parseFloat(val);
+    /* Only apply directly if not mid-fade; fades use userVolume as ceiling */
+    if (!fadeInInterval && !isCrossfading) {
+        activeAudio.volume = userVolume;
+    }
+}
+
+/* ── Shuffle / Loop ── */
 function toggleShuffle() {
     isShuffled = !isShuffled;
     document.getElementById('shuffleBtn').classList.toggle('active', isShuffled);
 }
 
 function toggleLoop() {
-    isLooping  = !isLooping;
-    audio.loop = isLooping;
+    isLooping        = !isLooping;
+    audioA.loop      = isLooping;
+    audioB.loop      = isLooping;
     document.getElementById('loopBtn').classList.toggle('active', isLooping);
 }
 
-function setVolume(val)  { audio.volume = parseFloat(val); }
-
-function seekAudio(e) {
-    var rect = document.getElementById('progressTrack').getBoundingClientRect();
-    if (audio.duration) audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
-}
-
-function fmtTime(s) {
-    if (isNaN(s)) return '0:00';
-    var m = Math.floor(s / 60), sec = Math.floor(s % 60);
-    return m + ':' + (sec < 10 ? '0' : '') + sec;
-}
-
-audio.addEventListener('timeupdate', function() {
-    if (audio.duration) {
-        progressFill.style.width    = (audio.currentTime / audio.duration * 100) + '%';
-        timeCurrent.textContent     = fmtTime(audio.currentTime);
-        timeDuration.textContent    = fmtTime(audio.duration);
-    }
-});
-
-audio.addEventListener('ended', function() { if (!isLooping) nextTrack(); });
-audio.volume = 0.8;
-
+/* ── Panel toggle ── */
 document.getElementById('playerPill').addEventListener('click', function(e) {
     if (e.target.closest('.pill-btn') || e.target.closest('.pill-chevron')) return;
     togglePanel(e);
@@ -2057,15 +2211,18 @@ function togglePanel(e) {
     isPanelOpen = !isPanelOpen;
     if (isPanelOpen) {
         playerWrap.classList.add('open');
-        if (!audio.src || audio.src === window.location.href) loadTrack(0, false);
+        if (!activeAudio.src || activeAudio.src === window.location.href) loadTrack(0, false);
     } else {
         playerWrap.classList.remove('open');
     }
 }
 
+/* Set initial pill / panel labels */
 pillTrack.textContent    = playlist[0].title;
 panelTrack.textContent   = playlist[0].title;
 timeDuration.textContent = playlist[0].duration;
+audioA.volume            = userVolume;
+audioB.volume            = 0;
 
 /* ══════════════════════════════════════════
    RESUME BUILDER
@@ -2241,7 +2398,6 @@ function collectRefData() {
     return results;
 }
 
-/* Seed one reference block */
 addRefBlock();
 
 /* ══════════════════════════════════════════
@@ -2319,10 +2475,7 @@ function collectTrainingData() {
     return results;
 }
 
-/* Seed one training block */
 addTrainingBlock();
-
-;
 
 function generateResume() {
     document.getElementById('rbDownloadWrap').classList.add('visible');
@@ -2330,8 +2483,6 @@ function generateResume() {
 
 /* ══════════════════════════════════════════
    WAVEFORM VISUALIZER
-   Only animates when music is actually playing.
-   Invisible when idle.
    ══════════════════════════════════════════ */
 (function() {
     var canvas = document.getElementById('waveCanvas');
@@ -2346,14 +2497,12 @@ function generateResume() {
     var particles  = [];
     var animActive = false;
     var rafId      = null;
-    var decayBars  = new Array(BAR_COUNT).fill(0); /* holds current bar heights for smooth decay */
+    var decayBars  = new Array(BAR_COUNT).fill(0);
     var isDecaying = false;
 
     function resize() {
         var rect = canvas.parentElement.getBoundingClientRect();
         var dpr  = window.devicePixelRatio || 1;
-        /* Set buffer at device resolution for crisp rendering,
-           then scale ctx down so drawing coords stay in CSS pixels */
         canvas.width  = Math.floor(rect.width  * dpr);
         canvas.height = Math.floor(rect.height * dpr);
         W = Math.floor(rect.width);
@@ -2364,7 +2513,6 @@ function generateResume() {
     window.addEventListener('resize', resize);
     resize();
 
-    /* Particle */
     function Particle(x, y, strength) {
         this.x    = x;
         this.y    = y;
@@ -2409,12 +2557,9 @@ function generateResume() {
     }
 
     function stopViz() {
-        /* Don't kill animation immediately — let bars decay to zero first */
         isDecaying = true;
-        /* Canvas stays visible (opacity 1) until decay finishes */
     }
 
-    /* Hook into existing setPlayingState */
     var _origSetPlayingState = window.setPlayingState;
     window.setPlayingState = function(playing) {
         _origSetPlayingState(playing);
@@ -2431,7 +2576,6 @@ function generateResume() {
 
         ctx.clearRect(0, 0, logicW, logicH);
 
-        /* Get live target bar heights from analyser */
         var targetBars = new Array(BAR_COUNT).fill(0);
         if (!isDecaying && connected && dataArray && analyser) {
             analyser.getByteFrequencyData(dataArray);
@@ -2440,9 +2584,7 @@ function generateResume() {
                 targetBars[i] = dataArray[i * step] / 255;
             }
         }
-        /* When decaying or not connected, targetBars stays zero */
 
-        /* Smooth interpolation: snappy attack, gentle exponential decay */
         var allZero = true;
         for (var i = 0; i < BAR_COUNT; i++) {
             if (targetBars[i] > decayBars[i]) {
@@ -2454,7 +2596,6 @@ function generateResume() {
             if (decayBars[i] > 0.002) allZero = false;
         }
 
-        /* All bars fully decayed — hide canvas and stop loop */
         if (isDecaying && allZero) {
             canvas.classList.remove('active');
             animActive = false;
@@ -2495,13 +2636,11 @@ function generateResume() {
             ctx.shadowBlur  = 0;
             ctx.shadowColor = 'transparent';
 
-            /* Emit particles only while actively playing and bar is strong */
             if (!isDecaying && v > 0.5 && Math.random() < v * 0.3) {
                 particles.push(new Particle(cx, baseY - bH, v));
             }
         }
 
-        /* Draw + age particles */
         ctx.shadowBlur = 0;
         for (var j = particles.length - 1; j >= 0; j--) {
             var p = particles[j];
