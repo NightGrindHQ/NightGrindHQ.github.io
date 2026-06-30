@@ -1372,7 +1372,7 @@ p { color: #cbd5e1; }
 
 .tr-download-btn:hover { border-color: #2a6048; color: #34d399; box-shadow: 0 0 16px rgba(52,211,153,.10); }
 
-/* ── FOOTER — CHANGE 4: thinner weight, wider letter-spacing ── */
+/* ── FOOTER ── */
 .site-footer {
     margin-top: 80px;
     padding: 32px 20px 40px;
@@ -1389,8 +1389,8 @@ p { color: #cbd5e1; }
 .footer-logo {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 14px;
-    font-weight: 200;          /* thinner */
-    letter-spacing: 16px;     /* wider */
+    font-weight: 200;
+    letter-spacing: 16px;
     text-transform: uppercase;
 }
 
@@ -1965,9 +1965,9 @@ function updateClocks(){
 updateClocks(); setInterval(updateClocks, 1000);
 
 /* ══════════════════════════════════════════
-   MUSIC PLAYER — CHANGE 2: longer 4s fade-in to avoid pop
+   MUSIC PLAYER
    ══════════════════════════════════════════ */
-var FADE_IN_DURATION   = 4000;   /* 4 seconds — smooth, no pop */
+var FADE_IN_DURATION   = 4000;
 var CROSSFADE_DURATION = 2000;
 var CROSSFADE_START    = 8;
 
@@ -2172,6 +2172,38 @@ addTrainingBlock();
 
 function generateResume(){ document.getElementById('rbDownloadWrap').classList.add('visible'); }
 
+/* ─────────────────────────────────────────────────────────
+   parseDurationEndDate — NEW helper for auto-sorting
+   Extracts the END date from a duration string and returns
+   a timestamp. Used by collectExpData() to sort latest→oldest.
+
+   Handles these formats (and their variants):
+     "Jan 2022 – Present"   → end = today (sort to top)
+     "Mar 2020 – Dec 2021"  → end = Dec 2021
+     "2019 – 2021"          → end = Dec 2021
+     "2023"                 → end = Dec 2023
+     "Jan 2024"             → end = Jan 2024 (single date)
+   ───────────────────────────────────────────────────────── */
+function parseDurationEndDate(duration){
+    var months={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+    var str=(duration||'').trim();
+    // Split on em-dash (–), en-dash (—), or a hyphen surrounded by spaces
+    var parts=str.split(/\s*[\u2013\u2014\-]\s*/);
+    var endStr=parts.length>1 ? parts[parts.length-1].trim() : parts[0].trim();
+    // "Present" / "Now" → sort to the very top
+    if(/present|now/i.test(endStr)) return new Date(9999,11,31).getTime();
+    // "Mon YYYY"  e.g. "Dec 2021", "Jan 2022"
+    var m1=endStr.match(/([a-zA-Z]{3})[.\s]*(\d{4})/);
+    if(m1){ var mo=months[m1[1].toLowerCase()]; if(mo!==undefined) return new Date(parseInt(m1[2]),mo,1).getTime(); }
+    // "YYYY Mon"
+    var m2=endStr.match(/(\d{4})[\s,]*([a-zA-Z]{3})/);
+    if(m2){ var mo=months[m2[2].toLowerCase()]; if(mo!==undefined) return new Date(parseInt(m2[1]),mo,1).getTime(); }
+    // Plain year "YYYY"
+    var m3=endStr.match(/(\d{4})/);
+    if(m3) return new Date(parseInt(m3[1]),11,31).getTime();
+    return 0; // unparseable → sort to bottom
+}
+
 function collectExpData(){
     var results=[];
     document.querySelectorAll('#rb-exp-list .rb-exp-block').forEach(function(b){
@@ -2183,8 +2215,13 @@ function collectExpData(){
         var ds=(document.getElementById('rb-exp'+id+'-desc')||{}).value||'';
         if(t||c) results.push({title:t,company:c,duration:d,loc:l,desc:ds});
     });
+    // Auto-sort: latest end-date first, regardless of the order entries were added
+    results.sort(function(a,b){
+        return parseDurationEndDate(b.duration) - parseDurationEndDate(a.duration);
+    });
     return results;
 }
+
 function collectRefData(){
     var results=[];
     document.querySelectorAll('#rb-ref-list .rb-exp-block').forEach(function(b){
@@ -2238,7 +2275,7 @@ function buildAtsResumeHTML(data, photoDataUrl){
         return '<div class="section"><div class="section-title">'+title+'</div><div class="section-line"></div>'+content+'</div>';
     }
 
-    /* Work experience blocks */
+    /* Work experience blocks — already sorted by collectExpData() */
     var expHTML='';
     (data.exp||[]).forEach(function(e){
         if(!e.title&&!e.company) return;
@@ -2285,44 +2322,44 @@ function buildAtsResumeHTML(data, photoDataUrl){
             +'</div>';
     });
 
-    return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<title>${data.name||'Resume'} — Resume</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Times New Roman',Georgia,serif;font-size:11pt;color:#111;background:#fff;padding:0.7in 0.8in;}
-.name{font-size:22pt;font-weight:bold;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
-.jobtitle{font-size:11pt;color:#333;margin-bottom:6px;font-style:italic;}
-.contact{font-size:9.5pt;color:#444;margin-bottom:4px;line-height:1.6;}
-.contact span{margin-right:14px;}
-.personal-extra{font-size:9pt;color:#555;margin-bottom:12px;line-height:1.6;}
-.section{margin-bottom:14px;}
-.section-title{font-size:10.5pt;font-weight:bold;text-transform:uppercase;letter-spacing:1.5px;color:#111;margin-bottom:3px;}
-.section-line{border:none;border-top:1.5px solid #111;margin-bottom:8px;}
-.exp-block{margin-bottom:10px;}
-.exp-header{display:flex;justify-content:space-between;align-items:baseline;}
-.exp-title{font-weight:bold;font-size:10.5pt;}
-.exp-duration{font-size:9.5pt;color:#444;text-align:right;white-space:nowrap;margin-left:12px;}
-.exp-sub{font-style:italic;font-size:9.5pt;color:#333;margin-bottom:4px;}
-ul{padding-left:18px;margin-top:4px;}
-li{margin-bottom:2px;font-size:10pt;line-height:1.5;}
-.skills-text{font-size:10pt;line-height:1.7;}
-.ref-block{margin-bottom:8px;font-size:10pt;line-height:1.6;}
-.pro-extra{font-size:9.5pt;color:#444;margin-bottom:12px;line-height:1.7;}
-@media print{body{padding:0.6in 0.75in;}}
-</style></head><body>
-${photoBlock}
-<div class="name">${data.name||'Your Name'}</div>
-${data.jobtitle?'<div class="jobtitle">'+data.jobtitle+'</div>':''}
-<div class="contact">${contactParts.map(function(c){return '<span>'+c+'</span>';}).join('')}</div>
-${personalExtra.length?'<div class="personal-extra">'+personalExtra.join(' &nbsp;|&nbsp; ')+'</div>':''}
-${proExtra.length?'<div class="pro-extra">'+proExtra.join(' &nbsp;|&nbsp; ')+'</div>':''}
-${sec('Professional Summary','<p style="font-size:10pt;line-height:1.7;">'+(data.summary||'')+'</p>')}
-${data.exp&&data.exp.length?sec('Work Experience',expHTML):''}
-${eduHTML?sec('Education',eduHTML):''}
-${data.skills?sec('Skills','<div class="skills-text">'+data.skills+'</div>'):''}
-${data.trainings&&data.trainings.length?sec('Trainings & Seminars',trainHTML):''}
-${data.refs&&data.refs.length?sec('Character References',refHTML):''}
-</body></html>`;
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+        +'<title>'+(data.name||'Resume')+' \u2014 Resume</title>'
+        +'<style>'
+        +'*{margin:0;padding:0;box-sizing:border-box;}'
+        +'body{font-family:\'Times New Roman\',Georgia,serif;font-size:11pt;color:#111;background:#fff;padding:0.7in 0.8in;}'
+        +'.name{font-size:22pt;font-weight:bold;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}'
+        +'.jobtitle{font-size:11pt;color:#333;margin-bottom:6px;font-style:italic;}'
+        +'.contact{font-size:9.5pt;color:#444;margin-bottom:4px;line-height:1.6;}'
+        +'.contact span{margin-right:14px;}'
+        +'.personal-extra{font-size:9pt;color:#555;margin-bottom:12px;line-height:1.6;}'
+        +'.section{margin-bottom:14px;}'
+        +'.section-title{font-size:10.5pt;font-weight:bold;text-transform:uppercase;letter-spacing:1.5px;color:#111;margin-bottom:3px;}'
+        +'.section-line{border:none;border-top:1.5px solid #111;margin-bottom:8px;}'
+        +'.exp-block{margin-bottom:10px;}'
+        +'.exp-header{display:flex;justify-content:space-between;align-items:baseline;}'
+        +'.exp-title{font-weight:bold;font-size:10.5pt;}'
+        +'.exp-duration{font-size:9.5pt;color:#444;text-align:right;white-space:nowrap;margin-left:12px;}'
+        +'.exp-sub{font-style:italic;font-size:9.5pt;color:#333;margin-bottom:4px;}'
+        +'ul{padding-left:18px;margin-top:4px;}'
+        +'li{margin-bottom:2px;font-size:10pt;line-height:1.5;}'
+        +'.skills-text{font-size:10pt;line-height:1.7;}'
+        +'.ref-block{margin-bottom:8px;font-size:10pt;line-height:1.6;}'
+        +'.pro-extra{font-size:9.5pt;color:#444;margin-bottom:12px;line-height:1.7;}'
+        +'@media print{body{padding:0.6in 0.75in;}}'
+        +'</style></head><body>'
+        +photoBlock
+        +'<div class="name">'+(data.name||'Your Name')+'</div>'
+        +(data.jobtitle?'<div class="jobtitle">'+data.jobtitle+'</div>':'')
+        +'<div class="contact">'+contactParts.map(function(c){return '<span>'+c+'</span>';}).join('')+'</div>'
+        +(personalExtra.length?'<div class="personal-extra">'+personalExtra.join(' &nbsp;|&nbsp; ')+'</div>':'')
+        +(proExtra.length?'<div class="pro-extra">'+proExtra.join(' &nbsp;|&nbsp; ')+'</div>':'')
+        +sec('Professional Summary','<p style="font-size:10pt;line-height:1.7;">'+(data.summary||'')+'</p>')
+        +(data.exp&&data.exp.length?sec('Work Experience',expHTML):'')
+        +(eduHTML?sec('Education',eduHTML):'')
+        +(data.skills?sec('Skills','<div class="skills-text">'+data.skills+'</div>'):'')
+        +(data.trainings&&data.trainings.length?sec('Trainings & Seminars',trainHTML):'')
+        +(data.refs&&data.refs.length?sec('Character References',refHTML):'')
+        +'</body></html>';
 }
 
 function downloadResume(){
@@ -2388,7 +2425,6 @@ function handleTrUpload(e){ var file=e.target.files[0]; if(file) showTrFile(file
 function showTrFile(file){
     var fn=document.getElementById('trFileName'); var dot=document.getElementById('trFileDot'); var clr=document.getElementById('trFileClear');
     fn.textContent=file.name; fn.classList.add('visible'); dot.classList.add('visible'); dot.classList.remove('done'); clr.style.display='block';
-    /* Activate step 2 */
     document.getElementById('trStep2').classList.add('active');
     setTimeout(function(){ dot.classList.add('done'); }, 1000);
 }
@@ -2409,7 +2445,7 @@ function downloadTailored(){
     var role=document.getElementById('trTargetRole').value||'the applied role';
     var jobDesc=document.getElementById('trJobDesc').value||'';
 
-    /* Pull same data as Resume Builder for the tailored output */
+    /* Pull same data as Resume Builder — collectExpData() already auto-sorts */
     var data={
         name:document.getElementById('rb-name').value||'Your Name',
         jobtitle:role,
@@ -2440,16 +2476,12 @@ function downloadTailored(){
         trainings:collectTrainingData()
     };
 
-    /* Build tailored note block */
     var tailoredNote='';
     if(jobDesc){
-        /* Extract first 200 chars of job desc as context note */
-        var shortDesc=jobDesc.length>220?jobDesc.substring(0,220)+'...':jobDesc;
         tailoredNote='<div style="margin-bottom:14px;padding:10px 14px;border-left:3px solid #333;background:#f9f9f9;font-size:9pt;color:#555;line-height:1.6;font-style:italic;">Tailored for: <strong>'+role+'</strong></div>';
     }
 
     var baseHtml=buildAtsResumeHTML(data,null);
-    /* Inject tailored note after opening body tag */
     var html=baseHtml.replace('<body>','<body>'+tailoredNote);
 
     var win=window.open('','_blank');
