@@ -2215,11 +2215,52 @@ function extractTextFromImage(file){
     return Tesseract.recognize(file,'eng').then(function(result){ return result.data.text; });
 }
 
+/* ── OCR / extraction noise cleanup ──
+   Tesseract & some PDF extractors occasionally split words into
+   individually spaced letters (e.g. "E X P E R I E N C E"). Collapse
+   those back into normal words before we try to detect anything. */
+function cleanExtractedText(raw){
+    var t=(raw||'').replace(/\r/g,'');
+    // collapse runs of 3+ single letters separated by spaces into one word
+    t=t.replace(/\b(?:[A-Za-z]\s){2,}[A-Za-z]\b/g, function(m){ return m.replace(/\s+/g,''); });
+    // collapse 3+ blank lines into 2
+    t=t.replace(/\n{3,}/g,'\n\n');
+    // trim trailing spaces per line
+    t=t.split('\n').map(function(l){return l.replace(/[ \t]+$/,'');}).join('\n');
+    return t;
+}
+
+/* Known section header keywords, normalized to letters-only/lowercase for fuzzy matching */
+var RESUME_SECTION_DEFS=[
+    {key:'summary',    match:['summary','objective','profile','careerobjective','professionalsummary','careersummary','aboutme']},
+    {key:'experience', match:['experience','workexperience','employmenthistory','professionalexperience','workhistory','relevantexperience']},
+    {key:'education',  match:['education','academicbackground','educationalbackground','educationalattainment']},
+    {key:'skills',     match:['skills','coreskills','corecompetencies','technicalskills','keyskills','skillsandcompetencies','keycompetencies']},
+    {key:'training',   match:['training','trainings','seminars','trainingsandseminars','certifications','certificates','seminarsandtrainings']},
+    {key:'references',match:['references','characterreferences']}
+];
+
+function normalizeHeaderLine(line){
+    return line.toLowerCase().replace(/[^a-z]/g,'');
+}
+
+function detectSectionKey(line){
+    var trimmed=line.trim();
+    if(!trimmed || trimmed.length>40) return null;
+    var norm=normalizeHeaderLine(trimmed);
+    if(!norm) return null;
+    for(var i=0;i<RESUME_SECTION_DEFS.length;i++){
+        if(RESUME_SECTION_DEFS[i].match.indexOf(norm)!==-1) return RESUME_SECTION_DEFS[i].key;
+    }
+    return null;
+}
+
 /* ── Heuristic resume text parser ── */
 function parseResumeText(text){
     var data={};
-    var cleanText=text.replace(/\r/g,'');
-    var lines=cleanText.split('\n').map(function(l){return l.trim();}).filter(function(l){return l.length;});
+    var cleanText=cleanExtractedText(text);
+    var allLines=cleanText.split('\n').map(function(l){return l.trim();});
+    var lines=allLines.filter(function(l){return l.length;});
 
     var emailMatch=cleanText.match(/[\w.+-]+@[\w-]+\.[\w.-]+/);
     if(emailMatch) data.email=emailMatch[0];
@@ -2230,40 +2271,86 @@ function parseResumeText(text){
     var liMatch=cleanText.match(/linkedin\.com\/in\/[\w-]+/i);
     if(liMatch) data.linkedin=liMatch[0];
 
-    for(var i=0;i<Math.min(6,lines.length);i++){
-        var l=lines[i];
-        if(l.length>2 && l.length<50 && !/[@\d]/.test(l) && !/resume|curriculum vitae|^cv$/i.test(l)){
+    /* ── Split into sections by walking line-by-line ──
+       Everything before the first detected header is "preamble"
+       (name, contact info, location usually live here). */
+    var sections={summary:[],experience:[],education:[],skills:[],training:[],references:[]};
+    var preamble=[];
+    var current=null;
+    lines.forEach(function(line){
+        var key=detectSectionKey(line);
+        if(key){ current=key; return; }
+        if(current && sections[current]) sections[current].push(line);
+        else if(!current) preamble.push(line);
+    });
+
+    /* Name: first preamble line that isn't contact info / a label */
+    for(var i=0;i<Math.min(8,preamble.length);i++){
+        var l=preamble[i];
+        if(l.length>2 && l.length<50 && !/[@\d]/.test(l) && !/resume|curriculum vitae|^cv$|linkedin/i.test(l)){
             data.name=l; break;
         }
     }
 
-    var locMatch=cleanText.match(/[A-Z][a-zA-Z\s]{2,25},\s*(Philippines|PH|India|USA|United States|Mexico|[A-Z][a-zA-Z]{2,20})/);
-    if(locMatch) data.location=locMatch[0].trim();
+    /* Location: look in preamble first (skip the name line itself), then whole text */
+    var locCandidates=preamble.filter(function(l){ return l!==data.name; }).join('\n');
+    var locMatch=locCandidates.match(/[A-Z][a-zA-Z\s]{2,25},\s*(Philippines|PH|India|USA|United States|Mexico|[A-Z][a-zA-Z]{2,20})/);
+    if(!locMatch) locMatch=cleanText.match(/[A-Z][a-zA-Z\s]{2,25},\s*(Philippines|PH|India|USA|United States|Mexico|[A-Z][a-zA-Z]{2,20})/);
+    if(locMatch && locMatch[0].trim()!==data.name) data.location=locMatch[0].trim();
 
-    var allHeaders=['summary','objective','profile','professional summary','experience','work experience','employment history','professional experience','education','skills','core competencies','technical skills','training','trainings','seminars','references','certifications'];
-
-    function extractSection(startHeaders){
-        var startRe=new RegExp('(^|\\n)\\s*('+startHeaders.join('|')+')\\s*[:\\n]','i');
-        var m=cleanText.match(startRe);
-        if(!m) return '';
-        var startIdx=m.index+m[0].length;
-        var rest=cleanText.slice(startIdx);
-        var otherHeaders=allHeaders.filter(function(h){ return startHeaders.indexOf(h)===-1; });
-        var stopRe=new RegExp('\\n\\s*('+otherHeaders.join('|')+')\\s*[:\\n]','i');
-        var stopMatch=rest.match(stopRe);
-        var section=stopMatch?rest.slice(0,stopMatch.index):rest;
-        return section.trim();
+    /* Job title guess: the preamble line right after the name, if it doesn't
+       look like contact info, an address, or a duplicate of the name */
+    if(data.name){
+        var nameIdx=preamble.indexOf(data.name);
+        for(var j=nameIdx+1;j<preamble.length && j<=nameIdx+3;j++){
+            var cand=preamble[j];
+            if(!cand) continue;
+            if(/[@]/.test(cand)) continue;
+            if(data.location && cand===data.location) continue;
+            if(/^\+?\d/.test(cand)) continue;
+            if(cand.length>2 && cand.length<60){ data.jobtitle=cand; break; }
+        }
     }
 
-    data.summary=extractSection(['summary','objective','profile','professional summary']);
-    var skillsRaw=extractSection(['skills','core competencies','technical skills']);
-    if(skillsRaw){
-        data.skills=skillsRaw.split('\n').map(function(l){return l.replace(/^[•\-\*]\s*/,'').trim();}).filter(function(l){return l;}).join(', ');
+    data.summary=sections.summary.join('\n').trim();
+
+    if(sections.skills.length){
+        data.skills=sections.skills.map(function(l){return l.replace(/^[•\-\*]\s*/,'').trim();}).filter(function(l){return l;}).join(', ');
+    } else {
+        /* Fallback: a line elsewhere with 4+ comma-separated short items looks like a skills line */
+        var skillsLine=lines.find(function(l){
+            var parts=l.split(',').map(function(p){return p.trim();}).filter(function(p){return p;});
+            return parts.length>=4 && parts.every(function(p){return p.length<28;});
+        });
+        if(skillsLine) data.skills=skillsLine;
     }
 
-    data.expText=extractSection(['experience','work experience','employment history','professional experience']);
-    data.eduText=extractSection(['education']);
-    data.trainText=extractSection(['training','trainings','seminars']);
+    data.expText=sections.experience.join('\n').trim();
+    data.eduText=sections.education.join('\n').trim();
+    data.trainText=sections.training.join('\n').trim();
+
+    /* Fallback: no "Experience" header detected (common with noisy OCR) —
+       scan the full document for date-range lines and treat the
+       surrounding text as the experience block. */
+    if(!data.expText){
+        var dateRangeRe=/([A-Za-z]{3,9}\.?\s*\d{4}|\d{4})\s*[-–—]\s*([A-Za-z]{3,9}\.?\s*\d{4}|\d{4}|Present|present|Now|now)/;
+        if(dateRangeRe.test(cleanText)){
+            var bodyLines=lines.filter(function(l){
+                return l!==data.name && l.indexOf(data.email||'\u0000')===-1 && l.indexOf(data.phone||'\u0000')===-1;
+            });
+            data.expText=bodyLines.join('\n');
+        }
+    }
+
+    /* Fallback: no "Education" header detected — look for university/college/degree keywords */
+    if(!data.eduText){
+        var eduKeywordRe=/(university|college|institute|school of|bachelor|b\.?s\.?\s|b\.?a\.?\s|associate degree)/i;
+        var eduLine=lines.find(function(l){ return eduKeywordRe.test(l); });
+        if(eduLine){
+            var eduIdx=lines.indexOf(eduLine);
+            data.eduText=lines.slice(Math.max(0,eduIdx-1), eduIdx+2).join('\n');
+        }
+    }
 
     return data;
 }
@@ -2315,6 +2402,7 @@ function applyParsedDataToForm(data){
     }
 
     setVal('rb-name', data.name);
+    setVal('rb-jobtitle', data.jobtitle);
     setVal('rb-email', data.email);
     setVal('rb-phone', data.phone);
     setVal('rb-location', data.location);
