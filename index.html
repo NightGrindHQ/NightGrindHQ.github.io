@@ -1414,6 +1414,17 @@ p { color: #cbd5e1; }
 
 .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #1a2030; letter-spacing: 2px; text-align: center; line-height: 2; }
 .footer-copy span { color: #2a3244; }
+
+/* ── Resume parsing status note ── */
+.rb-parse-note {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: #3b82f6;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+    opacity: .8;
+}
 </style>
 </head>
 
@@ -1601,6 +1612,7 @@ p { color: #cbd5e1; }
                                 <div class="rb-resume-filename" id="rbResumeFilename"></div>
                                 <button class="rb-resume-clear" id="rbResumeClear" onclick="clearResumeUpload()">✕ Remove</button>
                             </div>
+                            <div class="rb-parse-note" id="rbParseNote" style="display:none;">Fields below were auto-filled — please review for accuracy.</div>
                         </div>
                         <input class="rb-resume-input" type="file" id="rbResumeInput" accept=".pdf,.doc,.docx,image/*" onchange="handleResumeUpload(event)">
                     </div>
@@ -1920,11 +1932,20 @@ p { color: #cbd5e1; }
 <audio id="audioEl"></audio>
 <audio id="audioElB"></audio>
 
+<!-- ── Libraries needed for resume parsing (PDF text, DOCX text, image OCR) ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth.js/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
+
 <script>
 document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
 document.getElementById("languageSelect").addEventListener("change", function(){
     var p = this.value; if(p !== "#") window.location.href = p;
 });
+
+if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+}
 
 /* ── GLITCH DRAWER ── */
 function toggleGlitch(){
@@ -2113,17 +2134,239 @@ function handlePhotoUpload(e){
 }
 function removePhoto(){ var img=document.getElementById('rbPhotoImg'); var ph=document.getElementById('rbPhotoPlaceholder'); var rb=document.getElementById('rbPhotoRemove'); var inp=document.getElementById('rbPhotoInput'); img.src=''; img.style.display='none'; ph.style.display='flex'; rb.style.display='none'; inp.value=''; }
 
-/* Resume upload (old resume beside photo) */
+/* Resume upload (old resume beside photo) — now auto-parses & auto-fills the form */
 function rbDragOver(e){ e.preventDefault(); document.getElementById('rbResumeDropzone').classList.add('drag-over'); }
 function rbDragLeave(e){ document.getElementById('rbResumeDropzone').classList.remove('drag-over'); }
 function rbDrop(e){ e.preventDefault(); document.getElementById('rbResumeDropzone').classList.remove('drag-over'); var file=e.dataTransfer.files[0]; if(file) showRbResumeFile(file); }
 function handleResumeUpload(e){ var file=e.target.files[0]; if(file) showRbResumeFile(file); }
+
 function showRbResumeFile(file){
     var fn=document.getElementById('rbResumeFilename'); var dot=document.getElementById('rbResumeDot'); var clr=document.getElementById('rbResumeClear');
     fn.textContent=file.name; fn.classList.add('visible'); dot.classList.add('visible'); dot.classList.remove('done'); clr.style.display='block';
-    setTimeout(function(){ dot.classList.add('done'); }, 1100);
+    parseResumeFile(file, fn, dot);
 }
-function clearResumeUpload(){ var fn=document.getElementById('rbResumeFilename'); var dot=document.getElementById('rbResumeDot'); var clr=document.getElementById('rbResumeClear'); var inp=document.getElementById('rbResumeInput'); fn.textContent=''; fn.classList.remove('visible'); dot.classList.remove('visible','done'); clr.style.display='none'; inp.value=''; }
+function clearResumeUpload(){
+    var fn=document.getElementById('rbResumeFilename'); var dot=document.getElementById('rbResumeDot'); var clr=document.getElementById('rbResumeClear'); var inp=document.getElementById('rbResumeInput');
+    fn.textContent=''; fn.classList.remove('visible'); dot.classList.remove('visible','done'); clr.style.display='none'; inp.value='';
+    document.getElementById('rbParseNote').style.display='none';
+}
+
+/* ── File → text extraction (PDF / DOCX / image OCR) then auto-fill ── */
+async function parseResumeFile(file, fnEl, dotEl){
+    var origName=file.name;
+    try{
+        var lower=origName.toLowerCase();
+        var text='';
+
+        if(lower.endsWith('.pdf')){
+            fnEl.textContent=origName+' — reading PDF...';
+            text=await extractTextFromPDF(file);
+        } else if(lower.endsWith('.docx')||lower.endsWith('.doc')){
+            fnEl.textContent=origName+' — reading document...';
+            text=await extractTextFromDocx(file);
+        } else if(file.type && file.type.indexOf('image/')===0){
+            fnEl.textContent=origName+' — scanning image (OCR, may take a moment)...';
+            text=await extractTextFromImage(file);
+        } else {
+            fnEl.textContent=origName+' — unsupported format for auto-fill';
+            dotEl.classList.add('done');
+            return;
+        }
+
+        if(text && text.trim().length>10){
+            fnEl.textContent=origName+' — filling fields...';
+            var data=parseResumeText(text);
+            applyParsedDataToForm(data);
+            fnEl.textContent=origName+' — auto-filled ✓';
+            document.getElementById('rbParseNote').style.display='block';
+        } else {
+            fnEl.textContent=origName+' — no readable text found, fill manually';
+        }
+    } catch(err){
+        console.error('Resume parsing failed:', err);
+        fnEl.textContent=origName+' — auto-fill failed, please fill manually';
+    }
+    dotEl.classList.add('done');
+}
+
+function extractTextFromPDF(file){
+    return file.arrayBuffer().then(function(buf){
+        return pdfjsLib.getDocument({data:buf}).promise;
+    }).then(function(pdf){
+        var pagePromises=[];
+        for(var i=1;i<=pdf.numPages;i++){
+            pagePromises.push(pdf.getPage(i).then(function(page){
+                return page.getTextContent().then(function(content){
+                    return content.items.map(function(it){ return it.str; }).join(' ');
+                });
+            }));
+        }
+        return Promise.all(pagePromises).then(function(pages){ return pages.join('\n'); });
+    });
+}
+
+function extractTextFromDocx(file){
+    return file.arrayBuffer().then(function(buf){
+        return mammoth.extractRawText({arrayBuffer:buf});
+    }).then(function(result){ return result.value; });
+}
+
+function extractTextFromImage(file){
+    return Tesseract.recognize(file,'eng').then(function(result){ return result.data.text; });
+}
+
+/* ── Heuristic resume text parser ── */
+function parseResumeText(text){
+    var data={};
+    var cleanText=text.replace(/\r/g,'');
+    var lines=cleanText.split('\n').map(function(l){return l.trim();}).filter(function(l){return l.length;});
+
+    var emailMatch=cleanText.match(/[\w.+-]+@[\w-]+\.[\w.-]+/);
+    if(emailMatch) data.email=emailMatch[0];
+
+    var phoneMatch=cleanText.match(/(\+?\d{1,3}[\s.-]?)?\(?\d{2,4}\)?[\s.-]?\d{3,4}[\s.-]?\d{3,4}/);
+    if(phoneMatch) data.phone=phoneMatch[0].trim();
+
+    var liMatch=cleanText.match(/linkedin\.com\/in\/[\w-]+/i);
+    if(liMatch) data.linkedin=liMatch[0];
+
+    for(var i=0;i<Math.min(6,lines.length);i++){
+        var l=lines[i];
+        if(l.length>2 && l.length<50 && !/[@\d]/.test(l) && !/resume|curriculum vitae|^cv$/i.test(l)){
+            data.name=l; break;
+        }
+    }
+
+    var locMatch=cleanText.match(/[A-Z][a-zA-Z\s]{2,25},\s*(Philippines|PH|India|USA|United States|Mexico|[A-Z][a-zA-Z]{2,20})/);
+    if(locMatch) data.location=locMatch[0].trim();
+
+    var allHeaders=['summary','objective','profile','professional summary','experience','work experience','employment history','professional experience','education','skills','core competencies','technical skills','training','trainings','seminars','references','certifications'];
+
+    function extractSection(startHeaders){
+        var startRe=new RegExp('(^|\\n)\\s*('+startHeaders.join('|')+')\\s*[:\\n]','i');
+        var m=cleanText.match(startRe);
+        if(!m) return '';
+        var startIdx=m.index+m[0].length;
+        var rest=cleanText.slice(startIdx);
+        var otherHeaders=allHeaders.filter(function(h){ return startHeaders.indexOf(h)===-1; });
+        var stopRe=new RegExp('\\n\\s*('+otherHeaders.join('|')+')\\s*[:\\n]','i');
+        var stopMatch=rest.match(stopRe);
+        var section=stopMatch?rest.slice(0,stopMatch.index):rest;
+        return section.trim();
+    }
+
+    data.summary=extractSection(['summary','objective','profile','professional summary']);
+    var skillsRaw=extractSection(['skills','core competencies','technical skills']);
+    if(skillsRaw){
+        data.skills=skillsRaw.split('\n').map(function(l){return l.replace(/^[•\-\*]\s*/,'').trim();}).filter(function(l){return l;}).join(', ');
+    }
+
+    data.expText=extractSection(['experience','work experience','employment history','professional experience']);
+    data.eduText=extractSection(['education']);
+    data.trainText=extractSection(['training','trainings','seminars']);
+
+    return data;
+}
+
+/* Split a block of experience text into individual job entries */
+function parseExperienceBlocks(text){
+    if(!text) return [];
+    var dateRe=/([A-Za-z]{3,9}\.?\s*\d{4}|\d{4})\s*[-–—]\s*([A-Za-z]{3,9}\.?\s*\d{4}|\d{4}|Present|present|Now|now)/;
+
+    var blocks=text.split(/\n\s*\n/).map(function(b){return b.trim();}).filter(function(b){return b;});
+
+    if(blocks.length<2){
+        var lines=text.split('\n');
+        blocks=[]; var current=[];
+        lines.forEach(function(line){
+            if(dateRe.test(line) && current.length){
+                blocks.push(current.join('\n'));
+                current=[line];
+            } else {
+                current.push(line);
+            }
+        });
+        if(current.length) blocks.push(current.join('\n'));
+    }
+
+    return blocks.map(function(b){
+        var lns=b.split('\n').map(function(l){return l.trim();}).filter(function(l){return l;});
+        var dateMatch=b.match(dateRe);
+        var duration=dateMatch?dateMatch[0]:'';
+        var titleLine=(lns[0]||'').replace(duration,'').replace(/[-–—]\s*$/,'').trim();
+        var companyLine=(lns[1]||'').replace(duration,'').trim();
+        var descLines=lns.slice(2).filter(function(l){ return l!==duration; });
+        return {
+            title:titleLine,
+            company:companyLine,
+            duration:duration,
+            loc:'',
+            desc:descLines.map(function(l){ return '• '+l.replace(/^[•\-\*]\s*/,''); }).join('\n')
+        };
+    }).filter(function(e){ return e.title || e.company; });
+}
+
+/* Apply everything we parsed into the live form fields */
+function applyParsedDataToForm(data){
+    function setVal(id,val){
+        if(val===undefined||val===null||val==='') return;
+        var el=document.getElementById(id);
+        if(el) el.value=val;
+    }
+
+    setVal('rb-name', data.name);
+    setVal('rb-email', data.email);
+    setVal('rb-phone', data.phone);
+    setVal('rb-location', data.location);
+    setVal('rb-linkedin', data.linkedin);
+    setVal('rb-summary', data.summary);
+    setVal('rb-skills', data.skills);
+
+    if(data.expText){
+        var blocks=parseExperienceBlocks(data.expText);
+        if(blocks.length){
+            document.getElementById('rb-exp-list').innerHTML='';
+            expCount=0;
+            blocks.forEach(function(b){
+                addExpBlock(b.title,b.company,b.duration,b.loc,b.desc);
+                var n=expCount;
+                setVal('rb-exp'+n+'-title', b.title);
+                setVal('rb-exp'+n+'-company', b.company);
+                setVal('rb-exp'+n+'-duration', b.duration);
+                setVal('rb-exp'+n+'-loc', b.loc);
+                setVal('rb-exp'+n+'-desc', b.desc);
+            });
+        }
+    }
+
+    if(data.eduText){
+        var eduLines=data.eduText.split('\n').map(function(l){return l.trim();}).filter(function(l){return l;});
+        if(eduLines[0]) setVal('rb-edu-degree', eduLines[0]);
+        if(eduLines[1]) setVal('rb-edu-school', eduLines[1]);
+        var yearMatch=data.eduText.match(/\b(19|20)\d{2}\b/);
+        if(yearMatch) setVal('rb-edu-year', yearMatch[0]);
+    }
+
+    if(data.trainText){
+        var trBlocks=data.trainText.split(/\n\s*\n/).map(function(b){return b.trim();}).filter(function(b){return b;});
+        if(trBlocks.length){
+            document.getElementById('rb-training-list').innerHTML='';
+            trainingCount=0;
+            trBlocks.forEach(function(b){
+                var lns=b.split('\n').map(function(l){return l.trim();}).filter(function(l){return l;});
+                var title=lns[0]||'';
+                var org=lns[1]||'';
+                var dateMatch=b.match(/\b(19|20)\d{2}\b/);
+                var date=dateMatch?dateMatch[0]:'';
+                addTrainingBlock(title,org,date,'');
+                var n=trainingCount;
+                setVal('rb-tr'+n+'-title', title);
+                setVal('rb-tr'+n+'-org', org);
+                setVal('rb-tr'+n+'-date', date);
+            });
+        }
+    }
+}
 
 /* Work Experience */
 function initExpBlocks(){
@@ -2173,7 +2416,7 @@ addTrainingBlock();
 function generateResume(){ document.getElementById('rbDownloadWrap').classList.add('visible'); }
 
 /* ─────────────────────────────────────────────────────────
-   parseDurationEndDate — NEW helper for auto-sorting
+   parseDurationEndDate — helper for auto-sorting
    Extracts the END date from a duration string and returns
    a timestamp. Used by collectExpData() to sort latest→oldest.
 
