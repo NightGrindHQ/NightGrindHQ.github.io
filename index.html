@@ -1594,7 +1594,7 @@ p { color: #cbd5e1; }
                                     Drop your old resume here<br>
                                     <span>or click to browse</span>
                                 </div>
-                                <div class="rb-resume-formats">PDF · DOC · DOCX · Max 5MB</div>
+                                <div class="rb-resume-formats">PDF · DOC · DOCX · JPG · PNG · Max 5MB</div>
                             </div>
                             <div class="rb-resume-status-row">
                                 <div class="rb-resume-dot" id="rbResumeDot"></div>
@@ -1602,7 +1602,7 @@ p { color: #cbd5e1; }
                                 <button class="rb-resume-clear" id="rbResumeClear" onclick="clearResumeUpload()">✕ Remove</button>
                             </div>
                         </div>
-                        <input class="rb-resume-input" type="file" id="rbResumeInput" accept=".pdf,.doc,.docx" onchange="handleResumeUpload(event)">
+                        <input class="rb-resume-input" type="file" id="rbResumeInput" accept=".pdf,.doc,.docx,image/*" onchange="handleResumeUpload(event)">
                     </div>
                 </div>
 
