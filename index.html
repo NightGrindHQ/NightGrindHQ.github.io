@@ -2843,7 +2843,7 @@ function buildAtsResumeHTML(data, photoDataUrl){
         +'.exp-title{font-weight:bold;font-size:10.5pt;}'
         +'.exp-duration{font-size:9.5pt;color:#444;text-align:right;white-space:nowrap;margin-left:12px;}'
         +'.exp-sub{font-style:italic;font-size:9.5pt;color:#333;margin-bottom:4px;}'
-        +'ul{padding-left:18px;margin-top:4px;}'
+        +'ul{padding-left:18px;margin-top:4px;list-style-type:square;}'
         +'li{margin-bottom:2px;font-size:10pt;line-height:1.5;}'
         +'.skills-text{font-size:10pt;line-height:1.7;}'
         +'.ref-block{margin-bottom:8px;font-size:10pt;line-height:1.6;}'
@@ -2867,7 +2867,7 @@ function buildAtsResumeHTML(data, photoDataUrl){
 
 function downloadResume(){
     var photoImg=document.getElementById('rbPhotoImg');
-    var photoDataUrl=(photoImg&&photoImg.style.display!=='none'&&photoImg.src)?photoImg.src:null;
+    var photoDataUrl=(photoImg&&photoImg.src&&photoImg.src.indexOf('data:')===0)?photoImg.src:null;
     var data={
         name:document.getElementById('rb-name').value,
         jobtitle:document.getElementById('rb-jobtitle').value,
